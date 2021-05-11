@@ -5,6 +5,8 @@ import { render, waitFor, fireEvent } from "@testing-library/react";
 import { configurations } from "domain/documents/_tests_/test-data";
 import SimulateTransaction from "../SimulateTransaction";
 
+const service = require("domain/simulate-transaction/SimulateTransactionService");
+
 function dispatchEvt(node, type, data) {
   const event = new Event(type, { bubbles: true });
   Object.assign(event, data);
@@ -118,6 +120,7 @@ describe("Simulate Transaction Test Suite", () => {
     mockApi.onGet("/documentTypeConfigurations").reply(200, configurations);
     mockApi.onPost("/documents/extract").reply(200, resolveExtract);
     mockApi.onGet("/documents/processed/1234").reply(200, resolveProcessed);
+    jest.useFakeTimers()
 
     const { container, getByText, getByTestId } = render(
       <SimulateTransaction />
@@ -135,15 +138,15 @@ describe("Simulate Transaction Test Suite", () => {
 
     const button = getByText("Submit");
     fireEvent.click(button);
-    await waitFor(() => {});
+    await waitFor(() => getByText("Document Processed Successfuly"));
 
     expect(getByText("Document Processed Successfuly")).toBeInTheDocument();
   });
 
   test("Submit file for extraction - failure", async () => {
     mockApi.onGet("/documentTypeConfigurations").reply(200, configurations);
-    mockApi.onPost("/documents/extract").reply(200, resolveExtract);
-    mockApi.onGet("/documents/processed/1234").reply(400);
+    mockApi.onPost("/documents/extract").reply(400);
+    mockApi.onGet("/documents/processed/1234").reply(200, resolveProcessed);
 
     const { container, getByText, getByTestId, queryByText } = render(
       <SimulateTransaction />
@@ -168,10 +171,12 @@ describe("Simulate Transaction Test Suite", () => {
     ).not.toBeInTheDocument();
   });
 
-  test("Get processed document - failure", async () => {
+  test("Get Processed Document - failure", async () => {
     mockApi.onGet("/documentTypeConfigurations").reply(200, configurations);
-    mockApi.onPost("/documents/extract").reply(400);
-    mockApi.onGet("/documents/processed/1234").reply(400);
+    mockApi.onPost("/documents/extract").reply(200, resolveExtract);
+    mockApi.onGet("/documents/processed/1234").reply(400, {error: {message: "error"}});
+    //service.getProcessedDocument = jest.fn(() => Promise.reject())
+    jest.useFakeTimers();
 
     const { container, getByText, getByTestId, queryByText } = render(
       <SimulateTransaction />
@@ -189,7 +194,7 @@ describe("Simulate Transaction Test Suite", () => {
 
     const button = getByText("Submit");
     fireEvent.click(button);
-    await waitFor(() => {});
+    await waitFor(() => {})
 
     expect(
       queryByText("Document Processed Successfuly")
