@@ -28,7 +28,7 @@ jobs:
       - name: Build the Docker image
         working-directory: src/frontend/ai-reviewer-admin
         run: |
-          docker build . --file Dockerfile --tag ai-reviewer-ui
+          docker build . --file Dockerfile --tag ai-reviewer-admin
           
       - name: Cluster Login OC3
         uses: redhat-developer/openshift-actions@v1.1
@@ -44,7 +44,7 @@ jobs:
 
       - name: Tag the Docker image OC3
         run: |
-          docker tag ai-reviewer-ui ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}/ai-reviewer-admin:latest
+          docker tag ai-reviewer-admin ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}/ai-reviewer-admin:latest
 
       - name: Push the Docker image OC3
         run: |
