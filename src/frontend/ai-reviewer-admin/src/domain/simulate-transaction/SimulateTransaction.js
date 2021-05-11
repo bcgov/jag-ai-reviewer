@@ -44,9 +44,9 @@ function SimulateTransaction() {
   };
 
   const submitDocument = () => {
-    setShowLoader(true);
     submitFileForExtraction(files[0], transactionId)
       .then((res) => {
+        setShowLoader(true);
         setTimeout(() => {
           getProcessedDocument(
             res.document.documentId,
@@ -56,8 +56,11 @@ function SimulateTransaction() {
               setShowProcessedToast(true);
               setShowLoader(false);
             })
-            .catch((err) => showError(err.message));
-        }, 30000);
+            .catch((err) => {
+              showError(err.message);
+              setShowLoader(false);
+            });
+        }, 5000);
       })
       .catch((err) => showError(err.message));
   };

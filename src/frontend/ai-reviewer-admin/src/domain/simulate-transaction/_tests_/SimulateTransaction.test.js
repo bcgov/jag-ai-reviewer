@@ -33,6 +33,7 @@ describe("Simulate Transaction Test Suite", () => {
     console.error = jest.fn();
     mockApi = new MockAdapter(api);
     jest.clearAllMocks();
+    //jest.useFakeTimers();
   });
 
   const file = new File(["content"], "fakeFile.pdf", {
@@ -89,7 +90,7 @@ describe("Simulate Transaction Test Suite", () => {
 
   test("Get Document Types - success", async () => {
     mockApi.onGet("/documentTypeConfigurations").reply(200, configurations);
-    //docService.getDocumentTypeConfigurations = jest.fn(() => Promise.resolve(configurations))
+
     const { container, getByText } = render(<SimulateTransaction />);
     const dropzone = container.querySelector('[data-testid="dropdownzone"]');
 
@@ -120,7 +121,7 @@ describe("Simulate Transaction Test Suite", () => {
     mockApi.onGet("/documentTypeConfigurations").reply(200, configurations);
     mockApi.onPost("/documents/extract").reply(200, resolveExtract);
     mockApi.onGet("/documents/processed/1234").reply(200, resolveProcessed);
-    jest.useFakeTimers()
+    setTimeout = jest.fn();
 
     const { container, getByText, getByTestId } = render(
       <SimulateTransaction />
@@ -147,6 +148,7 @@ describe("Simulate Transaction Test Suite", () => {
     mockApi.onGet("/documentTypeConfigurations").reply(200, configurations);
     mockApi.onPost("/documents/extract").reply(400);
     mockApi.onGet("/documents/processed/1234").reply(200, resolveProcessed);
+    setTimeout = jest.fn();
 
     const { container, getByText, getByTestId, queryByText } = render(
       <SimulateTransaction />
@@ -175,8 +177,6 @@ describe("Simulate Transaction Test Suite", () => {
     mockApi.onGet("/documentTypeConfigurations").reply(200, configurations);
     mockApi.onPost("/documents/extract").reply(200, resolveExtract);
     mockApi.onGet("/documents/processed/1234").reply(400, {error: {message: "error"}});
-    //service.getProcessedDocument = jest.fn(() => Promise.reject())
-    jest.useFakeTimers();
 
     const { container, getByText, getByTestId, queryByText } = render(
       <SimulateTransaction />
@@ -194,7 +194,7 @@ describe("Simulate Transaction Test Suite", () => {
 
     const button = getByText("Submit");
     fireEvent.click(button);
-    await waitFor(() => {})
+    await waitFor(() => {getByText("Request failed with status code 400")})
 
     expect(
       queryByText("Document Processed Successfuly")
