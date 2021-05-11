@@ -1,0 +1,55 @@
+name: Build AI Reviewer Admin Image and Push to Openshift 4 Registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/frontend/ai-reviewer-admin/**"
+      - ".github/workflows/build-ai-reviewer-admin-ui.yml"
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "The event name is ${{ github.event_name }}"
+          echo "$GITHUB_CONTEXT"
+
+      - name: Get Source
+        uses: actions/checkout@v2
+
+      - name: Build the Docker image
+        working-directory: src/frontend/ai-reviewer-admin
+        run: |
+          docker build . --file Dockerfile --tag ai-reviewer-admin
+          
+      - name: Cluster Login OC4
+        uses: redhat-developer/openshift-actions@v1.1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
+          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
+          cmd: |
+            'version'
+            
+      - name: Login to Openshift OC4
+        run : |
+          docker login ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }} -u ${{ secrets.OPENSHIFT4_SA_USERNAME }} -p ${{ secrets.OPENSHIFT4_SA_PASSWORD }}
+
+      - name: Tag the Docker image OC4
+        run: |
+          docker tag ai-reviewer-admin ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/ai-reviewer-admin:latest
+
+      - name: Push the Docker image OC4
+        run: |
+          docker push ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/ai-reviewer-admin:latest
+
+      - name: Logout OC4
+        run: |
+          docker logout
