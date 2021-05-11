@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+
+  #############################################################################################
+  ###                                 AI REVIEWER ADMIN CLIENT                              ###
+  #############################################################################################
+  ai-reviewer-admin:
+    container_name: ai-reviewer-admin
+    build:
+      context: ./src/frontend/ai-reviewer-admin
+    ports:
+      - 3002:8080
+    environment:
+      - REACT_APP_AI_REVIEWER_API_URL=http://localhost:8090/
