@@ -5,9 +5,8 @@
 The folder structure for test automation will be as follows:
 
 ```
-tests
+test
 ├── src
-│    └── main
 |    └── test
 |    |   └──resources
 ├── .gitignore
@@ -20,7 +19,7 @@ tests
 Docker-compose up and then run mvn command from the root
 
 ```bash
-mvn verify -f tests/pom.xml
+mvn verify -f test/pom.xml
 ```
 
 Running the tests create an html report [here](test-output/extent/HtmlReport/ExtentHtml.html)
@@ -38,7 +37,7 @@ We support running the tests with the current tags:
 Using tags will only run the specified tests.
 
 ```bash
-cd tests
+cd test
 ```
 
 ```bash
