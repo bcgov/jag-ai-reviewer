@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:8090}
+  port: ${SERVER_PORT:8080}
 management:
   endpoint:
     health:
@@ -44,4 +44,3 @@ mailsend:
 erroremail:
   toEmail: ${ERROR_TO_ADDRESS:test@somewhere.co}
   fromEmail: ${ERROR_FROM_ADDRESS:test@somewhere.co}
-
