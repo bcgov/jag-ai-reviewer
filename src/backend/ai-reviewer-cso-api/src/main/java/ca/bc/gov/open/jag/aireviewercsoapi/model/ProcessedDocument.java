@@ -1,6 +1,5 @@
 package ca.bc.gov.open.jag.aireviewercsoapi.model;
 
-import java.net.URI;
 import java.math.BigDecimal;
 import java.util.UUID;
 

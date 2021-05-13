@@ -1,16 +1,17 @@
 package ca.bc.gov.open.jag.aireviewermockapi.controller;
 
-import ca.bc.gov.open.jag.aireviewermockapi.model.DocumentReady;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.MessageFormat;
-import java.util.UUID;
+import ca.bc.gov.open.jag.aireviewermockapi.model.DocumentReady;
 
 @Controller
 public class ParentController {

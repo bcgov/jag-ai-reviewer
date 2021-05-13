@@ -1,5 +1,23 @@
 package ca.bc.gov.open.efilingdiligenclient.diligen.diligenServiceImpl;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+
 import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenAuthService;
 import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenProperties;
 import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenServiceImpl;
@@ -9,19 +27,13 @@ import ca.bc.gov.open.efilingdiligenclient.exception.DiligenDocumentException;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.DocumentsApi;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiClient;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiException;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.*;
-import org.junit.jupiter.api.*;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import ca.bc.gov.open.jag.efilingdiligenclient.api.model.Field;
+import ca.bc.gov.open.jag.efilingdiligenclient.api.model.FieldType;
+import ca.bc.gov.open.jag.efilingdiligenclient.api.model.InlineResponse2003;
+import ca.bc.gov.open.jag.efilingdiligenclient.api.model.InlineResponse2003Data;
+import ca.bc.gov.open.jag.efilingdiligenclient.api.model.InlineResponse2003DataFileDetails;
+import ca.bc.gov.open.jag.efilingdiligenclient.api.model.ProjectFieldsResponse;
+import ca.bc.gov.open.jag.efilingdiligenclient.api.model.ProjectFieldsResponseData;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("DiligenServiceImpl test suite")

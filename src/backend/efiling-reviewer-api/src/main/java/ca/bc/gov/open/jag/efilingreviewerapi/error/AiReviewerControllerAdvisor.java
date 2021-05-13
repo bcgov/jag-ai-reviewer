@@ -1,5 +1,15 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.error;
 
+import java.util.Collections;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import ca.bc.gov.open.efilingdiligenclient.exception.DiligenAuthenticationException;
 import ca.bc.gov.open.efilingdiligenclient.exception.DiligenDocumentException;
 import ca.bc.gov.open.jag.efilingreviewerapi.api.model.ApiError;
@@ -8,16 +18,6 @@ import ca.bc.gov.open.jag.jagmailit.api.handler.ApiException;
 import ca.bc.gov.open.jag.jagmailit.api.model.EmailObject;
 import ca.bc.gov.open.jag.jagmailit.api.model.EmailRequest;
 import ca.bc.gov.open.jag.jagmailit.api.model.EmailRequestContent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
-
-import java.util.Collections;
 
 @ControllerAdvice
 @EnableConfigurationProperties(ErrorEmailProperties.class)
