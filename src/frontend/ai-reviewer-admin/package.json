@@ -10,7 +10,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -18,7 +18,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "shared-components": "https://github.com/bcgov/react-shared-components/releases/download/v1.2.3/shared-components-1.2.3.tgz",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -47,7 +47,7 @@
   "devDependencies": {
     "axios-mock-adapter": "^1.19.0",
     "mq-polyfill": "^1.1.8",
-    "prettier": "2.2.1"
+    "prettier": "2.3.0"
   },
   "jest": {
     "watchPathIgnorePatterns": [

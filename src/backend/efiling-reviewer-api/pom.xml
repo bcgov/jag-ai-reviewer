@@ -243,7 +243,7 @@
 			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>4.3.1</version>
+				<version>5.1.1</version>
 				<executions>
 					<execution>
 						<id>spring-boot-api</id>
@@ -261,6 +261,26 @@
 							<apiPackage>${default-package}.api</apiPackage>
 							<modelPackage>${default-package}.api.model</modelPackage>
 							<invokerPackage>${default-package}.api.handler</invokerPackage>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/annotations</source>
+							</sources>
 						</configuration>
 					</execution>
 				</executions>
