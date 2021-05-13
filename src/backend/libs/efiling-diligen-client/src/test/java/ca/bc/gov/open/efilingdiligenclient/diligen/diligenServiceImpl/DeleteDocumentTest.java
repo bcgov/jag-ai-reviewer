@@ -1,5 +1,18 @@
 package ca.bc.gov.open.efilingdiligenclient.diligen.diligenServiceImpl;
 
+import static org.mockito.ArgumentMatchers.any;
+
+import java.math.BigDecimal;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+
 import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenAuthService;
 import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenProperties;
 import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenServiceImpl;
@@ -8,15 +21,6 @@ import ca.bc.gov.open.efilingdiligenclient.exception.DiligenDocumentException;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.DocumentsApi;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiClient;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiException;
-import org.junit.jupiter.api.*;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
-import java.math.BigDecimal;
-
-import static org.mockito.ArgumentMatchers.any;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("DiligenServiceImpl test suite")

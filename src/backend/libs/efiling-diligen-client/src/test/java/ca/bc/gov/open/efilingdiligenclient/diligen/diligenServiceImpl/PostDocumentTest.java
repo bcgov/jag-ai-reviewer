@@ -1,12 +1,16 @@
 package ca.bc.gov.open.efilingdiligenclient.diligen.diligenServiceImpl;
 
-import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenAuthService;
-import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenProperties;
-import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenServiceImpl;
-import ca.bc.gov.open.efilingdiligenclient.exception.DiligenDocumentException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -17,11 +21,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.math.BigDecimal;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenAuthService;
+import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenProperties;
+import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenServiceImpl;
+import ca.bc.gov.open.efilingdiligenclient.exception.DiligenDocumentException;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("DiligenServiceImpl test suite")
