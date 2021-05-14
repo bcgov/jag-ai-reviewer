@@ -44,4 +44,3 @@ mailsend:
 erroremail:
   toEmail: ${ERROR_TO_ADDRESS:test@somewhere.co}
   fromEmail: ${ERROR_FROM_ADDRESS:test@somewhere.co}
-

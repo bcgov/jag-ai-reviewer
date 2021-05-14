@@ -1,24 +1,24 @@
 package ca.bc.gov.open.jag.aireviewercsoapi.service;
 
-import ca.bc.gov.open.jag.aireviewercsoapi.extract.ExtractApiDelegateImpl;
-import ca.bc.gov.open.jag.aireviewercsoapi.model.ProcessedDocument;
-import com.sun.org.apache.regexp.internal.RE;
-import org.junit.jupiter.api.*;
+import static org.mockito.ArgumentMatchers.any;
+
+import java.math.BigDecimal;
+import java.net.URISyntaxException;
+import java.util.UUID;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.UUID;
-
-
-import static org.mockito.ArgumentMatchers.any;
+import ca.bc.gov.open.jag.aireviewercsoapi.model.ProcessedDocument;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ProcessedDocumentServiceImplTest {

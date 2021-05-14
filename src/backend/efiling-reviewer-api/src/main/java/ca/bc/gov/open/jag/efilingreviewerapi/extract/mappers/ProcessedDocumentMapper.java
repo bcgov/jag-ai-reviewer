@@ -1,14 +1,14 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.extract.mappers;
 
 
-import ca.bc.gov.open.jag.efilingreviewerapi.api.model.ProcessedDocument;
-import ca.bc.gov.open.jag.efilingreviewerapi.document.models.DocumentValidation;
-import ca.bc.gov.open.jag.efilingreviewerapi.document.models.DocumentValidationResult;
-import ca.bc.gov.open.jag.efilingreviewerapi.extract.models.ExtractResponse;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.List;
+import ca.bc.gov.open.jag.efilingreviewerapi.api.model.ProcessedDocument;
+import ca.bc.gov.open.jag.efilingreviewerapi.document.models.DocumentValidationResult;
+import ca.bc.gov.open.jag.efilingreviewerapi.extract.models.ExtractResponse;
 
 @Mapper(componentModel = "spring")
 public interface ProcessedDocumentMapper {

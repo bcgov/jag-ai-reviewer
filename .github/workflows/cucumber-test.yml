@@ -1,0 +1,178 @@
+name: Cucumber Tests
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+
+  efiling-reviewer-api-gcr:
+    name: Efiling Reviewer Api GCR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull Git repo.
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull efiling-reviewer-api-builder
+        run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/efiling-reviewer-api:builder || true
+
+      - name: build efiling-reviewer-api-builder
+        run: docker build ./src/backend
+          -f ./src/backend/Dockerfile.efiling-reviewer-api
+          --target build
+          -t efiling-reviewer-api:builder
+          --build-arg SERVICE_NAME=efiling-reviewer-api
+          --build-arg MVN_PROFILE=efiling-reviewer
+          --build-arg STARTERS_V=v0.1.8
+          --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/efiling-reviewer-api:builder
+
+      - name: tag & push efiling-reviewer-api to git container registry
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: docker tag efiling-reviewer-api:builder docker.pkg.github.com/$GITHUB_REPOSITORY/efiling-reviewer-api:builder && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/efiling-reviewer-api:builder
+
+  ai-reviewer-mock-api-gcr:
+    name: Ai Reviewer Api GCR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull Git repo.
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull ai-reviewer-mock-api-builder
+        run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-mock-api:builder || true
+
+      - name: build ai-reviewer-mock-api
+        run: docker build ./src/backend
+          -f ./src/backend/Dockerfile.ai-reviewer-mock-api
+          --target build
+          -t ai-reviewer-mock-api:builder
+          --build-arg SERVICE_NAME=ai-reviewer-mock-api
+          --build-arg MVN_PROFILE=ai-reviewer-mock
+          --build-arg STARTERS_V=v0.1.8
+          --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-mock-api:builder
+
+      - name: tag & push ai-reviewer-mock-api to git container registry
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: docker tag ai-reviewer-mock-api:builder docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-mock-api:builder && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-mock-api:builder
+
+  ai-reviewer-admin-gcr:
+    name: Ai Reviewer Admin GCR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull Git repo.
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull ai-reviewer-admin-builder
+        run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-admin:builder || true
+
+      - name: build ai-reviewer-admin-builder
+        run: docker build ./src/frontend/ai-reviewer-admin
+          --target build
+          -t ai-reviewer-admin:builder
+          --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-admin:builder
+
+      - name: tag & push ai-reviewer-admin to git container registry
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: docker tag ai-reviewer-admin:builder docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-admin:builder && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-admin:builder
+
+  cucumber-tests:
+    name: Runs cucumber-tests
+    runs-on: ubuntu-latest
+    needs: [efiling-reviewer-api-gcr, ai-reviewer-mock-api-gcr, ai-reviewer-admin-gcr]
+    steps:
+      - name: Pull Git repo.
+        uses: actions/checkout@v2
+
+      # pulling images is faster than caching in most of the case
+      - name: pull available docker images first
+        run: docker-compose pull -q --parallel redis clamav mongodb skywalking-oap-server
+
+      - name: Standup Infra
+        run: docker-compose up -d redis clamav mongodb skywalking-oap-server
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Pull images (Local REPO only)
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: docker-compose -f docker-compose.yml  -f test/docker-compose-integration.yml pull --parallel -q efiling-reviewer-api ai-reviewer-mock-api ai-reviewer-admin
+
+      - name: Standup Docker Pods (Local REPO only)
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: docker-compose -f docker-compose.yml  -f test/docker-compose-integration.yml up -d efiling-reviewer-api ai-reviewer-mock-api ai-reviewer-admin
+
+
+      - name: Standup Docker Pods (FORK only)
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        run: docker-compose up -d efiling-reviewer-api ai-reviewer-mock-api ai-reviewer-admin
+
+      - name: Running Integration Tests
+        env:
+          DOCKERIZE_VERSION: v0.6.1
+        continue-on-error: true
+        id: cucumber-test
+        run: |
+
+          # Maven requires chrome driver.
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt-get -qq -y install ./google-chrome-stable_current_amd64.deb
+
+          # We need to test if efiling-reviewer-api pod and service is running before we can proceed.  Using dockerize to proceed only after efiling-demo:8080 can be reached.
+          wget -q https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          tar -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+          ./dockerize -wait http://127.0.0.1:1337/api/isServerUp -timeout 120s -wait http://127.0.0.1:8090/actuator/health -timeout 120s -wait http://127.0.0.1:3002/actuator/health -timeout 120s
+          mvn verify -ntp -f test/pom.xml
+
+      # Upload Spark report for debugging purposes
+      - name: Upload Spark report for debugging purposes
+        uses: actions/upload-artifact@v2
+        with:
+          name: cucumber-spark-report
+          path: ./test/test-output/extent/Spark/Index.html
+
+      # Upload Cucumber JSON for debugging purposes
+      - name: Upload Cucumber JSON for debugging purposes
+        uses: actions/upload-artifact@v2
+        with:
+          name: cucumber-json-report
+          path: ./test/target/cucumber-reports/CucumberTestReport.json
+
+      - name: Set action status
+        if: steps.cucumber-test.outcome != 'success'
+        run: exit 1
