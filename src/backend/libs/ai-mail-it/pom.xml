@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>ca.bc.gov.open.jag</groupId>
-	<artifactId>efiling-mail-it</artifactId>
+	<artifactId>ai-mail-it</artifactId>
 	<version>0.7.0-SNAPSHOT</version>
 
-	<name>efiling-mail-it</name>
+	<name>ai-mail-it</name>
 	<description>Client for Mailing service</description>
 
 	<properties>
@@ -119,7 +119,7 @@
 			</dependency>
 			<dependency>
 				<groupId>ca.bc.gov.open.jag</groupId>
-				<artifactId>efiling-bom</artifactId>
+				<artifactId>ai-bom</artifactId>
 				<version>0.7.0-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>

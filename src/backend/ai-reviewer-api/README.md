@@ -1,4 +1,4 @@
-# efiling-reviewer-api
+# ai-reviewer-api
 
 ## Maven Profiles
 
@@ -14,12 +14,12 @@ mvn install -P openshift
 Require to run locally:
 
 ```bash
-mvn install -P efiling-reviewer
+mvn install -P ai-reviewer
 ```
 
 ## Configuration
 
-You should use environment variables to configure the jag efiling-reviewer-api
+You should use environment variables to configure the jag ai-reviewer-api
 
 | Environment Variable            				  | Type    | Description                                  | Notes                          |
 | ----------------------------------------------- | ------- | -------------------------------------------- | ------------------------------ |
