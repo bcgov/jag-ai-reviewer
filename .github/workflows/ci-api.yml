@@ -1,4 +1,4 @@
-name: CI/CD for API - Checkout, Build, Test, and generate Coverage Report for efiling-reviewer-api
+name: CI/CD for API - Checkout, Build, Test, and generate Coverage Report for ai-reviewer-api
 
 on:
   pull_request:
