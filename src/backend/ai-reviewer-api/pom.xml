@@ -9,9 +9,9 @@
 		<relativePath/>
 	</parent>
 	<groupId>ca.bc.gov.open.jag</groupId>
-	<artifactId>efiling-reviewer-api</artifactId>
+	<artifactId>ai-reviewer-api</artifactId>
 	<version>0.7.0-SNAPSHOT</version>
-	<name>efiling-reviewer-api</name>
+	<name>ai-reviewer-api</name>
 	<description>api project for ai reviewer</description>
 	<properties>
 		<java.version>1.8</java.version>
