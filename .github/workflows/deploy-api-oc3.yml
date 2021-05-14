@@ -41,5 +41,5 @@ jobs:
           
           docker-compose build ai-reviewer-api
           
-          docker tag jag-file-submission_ai-reviewer-api ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}/efiling-reviewer-api:latest
+          docker tag jag-ai-reviewer_ai-reviewer-api ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}/efiling-reviewer-api:latest
           docker push ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}/efiling-reviewer-api:latest
