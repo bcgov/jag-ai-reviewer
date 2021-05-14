@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Keycloak from "keycloak-js";
-import {URL, REALM, CLIENT_ID} from "EnvConfig";
+import {url, realm, clientId} from "EnvConfig";
 
-const KEYCLOAK = {REALM, URL, CLIENT_ID};
+const KEYCLOAK = {realm, url, clientId};
 
 export default function AuthenticationGuard({children}) {
   const [authedKeycloak, setAuthedKeycloak] = useState(null);
@@ -15,10 +15,9 @@ export default function AuthenticationGuard({children}) {
       .init({
         checkLoginIframe: false,
       })
-      .success((authenticated) => {
+      .then((authenticated) => {
         if (authenticated) {
-          keycloak.loadUserInfo().success();
-
+          keycloak.loadUserInfo();
           localStorage.setItem("jwt", keycloak.token);
           setAuthedKeycloak(keycloak);
         } else {
@@ -31,9 +30,21 @@ export default function AuthenticationGuard({children}) {
     keycloakInit();
   }, []);
 
+  setInterval(() => {
+    keycloak.updateToken(70).then(refreshed => {
+      if (refreshed) {
+        console.log("refreshed")
+      }else{
+        console.log("not refreshed")
+      }
+    })
+    .catch(err => console.log(err))
+  }, 6000)
+
   return (
     <>
-      {authedKeycloak ? children : null}
+      {authedKeycloak && children}
+      {!authedKeycloak && null}
     </>
   )
 }
