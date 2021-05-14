@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ca.bc.gov.open</groupId>
+	<artifactId>ai-reviewer-backend</artifactId>
+	<version>0.7.0-SNAPSHOT</version>
+
+	<description>Ai Reviewer Backend services</description>
+
+	<name>jag-ai-reviewer-backend</name>
+	<packaging>pom</packaging>
+	<url>https://github.com/bcgov/jag-ai-reviewer</url>
+
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>all</id>
+			<modules>
+				<module>libs/efiling-bom</module>
+				<module>libs/efiling-diligen-client</module>
+				<module>libs/efiling-diligen-client-starter</module>
+				<module>libs/efiling-mail-it</module>
+				<module>efiling-reviewer-api</module>
+				<module>ai-reviewer-cso-api</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>libs</id>
+			<modules>
+				<module>libs/efiling-bom</module>
+				<module>libs/efiling-diligen-client</module>
+				<module>libs/efiling-diligen-client-starter</module>
+				<module>libs/efiling-mail-it</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>efiling-reviewer</id>
+			<modules>
+				<module>libs/efiling-bom</module>
+				<module>libs/efiling-diligen-client</module>
+				<module>libs/efiling-diligen-client-starter</module>
+				<module>libs/efiling-mail-it</module>
+				<module>efiling-reviewer-api</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>ai-reviewer-mock</id>
+			<modules>
+				<module>ai-reviewer-mock-api</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>ai-reviewer-cso</id>
+			<modules>
+				<module>libs/efiling-bom</module>
+				<module>ai-reviewer-cso-api</module>
+			</modules>
+		</profile>
+	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
