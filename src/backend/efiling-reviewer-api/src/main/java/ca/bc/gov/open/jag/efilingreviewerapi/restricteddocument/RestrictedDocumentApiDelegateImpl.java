@@ -1,20 +1,20 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.restricteddocument;
 
-import ca.bc.gov.open.jag.efilingreviewerapi.api.RestrictedDocumentTypesApiDelegate;
-import ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentType;
-import ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentTypeConfiguration;
-import ca.bc.gov.open.jag.efilingreviewerapi.api.model.RestrictedDocumentType;
-import ca.bc.gov.open.jag.efilingreviewerapi.document.store.RestrictedDocumentRepository;
-import ca.bc.gov.open.jag.efilingreviewerapi.restricteddocument.mappers.RestrictedDocumentTypeMapper;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import ca.bc.gov.open.jag.efilingreviewerapi.api.RestrictedDocumentTypesApiDelegate;
+import ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentType;
+import ca.bc.gov.open.jag.efilingreviewerapi.api.model.RestrictedDocumentType;
+import ca.bc.gov.open.jag.efilingreviewerapi.document.store.RestrictedDocumentRepository;
+import ca.bc.gov.open.jag.efilingreviewerapi.restricteddocument.mappers.RestrictedDocumentTypeMapper;
 
 @Service
 public class RestrictedDocumentApiDelegateImpl implements RestrictedDocumentTypesApiDelegate {
