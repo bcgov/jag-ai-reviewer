@@ -17,6 +17,8 @@ import ca.bc.gov.open.jag.efilingreviewerapi.document.store.DocumentTypeConfigur
 import ca.bc.gov.open.jag.efilingreviewerapi.documentconfiguration.mappers.DocumentTypeConfigurationMapper;
 import ca.bc.gov.open.jag.efilingreviewerapi.error.AiReviewerDocumentTypeConfigurationException;
 
+import javax.annotation.security.RolesAllowed;
+
 @Service
 public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfigurationsApiDelegate {
 
@@ -30,6 +32,7 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
     }
 
     @Override
+    @RolesAllowed("ai-reviewer-api-client")
     public ResponseEntity<List<ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentTypeConfiguration>> getDocumentConfigurations(String documentType) {
 
         List<DocumentTypeConfiguration> documentTypeConfigurations;
@@ -46,6 +49,7 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
     }
 
     @Override
+    @RolesAllowed("ai-reviewer-api-admin")
     public ResponseEntity<ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentTypeConfiguration> createDocumentTypeConfiguration(DocumentTypeConfigurationRequest documentTypeConfigurationRequest) {
 
         if(documentTypeConfigurationRepository.findByDocumentType(documentTypeConfigurationRequest.getDocumentType().getType()) != null) {
@@ -67,6 +71,7 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
     }
 
     @Override
+    @RolesAllowed("ai-reviewer-api-admin")
 	public ResponseEntity<ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentTypeConfiguration> updateDocumentTypeConfiguration(
 			ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentTypeConfiguration documentTypeConfiguration) {
 
@@ -96,6 +101,7 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
 	}
 
     @Override
+    @RolesAllowed("ai-reviewer-api-admin")
     public ResponseEntity<Void> deleteDocumentTypeConfiguration(UUID id) {
 
         if (!documentTypeConfigurationRepository.existsById(id)) return ResponseEntity.notFound().build();

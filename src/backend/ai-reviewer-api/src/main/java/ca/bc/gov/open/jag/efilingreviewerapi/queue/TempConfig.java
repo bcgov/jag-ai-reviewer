@@ -1,7 +1,7 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.queue;
 
 import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenService;
-import ca.bc.gov.open.jag.efilingreviewerapi.document.DocumentsApiDelegateImpl;
+import ca.bc.gov.open.jag.efilingreviewerapi.api.DocumentsApiDelegate;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +37,7 @@ public class TempConfig {
     }
 
     @Bean
-    public Receiver receiver(DocumentsApiDelegateImpl documentsApiDelegate, DiligenService diligenService, StringRedisTemplate stringRedisTemplate) {
+    public Receiver receiver(DocumentsApiDelegate documentsApiDelegate, DiligenService diligenService, StringRedisTemplate stringRedisTemplate) {
         return new Receiver(2, documentsApiDelegate, diligenService, stringRedisTemplate);
     }
 }

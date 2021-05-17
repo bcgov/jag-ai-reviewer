@@ -34,6 +34,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.security.RolesAllowed;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
     }
 
     @Override
+    @RolesAllowed("ai-reviewer-api-client")
     public ResponseEntity<DocumentExtractResponse> extractDocumentFormData(UUID xTransactionId, String xDocumentType, Boolean xUseWebhook, MultipartFile file) {
 
         MDC.put(Keys.DOCUMENT_TYPE, xDocumentType);
@@ -143,6 +145,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
     }
 
     @Override
+    @RolesAllowed("ai-reviewer-api-client")
     public ResponseEntity<ProcessedDocument> documentProcessed(UUID xTransactionId, BigDecimal documentId) {
 
         logger.info("document {} requested ", documentId);

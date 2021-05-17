@@ -7,3 +7,12 @@ services:
   ai-reviewer-admin:
     build:
       context: ./src/frontend/ai-reviewer-admin
+
+  # #############################################################################################
+  # ###                                        KEYCLOAK Config                                ###
+  # #############################################################################################
+  keycloak-config:
+    build:
+      context: ./infrastructure/keycloak
+      args:
+        - KEYCLOAK_URL=http://keycloak:8080
