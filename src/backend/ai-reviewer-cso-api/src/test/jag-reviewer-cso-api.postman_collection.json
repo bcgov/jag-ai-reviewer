@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "a33d3528-4a2b-4c49-b069-e3256079b513",
+		"name": "jag-reviewer-cso-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Extract Notification",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Transaction-Id",
+						"value": "1d4e38ba-0c88-4c92-8367-c8eada8cca19",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"documentId\": 0,\r\n  \"documentType\": \"string\",\r\n  \"returnUri\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8686/extract/notification",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8686",
+					"path": [
+						"extract",
+						"notification"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
