@@ -9,8 +9,8 @@ import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import ca.bc.gov.open.aidiligenclient.diligen.model.DocumentConfig;
-import ca.bc.gov.open.aidiligenclient.diligen.model.PropertyConfig;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DocumentConfig;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.PropertyConfig;
 
 public class DocumentTypeConfiguration extends Auditable {
 

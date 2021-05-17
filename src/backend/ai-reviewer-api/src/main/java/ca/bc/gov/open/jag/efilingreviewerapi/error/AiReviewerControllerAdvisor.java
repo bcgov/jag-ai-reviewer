@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import ca.bc.gov.open.aidiligenclient.exception.DiligenAuthenticationException;
-import ca.bc.gov.open.aidiligenclient.exception.DiligenDocumentException;
+import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenAuthenticationException;
+import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenDocumentException;
 import ca.bc.gov.open.jag.efilingreviewerapi.api.model.ApiError;
 import ca.bc.gov.open.jag.jagmailit.api.MailSendApi;
 import ca.bc.gov.open.jag.jagmailit.api.handler.ApiException;

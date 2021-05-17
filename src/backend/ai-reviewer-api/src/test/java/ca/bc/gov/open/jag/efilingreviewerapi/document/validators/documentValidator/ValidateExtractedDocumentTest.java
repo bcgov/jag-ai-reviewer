@@ -1,7 +1,7 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.document.validators.documentValidator;
 
-import ca.bc.gov.open.aidiligenclient.diligen.DiligenService;
-import ca.bc.gov.open.aidiligenclient.diligen.model.DiligenAnswerField;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenAnswerField;
 import ca.bc.gov.open.jag.efilingreviewerapi.Keys;
 import ca.bc.gov.open.jag.efilingreviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.efilingreviewerapi.document.models.DocumentValidation;

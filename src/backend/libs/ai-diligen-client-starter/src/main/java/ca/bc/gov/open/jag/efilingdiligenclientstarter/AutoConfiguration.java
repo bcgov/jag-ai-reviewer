@@ -1,9 +1,9 @@
 package ca.bc.gov.open.jag.efilingdiligenclientstarter;
 
-import ca.bc.gov.open.aidiligenclient.diligen.*;
-import ca.bc.gov.open.aidiligenclient.diligen.mapper.DiligenDocumentDetailsMapperImpl;
-import ca.bc.gov.open.aidiligenclient.diligen.processor.FieldProcessor;
-import ca.bc.gov.open.aidiligenclient.diligen.processor.FieldProcessorImpl;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.*;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.mapper.DiligenDocumentDetailsMapperImpl;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.processor.FieldProcessor;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.processor.FieldProcessorImpl;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.AuthenticationApi;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.DocumentsApi;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.HealthCheckApi;
