@@ -1,4 +1,4 @@
-package ca.bc.gov.open.jag.efilingdiligenclientstarter;
+package ca.bc.gov.open.jag.aidiligenclientstarter;
 
 /**
  * Represents a diligen client configuration exception

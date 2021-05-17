@@ -1,8 +1,8 @@
-package ca.bc.gov.open.jag.efilingdiligenclientstarter;
+package ca.bc.gov.open.jag.aidiligenclientstarter;
 
-import ca.bc.gov.open.jag.efilingdiligenclient.api.HealthCheckApi;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiException;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.InlineResponse200;
+import ca.bc.gov.open.jag.aidiligenclient.api.HealthCheckApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse200;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;

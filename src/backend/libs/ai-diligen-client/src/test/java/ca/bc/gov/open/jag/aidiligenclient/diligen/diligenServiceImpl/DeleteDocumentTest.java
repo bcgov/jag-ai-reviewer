@@ -18,9 +18,9 @@ import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenProperties;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenServiceImpl;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.mapper.DiligenDocumentDetailsMapperImpl;
 import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenDocumentException;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.DocumentsApi;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiClient;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiException;
+import ca.bc.gov.open.jag.aidiligenclient.api.DocumentsApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiClient;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("DiligenServiceImpl test suite")

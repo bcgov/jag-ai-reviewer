@@ -24,16 +24,16 @@ import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenServiceImpl;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.mapper.DiligenDocumentDetailsMapperImpl;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
 import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenDocumentException;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.DocumentsApi;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiClient;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiException;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.Field;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.FieldType;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.InlineResponse2003;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.InlineResponse2003Data;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.InlineResponse2003DataFileDetails;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.ProjectFieldsResponse;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.ProjectFieldsResponseData;
+import ca.bc.gov.open.jag.aidiligenclient.api.DocumentsApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiClient;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.Field;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.FieldType;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse2003;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse2003Data;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse2003DataFileDetails;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponse;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponseData;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("DiligenServiceImpl test suite")

@@ -1,11 +1,11 @@
-package ca.bc.gov.open.jag.efilingdiligenclientstarter;
+package ca.bc.gov.open.jag.aidiligenclientstarter;
 
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenAuthService;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenProperties;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.DocumentsApi;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.HealthCheckApi;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiClient;
+import ca.bc.gov.open.jag.aidiligenclient.api.DocumentsApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.HealthCheckApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiClient;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

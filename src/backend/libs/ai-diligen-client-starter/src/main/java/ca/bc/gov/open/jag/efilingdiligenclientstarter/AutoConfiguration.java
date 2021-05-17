@@ -1,13 +1,13 @@
-package ca.bc.gov.open.jag.efilingdiligenclientstarter;
+package ca.bc.gov.open.jag.aidiligenclientstarter;
 
 import ca.bc.gov.open.jag.aidiligenclient.diligen.*;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.mapper.DiligenDocumentDetailsMapperImpl;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.processor.FieldProcessor;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.processor.FieldProcessorImpl;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.AuthenticationApi;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.DocumentsApi;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.HealthCheckApi;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiClient;
+import ca.bc.gov.open.jag.aidiligenclient.api.AuthenticationApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.DocumentsApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.HealthCheckApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiClient;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;

@@ -5,11 +5,11 @@ import ca.bc.gov.open.jag.aidiligenclient.diligen.mapper.DiligenDocumentDetailsM
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenResponse;
 import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenDocumentException;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.DocumentsApi;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.handler.ApiException;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.InlineObject5;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.InlineResponse2003;
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.ProjectFieldsResponse;
+import ca.bc.gov.open.jag.aidiligenclient.api.DocumentsApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineObject5;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse2003;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;

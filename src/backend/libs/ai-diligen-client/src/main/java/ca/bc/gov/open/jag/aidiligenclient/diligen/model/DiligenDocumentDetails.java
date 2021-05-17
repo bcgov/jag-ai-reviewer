@@ -1,6 +1,6 @@
 package ca.bc.gov.open.jag.aidiligenclient.diligen.model;
 
-import ca.bc.gov.open.jag.efilingdiligenclient.api.model.ProjectFieldsResponse;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponse;
 
 import java.math.BigDecimal;
 import java.util.List;
