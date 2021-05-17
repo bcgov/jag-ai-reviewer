@@ -1,6 +1,6 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.queue;
 
-import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenService;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
 import ca.bc.gov.open.jag.efilingreviewerapi.document.DocumentsApiDelegateImpl;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;

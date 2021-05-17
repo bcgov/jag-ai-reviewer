@@ -1,7 +1,7 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.queue;
 
-import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenService;
-import ca.bc.gov.open.efilingdiligenclient.diligen.model.DiligenDocumentDetails;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
 import ca.bc.gov.open.jag.efilingreviewerapi.Keys;
 import ca.bc.gov.open.jag.efilingreviewerapi.api.DocumentsApiDelegate;
 import ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentEvent;

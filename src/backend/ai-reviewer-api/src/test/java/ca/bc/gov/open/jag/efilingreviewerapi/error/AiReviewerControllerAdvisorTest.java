@@ -1,7 +1,7 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.error;
 
-import ca.bc.gov.open.efilingdiligenclient.exception.DiligenAuthenticationException;
-import ca.bc.gov.open.efilingdiligenclient.exception.DiligenDocumentException;
+import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenAuthenticationException;
+import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenDocumentException;
 import ca.bc.gov.open.jag.efilingreviewerapi.api.model.ApiError;
 import ca.bc.gov.open.jag.jagmailit.api.MailSendApi;
 import ca.bc.gov.open.jag.jagmailit.api.handler.ApiException;

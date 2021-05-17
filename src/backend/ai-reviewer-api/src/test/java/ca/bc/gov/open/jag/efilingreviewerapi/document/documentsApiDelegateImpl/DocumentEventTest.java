@@ -1,8 +1,8 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.document.documentsApiDelegateImpl;
 
-import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenService;
-import ca.bc.gov.open.efilingdiligenclient.diligen.model.DiligenDocumentDetails;
-import ca.bc.gov.open.efilingdiligenclient.diligen.processor.FieldProcessor;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.processor.FieldProcessor;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.model.Field;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.model.ProjectFieldsResponse;
 import ca.bc.gov.open.jag.efilingdiligenclient.api.model.ProjectFieldsResponseData;
