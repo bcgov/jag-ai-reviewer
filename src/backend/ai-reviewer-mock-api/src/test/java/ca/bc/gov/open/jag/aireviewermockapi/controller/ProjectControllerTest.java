@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.aireviewermockapi.controller;
 
+import ca.bc.gov.open.jag.aireviewermockapi.config.AiReviewerApiProperties;
 import org.junit.jupiter.api.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,8 @@ public class ProjectControllerTest {
 
     @BeforeAll
     public void beforeAll() {
-
-        sut = new ProjectController();
-
+        AiReviewerApiProperties aiReviewerApiProperties = new AiReviewerApiProperties();
+        sut = new ProjectController(aiReviewerApiProperties);
     }
 
     @Test
