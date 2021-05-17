@@ -2,7 +2,7 @@ package ca.bc.gov.open.jag.aireviewerapi.webhook.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "jag.efiling.cso.webhook" )
+@ConfigurationProperties(prefix = "jag.ai.cso.webhook" )
 public class WebHookProperties {
 
     private String basePath;

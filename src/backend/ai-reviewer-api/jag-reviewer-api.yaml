@@ -2,14 +2,14 @@ openapi: 3.0.0
 info:
   version: 0.7.0
   title: jag-reviewer-api
-  description: Efiling AI Reviewer api
+  description: AI Reviewer api
 servers:
   - url: "http://localhost:8090"
 tags:
   - name: document
     description: Endpoints exposed to review document
   - name: admin
-    description: Endpoints to admin efiling reviewer api
+    description: Endpoints to admin ai reviewer api
 paths:
   "/documents/extract":
     post:
