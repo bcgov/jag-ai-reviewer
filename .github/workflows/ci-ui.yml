@@ -78,6 +78,10 @@ jobs:
       - name: Run Yarn Install - AI Reviewer Admin
         run: yarn --cwd src/frontend/ai-reviewer-admin install
 
+      # Build - AI Reviewer Admin Client
+      - name: Build - AI Reviewer Admin
+        run: yarn --cwd src/frontend/ai-reviewer-admin build --production=true
+        
       # Run lint - AI Reviewer Admin Client
       - name: Run lint - AI Reviewer Admin
         run: yarn --cwd src/frontend/ai-reviewer-admin run lint
