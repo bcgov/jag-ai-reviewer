@@ -1,6 +1,6 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.document.validators;
 
-import ca.bc.gov.open.efilingdiligenclient.diligen.model.DiligenAnswerField;
+import ca.bc.gov.open.aidiligenclient.diligen.model.DiligenAnswerField;
 import ca.bc.gov.open.jag.efilingreviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.efilingreviewerapi.document.models.DocumentValidation;
 import org.springframework.web.multipart.MultipartFile;

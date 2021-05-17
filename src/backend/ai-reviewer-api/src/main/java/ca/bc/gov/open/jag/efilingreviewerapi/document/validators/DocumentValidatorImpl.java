@@ -2,8 +2,8 @@ package ca.bc.gov.open.jag.efilingreviewerapi.document.validators;
 
 import ca.bc.gov.open.clamav.starter.ClamAvService;
 import ca.bc.gov.open.clamav.starter.VirusDetectedException;
-import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenService;
-import ca.bc.gov.open.efilingdiligenclient.diligen.model.DiligenAnswerField;
+import ca.bc.gov.open.aidiligenclient.diligen.DiligenService;
+import ca.bc.gov.open.aidiligenclient.diligen.model.DiligenAnswerField;
 import ca.bc.gov.open.jag.efilingreviewerapi.Keys;
 import ca.bc.gov.open.jag.efilingreviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.efilingreviewerapi.document.models.DocumentValidation;

@@ -1,6 +1,6 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.documentconfiguration;
 
-import ca.bc.gov.open.efilingdiligenclient.diligen.model.DocumentConfig;
+import ca.bc.gov.open.aidiligenclient.diligen.model.DocumentConfig;
 import ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentType;
 import ca.bc.gov.open.jag.efilingreviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.efilingreviewerapi.document.store.DocumentTypeConfigurationRepository;
