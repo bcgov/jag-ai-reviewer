@@ -61,7 +61,7 @@ public class AutoConfiguration {
      * @return Diligen implementation of HealthIndicator
      */
     @Bean
-    @ConditionalOnProperty(prefix = "jag.efiling.diligen", name = "health.enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "jag.ai.diligen", name = "health.enabled", havingValue = "true")
     public HealthIndicator diligenHealthIndicator(HealthCheckApi healthCheckApi) {
         return new DiligenHealthIndicator(healthCheckApi);
     }
