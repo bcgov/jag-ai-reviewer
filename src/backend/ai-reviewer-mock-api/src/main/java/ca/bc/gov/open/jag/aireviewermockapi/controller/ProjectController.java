@@ -45,7 +45,7 @@ public class ProjectController {
                             "  \"data\": {\n" +
                             "    \"documents\": [\n" +
                             "      {\n" +
-                            "        \"file_id\": 2390,\n" +
+                            "        \"file_id\": 1234,\n" +
                             "        \"file_status\": \"PROCESSED\"\n" +
                             "      }\n" +
                             "    ]\n" +
@@ -83,7 +83,7 @@ public class ProjectController {
         String body = "{\n" +
                 "  \"data\": [\n" +
                 "    {\n" +
-                "      \"id\": 2390,\n" +
+                "      \"id\": 1234,\n" +
                 "      \"status\": \"PROCESSED\"\n" +
                 "    }\n" +
                 "  ],\n" +
