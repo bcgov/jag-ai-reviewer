@@ -26,11 +26,6 @@ test/src/test/resources/application.properties
 *.iws
 *.iml
 *.ipr
-test/target
-test/.idea
-*.log
-
-test/test-output
 .env
 
 ### NetBeans ###
