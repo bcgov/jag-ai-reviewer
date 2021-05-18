@@ -4,8 +4,6 @@ target/
 !**/src/main/**
 !**/src/test/**
 
-config.properties
-
 ### STS ###
 .apt_generated
 .classpath
@@ -32,4 +30,5 @@ build/
 ### VS Code ###
 .vscode/
 
-.env
+*.versionsBackup
+/libs/spring-boot-starters/
