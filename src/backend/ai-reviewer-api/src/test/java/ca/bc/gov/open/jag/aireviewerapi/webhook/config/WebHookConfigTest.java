@@ -20,8 +20,8 @@ public class WebHookConfigTest {
         context = new ApplicationContextRunner()
                 .withUserConfiguration(WebHookConfig.class)
                 .withBean(RestTemplate.class)
-                .withPropertyValues("jag.efiling.cso.webhook.basePath=http://test",
-                        "jag.efiling.cso.webhook.returnPath=http://test")
+                .withPropertyValues("jag.ai.cso.webhook.basePath=http://test",
+                        "jag.ai.cso.webhook.returnPath=http://test")
                 .withUserConfiguration(WebHookProperties.class);
     }
 

@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * Represents the Diligen Configuration
  */
-@ConfigurationProperties(prefix = "jag.efiling.diligen")
+@ConfigurationProperties(prefix = "jag.ai.diligen")
 public class DiligenProperties {
 
     private String basePath;

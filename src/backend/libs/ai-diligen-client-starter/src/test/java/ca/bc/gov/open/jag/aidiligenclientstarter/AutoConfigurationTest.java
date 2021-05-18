@@ -27,10 +27,10 @@ public class AutoConfigurationTest {
         context = new ApplicationContextRunner()
                 .withUserConfiguration(AutoConfiguration.class)
                 .withPropertyValues(
-                        "jag.efiling.diligen.basePath=http://test.com " +
-                        "jag.efiling.diligen.usename=test " +
-                        "jag.efiling.diligen.password=test " +
-                        "jag.efiling.diligen.projectIdentifier=2")
+                        "jag.ai.diligen.basePath=http://test.com " +
+                        "jag.ai.diligen.usename=test " +
+                        "jag.ai.diligen.password=test " +
+                        "jag.ai.diligen.projectIdentifier=2")
                 .withUserConfiguration(DiligenProperties.class);
 
         context.run(it -> {
@@ -52,8 +52,8 @@ public class AutoConfigurationTest {
         context = new ApplicationContextRunner()
                 .withUserConfiguration(AutoConfiguration.class)
                 .withPropertyValues(
-                        "jag.efiling.diligen.basePath=http://test.com",
-                        "jag.efiling.diligen.health.enabled=true")
+                        "jag.ai.diligen.basePath=http://test.com",
+                        "jag.ai.diligen.health.enabled=true")
                 .withUserConfiguration(DiligenProperties.class);
 
         context.run(it -> {
