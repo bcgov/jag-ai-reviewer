@@ -41,7 +41,7 @@ jobs:
         run: docker tag ai-reviewer-api:builder docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-api:builder && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-api:builder
 
   ai-reviewer-mock-api-gcr:
-    name: Ai Reviewer Api GCR
+    name: Ai Reviewer Mock Api GCR
     runs-on: ubuntu-latest
     steps:
       - name: Pull Git repo.
@@ -152,7 +152,7 @@ jobs:
           wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt-get -qq -y install ./google-chrome-stable_current_amd64.deb
 
-          # We need to test if efiling-reviewer-api pod and service is running before we can proceed.  Using dockerize to proceed only after efiling-demo:8080 can be reached.
+          # We need to test if ai-reviewer-api pod and service is running before we can proceed.  Using dockerize to proceed only after efiling-demo:8080 can be reached.
           wget -q https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
           tar -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 

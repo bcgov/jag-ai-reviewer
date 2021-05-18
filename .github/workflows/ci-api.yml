@@ -1,10 +1,10 @@
-name: CI/CD for API - Checkout, Build, Test, and generate Coverage Report for efiling-reviewer-api
+name: CI/CD for API - Checkout, Build, Test, and generate Coverage Report for ai-reviewer-api
 
 on:
   pull_request:
     types: [opened, reopened, synchronize]
     paths:
-      - "src/backend/efiling-reviewer-api/**"
+      - "src/backend/**"
       - ".github/workflows/ci-api.yml"
 
   # Allows you to run this workflow manually from the Actions tab

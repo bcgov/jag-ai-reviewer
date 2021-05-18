@@ -14,17 +14,17 @@ services:
       - REACT_APP_AI_REVIEWER_API_URL=http://localhost:8090/
 
   #############################################################################################
-  ###                           Efiling reviewer backend app                                ###
+  ###                           AI Reviewer backend app                                ###
   #############################################################################################
-  efiling-reviewer-api:
-    container_name: efiling-reviewer-api
-    hostname: efiling-reviewer-api
+  ai-reviewer-api:
+    container_name: ai-reviewer-api
+    hostname: ai-reviewer-api
     build:
       context: ./src/backend
-      dockerfile: Dockerfile.efiling-reviewer-api
+      dockerfile: Dockerfile.ai-reviewer-api
       args:
         - SKIP_TESTS=true
-        - MVN_PROFILE=${MVN_PROFILE:-efiling-reviewer}
+        - MVN_PROFILE=${MVN_PROFILE:-ai-reviewer}
         - STARTERS_V=v0.1.8
     ports:
       - "8090:8080"
