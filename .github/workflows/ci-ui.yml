@@ -2,7 +2,7 @@ name: CI/CD for UI - Checkout, Build, Test, and generate Coverage Report for ai-
 
 on:
   pull_request:
-    types: [opened, reopened, edited, synchronize]
+    types: [opened, reopened, synchronize]
     paths:
       - "src/frontend/ai-reviewer-admin/**"
       - ".github/workflows/ci-ui.yml"
@@ -14,7 +14,7 @@ jobs:
       CC_TEST_REPORTER_ID: 7a64e3e316d790b81411add57c07e4f8d5988ad69e1ef510b1bfb314e5459b6b
       ACTION_DEBUG: true
 
-    name: Create, format and upload Javascript coverage artifact
+    name: CI/CD for UI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -95,7 +95,7 @@ jobs:
         run: |          
           pushd .
           cd ${{github.workspace}}/src/frontend/ai-reviewer-admin/
-          ${{github.workspace}}/cc-test-reporter format-coverage -t lcov -o coverage/ai-reviewer-codeclimate.json coverage/lcov.info
+          ${{github.workspace}}/cc-test-reporter format-coverage -t lcov -o coverage/codeclimate-ui.json coverage/lcov.info
           popd
          
       # List all formatted files in coverage directory
@@ -106,4 +106,4 @@ jobs:
 
       # Upload total coverage report to Code Climate
       - name: Upload coverage report to Code Climate
-        run: ./cc-test-reporter upload-coverage -d -i ${{github.workspace}}/src/frontend/ai-reviewer-admin/coverage/ai-reviewer-codeclimate.json
+        run: ./cc-test-reporter upload-coverage -d -i ${{github.workspace}}/src/frontend/ai-reviewer-admin/coverage/codeclimate-ui.json
