@@ -20,7 +20,7 @@ spring:
       username: ${AIR_SPRING_DATA_MONGODB_USERNAME:admin}
       password: ${AIR_SPRING_DATA_MONGODB_PASSWORD:admin}
 jag:
-  efiling:
+  ai:
     cso:
       webhook:
         basePath: ${CSO_WEBHOOK_ENDPOINT:http://ai-reviewer-mock-api:1337}
