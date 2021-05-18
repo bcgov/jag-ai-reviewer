@@ -16,10 +16,22 @@ config.properties
 .sts4-cache
 
 ### IntelliJ IDEA ###
+test/target
+test/.idea
+test/logs
+*.log
+test/test-output
+test/src/test/resources/application.properties
 .idea
 *.iws
 *.iml
 *.ipr
+test/target
+test/.idea
+*.log
+
+test/test-output
+.env
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,5 +43,5 @@ build/
 
 ### VS Code ###
 .vscode/
-
 .env
+

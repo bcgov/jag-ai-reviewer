@@ -19,8 +19,8 @@ import java.util.UUID;
 
 public class DocumentTypeConfigService {
 
-    @Value("${EFILING_REVIEWER_HOST:http://localhost:8090}")
-    private String eFilingReviewerHost;
+    @Value("${AI_REVIEWER_HOST:http://localhost:8090}")
+    private String aiReviewerHost;
 
     private final String COMMON_MESSAGE_FORMAT = "{0}/{1}";
 
@@ -35,7 +35,7 @@ public class DocumentTypeConfigService {
                 .body(resource);
         return request
                 .when()
-                .post(MessageFormat.format(COMMON_MESSAGE_FORMAT, eFilingReviewerHost, pathParam))
+                .post(MessageFormat.format(COMMON_MESSAGE_FORMAT, aiReviewerHost, pathParam))
                 .then()
                 .extract()
                 .response();
@@ -60,7 +60,7 @@ public class DocumentTypeConfigService {
                 .body(updatedJsonWithId);
         return request
                 .when()
-                .put(MessageFormat.format(COMMON_MESSAGE_FORMAT, eFilingReviewerHost, pathParam))
+                .put(MessageFormat.format(COMMON_MESSAGE_FORMAT, aiReviewerHost, pathParam))
                 .then()
                 .extract()
                 .response();
@@ -70,7 +70,7 @@ public class DocumentTypeConfigService {
     public Response getDocumentTypeConfiguration(String pathParam) {
 
         return RestAssured.when()
-                .get(MessageFormat.format(COMMON_MESSAGE_FORMAT, eFilingReviewerHost, pathParam))
+                .get(MessageFormat.format(COMMON_MESSAGE_FORMAT, aiReviewerHost, pathParam))
                 .then()
                 .extract()
                 .response();
@@ -79,7 +79,7 @@ public class DocumentTypeConfigService {
     public Response getRestrictedDocumentTypeByIdResponse(UUID id) {
 
         return RestAssured.when()
-                .get(MessageFormat.format("{0}/{1}/{2}", eFilingReviewerHost,
+                .get(MessageFormat.format("{0}/{1}/{2}", aiReviewerHost,
                         Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH, id))
                 .then()
                 .extract()
@@ -89,7 +89,7 @@ public class DocumentTypeConfigService {
     public Response deleteDocumentTypeByIdResponse(UUID id, String pathParam) {
 
         return RestAssured.when()
-                .delete(MessageFormat.format("{0}/{1}/{2}", eFilingReviewerHost,
+                .delete(MessageFormat.format("{0}/{1}/{2}", aiReviewerHost,
                         pathParam, id))
                 .then()
                 .extract()

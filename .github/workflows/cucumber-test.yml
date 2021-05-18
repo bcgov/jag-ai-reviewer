@@ -2,15 +2,15 @@ name: Cucumber Tests
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
   push:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
 
   ai-reviewer-api-gcr:
-    name: AI Reviewer Api GCR
+    name: Ai Reviewer Api GCR
     runs-on: ubuntu-latest
     steps:
       - name: Pull Git repo.
@@ -41,7 +41,7 @@ jobs:
         run: docker tag ai-reviewer-api:builder docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-api:builder && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-api:builder
 
   ai-reviewer-mock-api-gcr:
-    name: Ai Reviewer Api GCR
+    name: Ai Reviewer Mock Api GCR
     runs-on: ubuntu-latest
     steps:
       - name: Pull Git repo.

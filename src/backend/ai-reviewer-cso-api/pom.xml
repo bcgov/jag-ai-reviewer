@@ -182,7 +182,6 @@
 				<configuration>
 					<excludes>
 						<exclude>**/*/mappers/*Impl.java</exclude>
-						<exclude>**/*/efilingapi/api/**/*</exclude>
 						<exclude>org/openapitools/configuration/**/*</exclude>
 					</excludes>
 				</configuration>

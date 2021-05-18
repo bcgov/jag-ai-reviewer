@@ -3,6 +3,8 @@
 		"_postman_id": "1799fa58-a2af-4280-b399-24ee8f76a823",
 		"name": "jag-reviewer-api",
 		"description": "Efiling AI Reviewer api",
+		"description": "Ai Reviewer api",
+		"_postman_id": "45a8c23a-4549-4d89-9119-996ec7331777",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
