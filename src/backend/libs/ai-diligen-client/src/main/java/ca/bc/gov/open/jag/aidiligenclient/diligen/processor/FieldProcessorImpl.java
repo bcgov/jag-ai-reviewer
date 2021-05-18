@@ -73,8 +73,7 @@ public class FieldProcessorImpl implements FieldProcessor {
                 .collect(Collectors.joining(","))).orElse("");
 
     }
-
-
+    
     private List<String> extractArrayValue(PropertyConfig formDataProperty, List<Field> fields) {
 
         Optional<List<String>> values = fields.stream().filter(x -> x.getId().equals(formDataProperty.getFieldId())).findFirst().map(x -> x.getValues());
