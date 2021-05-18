@@ -12,7 +12,7 @@ on:
   
 jobs:
   spring-boot:
-    name: Create, format and upload Java coverage artifact
+    name: CI/CD for API 
     runs-on: ubuntu-latest
     env:
       FILE_COUNTER: 0
