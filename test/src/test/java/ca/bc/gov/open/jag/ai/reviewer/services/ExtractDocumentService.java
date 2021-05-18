@@ -12,8 +12,8 @@ import java.util.UUID;
 
 public class ExtractDocumentService {
 
-    @Value("${EFILING_REVIEWER_HOST:http://localhost:8090}")
-    private String eFilingReviewerHost;
+    @Value("${AI_REVIEWER_HOST:http://localhost:8090}")
+    private String aiReviewerHost;
 
     public Response extractDocumentsResponse(UUID transactionId, String documentType, MultiPartSpecification fileSpec) {
 
@@ -27,7 +27,7 @@ public class ExtractDocumentService {
 
         return request
                 .when()
-                .post(MessageFormat.format("{0}/{1}", eFilingReviewerHost, Keys.EXTRACT_DOCUMENTS_PATH))
+                .post(MessageFormat.format("{0}/{1}", aiReviewerHost, Keys.EXTRACT_DOCUMENTS_PATH))
                 .then()
                 .extract()
                 .response();
@@ -42,7 +42,7 @@ public class ExtractDocumentService {
 
         return request
                 .when()
-                .get(MessageFormat.format("{0}/{1}/{2}", eFilingReviewerHost, Keys.DOCUMENTS_PROCESSED_PATH, String.valueOf(documentId)))
+                .get(MessageFormat.format("{0}/{1}/{2}", aiReviewerHost, Keys.DOCUMENTS_PROCESSED_PATH, String.valueOf(documentId)))
                 .then()
                 .extract()
                 .response();

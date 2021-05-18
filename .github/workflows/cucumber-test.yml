@@ -2,15 +2,15 @@ name: Cucumber Tests
 
 on:
   pull_request:
-    branches: [master]
+    branches: [main]
   push:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
 
   ai-reviewer-api-gcr:
-    name: AI Reviewer Api GCR
+    name: Ai Reviewer Api GCR
     runs-on: ubuntu-latest
     steps:
       - name: Pull Git repo.
