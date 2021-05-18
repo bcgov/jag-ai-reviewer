@@ -83,7 +83,7 @@ public class ProjectController {
         String body = "{\n" +
                 "  \"data\": [\n" +
                 "    {\n" +
-                "      \"id\": 1234,\n" +
+                "      \"id\": 2390,\n" +
                 "      \"status\": \"PROCESSED\"\n" +
                 "    }\n" +
                 "  ],\n" +
@@ -93,7 +93,6 @@ public class ProjectController {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity(body, headers);
 
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
-        System.out.println(response.getStatusCode());
     }
 
 }

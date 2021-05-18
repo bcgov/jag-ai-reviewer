@@ -29,7 +29,7 @@ public class DocumentController {
 
     @GetMapping("/api/documents/{document_id}/projectFields")
     public ResponseEntity getFields(@PathVariable Integer document_id) throws IOException {
-        if (document_id.equals(1234)) {
+        if (document_id.equals(1234) || document_id.equals(2390)) {
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(getResourceFileAsString("data/valid.json"));
