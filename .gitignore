@@ -16,6 +16,12 @@ config.properties
 .sts4-cache
 
 ### IntelliJ IDEA ###
+test/target
+test/.idea
+test/logs
+*.log
+test/test-output
+test/src/test/resources/application.properties
 .idea
 *.iws
 *.iml
@@ -31,3 +37,4 @@ build/
 
 ### VS Code ###
 .vscode/
+.env

@@ -1,15 +1,20 @@
 package ca.bc.gov.open.jag.ai.reviewer.stepDefinitions;
 
+import ca.bc.gov.open.jag.ai.reviewer.TestConfig;
 import ca.bc.gov.open.jag.ai.reviewer.page.AiReviewerAdminClientPage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 
+@CucumberContextConfiguration
+@SpringBootTest(classes = TestConfig.class)
 public class ConfigureDocumentTypesInAiReviewerAdminSD {
 
     @Value("${AI_REVIEWER_ADMIN_CLIENT_URL:http://localhost:3002}")
