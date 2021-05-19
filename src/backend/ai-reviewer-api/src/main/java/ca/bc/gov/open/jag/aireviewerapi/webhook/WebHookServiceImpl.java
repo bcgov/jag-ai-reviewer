@@ -39,8 +39,8 @@ public class WebHookServiceImpl implements WebHookService{
         while(attempt < maxAttempt) {
             logger.info("Attempting to send {} try number {}", documentId, (attempt + 1));
             try {
+                
                 HttpHeaders headers = new HttpHeaders();
-                //Set hard coded value. Used in postman
                 headers.add("X-Transaction-Id", String.valueOf(transactionId));
 
                 HttpEntity<DocumentReady> entity = new HttpEntity<>(DocumentReady.builder()
