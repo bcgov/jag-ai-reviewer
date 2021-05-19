@@ -9,7 +9,7 @@
     <version>0.7.0-SNAPSHOT</version>
 
     <properties>
-        <default-package>ca.bc.gov.open.jag.efilingdiligenclient</default-package>
+        <default-package>ca.bc.gov.open.jag.aidiligenclient</default-package>
         <java.version>1.8</java.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
