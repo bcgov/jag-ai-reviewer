@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.efilingreviewerapi.config;
 
+import ca.bc.gov.open.jag.aireviewerapi.config.KeycloakSecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.keycloak.adapters.KeycloakConfigResolver;
