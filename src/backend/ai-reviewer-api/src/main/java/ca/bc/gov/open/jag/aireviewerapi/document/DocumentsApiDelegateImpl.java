@@ -206,7 +206,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
                 if (extractRequestCached.get().getExtract().getUseWebhook()) {
                     //Send document ready message
-                    webHookService.sendDocumentReady(documentEvent.getDocumentId(), extractRequest.getDocument().getType());
+                    webHookService.sendDocumentReady(documentEvent.getDocumentId(), extractRequest.getDocument().getType(), extractRequest.getExtract().getTransactionId());
                 }
             });
 
