@@ -91,7 +91,7 @@ public class ValidateExtractedDocumentTest {
 
         answers.add(defendantAnswerField);
 
-        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers);
+        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers, null);
 
         Assertions.assertEquals(0, actual.getValidationResults().size());
 
@@ -109,7 +109,7 @@ public class ValidateExtractedDocumentTest {
 
         answers.add(answerField);
 
-        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers);
+        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers, null);
 
         Assertions.assertEquals(ValidationTypes.DOCUMENT_TYPE, actual.getValidationResults().get(0).getType());
         Assertions.assertEquals("No Document Found", actual.getValidationResults().get(0).getActual());
@@ -129,7 +129,7 @@ public class ValidateExtractedDocumentTest {
 
         answers.add(answerField);
 
-        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers);
+        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers, null);
 
         Assertions.assertEquals(ValidationTypes.DOCUMENT_TYPE, actual.getValidationResults().get(0).getType());
         Assertions.assertEquals(NOT_RESPONSE_TO_CIVIL_CLAIM, actual.getValidationResults().get(0).getActual());
@@ -149,7 +149,7 @@ public class ValidateExtractedDocumentTest {
 
         answers.add(answerField);
 
-        Assertions.assertThrows(AiReviewerRestrictedDocumentException.class, () -> sut.validateExtractedDocument(BigDecimal.ONE, DOCUMENT_TYPE_CONFIGURATION, answers));
+        Assertions.assertThrows(AiReviewerRestrictedDocumentException.class, () -> sut.validateExtractedDocument(BigDecimal.ONE, DOCUMENT_TYPE_CONFIGURATION, answers, null));
 
     }
 
@@ -172,7 +172,7 @@ public class ValidateExtractedDocumentTest {
 
         answers.add(plaintiffAnswerField);
 
-        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers);
+        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers, null);
 
         Assertions.assertEquals(ValidationTypes.PARTIES_PLAINTIFF, actual.getValidationResults().get(0).getType());
         Assertions.assertEquals("2", actual.getValidationResults().get(0).getActual());
@@ -199,7 +199,7 @@ public class ValidateExtractedDocumentTest {
 
         answers.add(defendantAnswerField);
 
-        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers);
+        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers, null);
 
         Assertions.assertEquals(ValidationTypes.PARTIES_DEFENDANT, actual.getValidationResults().get(0).getType());
         Assertions.assertEquals("2", actual.getValidationResults().get(0).getActual());
