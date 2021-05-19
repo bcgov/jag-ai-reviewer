@@ -74,7 +74,6 @@ public class ValidateExtractedDocumentTest {
 
         List<DiligenAnswerField> answers= new ArrayList<>();
         DiligenAnswerField documentAnswerField = DiligenAnswerField.builder()
-                .id(Keys.ANSWER_DOCUMENT_TYPE_ID)
                 .values(Collections.singletonList(RESPONSE_TO_CIVIL_CLAIM))
                 .create();
 
@@ -113,7 +112,6 @@ public class ValidateExtractedDocumentTest {
 
         List<DiligenAnswerField> answers= new ArrayList<>();
         DiligenAnswerField answerField = DiligenAnswerField.builder()
-                .id(NOT_DOCUMENT_TYPE_ID)
                 .values(Collections.singletonList(THE_VALUE))
                 .create();
 
@@ -140,7 +138,6 @@ public class ValidateExtractedDocumentTest {
 
         List<DiligenAnswerField> answers= new ArrayList<>();
         DiligenAnswerField answerField = DiligenAnswerField.builder()
-                .id(Keys.ANSWER_DOCUMENT_TYPE_ID)
                 .values(Collections.singletonList(NOT_RESPONSE_TO_CIVIL_CLAIM))
                 .create();
 
@@ -167,7 +164,6 @@ public class ValidateExtractedDocumentTest {
 
         List<DiligenAnswerField> answers= new ArrayList<>();
         DiligenAnswerField answerField = DiligenAnswerField.builder()
-                .id(Keys.ANSWER_DOCUMENT_TYPE_ID)
                 .values(Collections.singletonList(RESTRICTED_DOCUMENT))
                 .create();
 
@@ -191,7 +187,6 @@ public class ValidateExtractedDocumentTest {
 
         List<DiligenAnswerField> answers= new ArrayList<>();
         DiligenAnswerField documentAnswerField = DiligenAnswerField.builder()
-                .id(Keys.ANSWER_DOCUMENT_TYPE_ID)
                 .values(Collections.singletonList(RESPONSE_TO_CIVIL_CLAIM))
                 .create();
 
@@ -225,7 +220,6 @@ public class ValidateExtractedDocumentTest {
 
         List<DiligenAnswerField> answers= new ArrayList<>();
         DiligenAnswerField documentAnswerField = DiligenAnswerField.builder()
-                .id(Keys.ANSWER_DOCUMENT_TYPE_ID)
                 .values(Collections.singletonList(RESPONSE_TO_CIVIL_CLAIM))
                 .create();
 
