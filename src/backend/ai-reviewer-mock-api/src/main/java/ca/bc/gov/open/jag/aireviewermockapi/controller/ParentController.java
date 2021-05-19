@@ -24,7 +24,7 @@ public class ParentController {
         this.restTemplate = restTemplate;
     }
 
-    @PostMapping("/parent/documentReady")
+    @PostMapping("/extract/notification")
     public ResponseEntity documentReady(@RequestBody DocumentReady documentReady) {
 
         logger.info("Document {} of type {} is ready", documentReady.getDocumentId(), documentReady.getDocumentType());
