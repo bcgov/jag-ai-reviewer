@@ -17,3 +17,12 @@ services:
   #############################################################################################
   ai-reviewer-admin:
     image: docker.pkg.github.com/bcgov/jag-file-submission/ai-reviewer-admin
+
+  #############################################################################################
+  ###                                        KEYCLOAK Config                                ###
+  #############################################################################################
+  keycloak-config:
+    build:
+      context: ./infrastructure/keycloak
+      args:
+        - KEYCLOAK_URL=http://keycloak:8080
