@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -44,7 +45,7 @@ public class WebHookServiceImplTest {
 
         Mockito.when(restTemplateMock.postForEntity(any(String.class), any(), any(Class.class))).thenReturn(ResponseEntity.ok("success"));
 
-        Assertions.assertDoesNotThrow(() -> sut.sendDocumentReady(BigDecimal.ONE, "DOCUMENT TYPE"));
+        Assertions.assertDoesNotThrow(() -> sut.sendDocumentReady(BigDecimal.ONE, "DOCUMENT TYPE", UUID.randomUUID()));
 
     }
 
@@ -54,7 +55,7 @@ public class WebHookServiceImplTest {
 
         Mockito.when(restTemplateMock.postForEntity(any(String.class), any(), any(Class.class))).thenReturn(ResponseEntity.notFound().build());
 
-        Assertions.assertDoesNotThrow(() -> sut.sendDocumentReady(BigDecimal.ONE, "DOCUMENT TYPE"));
+        Assertions.assertDoesNotThrow(() -> sut.sendDocumentReady(BigDecimal.ONE, "DOCUMENT TYPE", UUID.randomUUID()));
 
     }
 
