@@ -1,0 +1,7 @@
+ai-reviewer-api/target
+ai-reviewer-cso-api/target
+ai-reviewer-mock-api/target
+libs/ai-bom/target
+libs/ai-diligen-client/target
+libs/ai-diligen-client-starter/target
+libs/ai-mail-it/target
