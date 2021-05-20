@@ -935,7 +935,7 @@
 								},
 								{
 									"key": "client_secret",
-									"value": "46a24414-6bf8-4f87-8e32-479c1eb8630b",
+									"value": "{{client-secret}}",
 									"type": "text"
 								}
 							]
