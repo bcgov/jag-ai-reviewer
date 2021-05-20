@@ -188,12 +188,14 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
                 if(config == null)
                     throw new AiReviewerDocumentConfigException("document configuration not found");
 
+                ObjectNode formData = buildFormData(response.getProjectFieldsResponse(), config);
+
                 ExtractResponse extractedResponse = ExtractResponse
                         .builder()
                         .document(extractRequestCached.get().getDocument())
-                        .formData(buildFormData(response.getProjectFieldsResponse(), config))
+                        .formData(formData)
                         .extract(extractRequestCached.get().getExtract())
-                        .documentValidation(documentValidator.validateExtractedDocument(documentEvent.getDocumentId(), config, response.getAnswers()))
+                        .documentValidation(documentValidator.validateExtractedDocument(documentEvent.getDocumentId(), config, response.getAnswers(), formData))
                         .create();
 
                 extractStore.put(documentEvent.getDocumentId(), extractedResponse);
