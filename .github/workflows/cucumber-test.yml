@@ -99,7 +99,7 @@ jobs:
         run: docker tag ai-reviewer-admin:builder docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-admin:builder && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-admin:builder
 
   ai-keycloak-config-gcr:
-    name: ai-Keycloack Config GCR
+    name: Ai-Keycloack Config GCR
     runs-on: ubuntu-latest
     steps:
       - name: Pull Git repo.
@@ -113,17 +113,17 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pull ai-reviewer-api-builder
-        run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/keycloak-config:demo || true
+        run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/ai-keycloak-config:demo || true
 
       - name: Pull ai-reviewer-api-builder
         run: docker build ./infrastructure/keycloak
-          -t keycloak-config:demo
+          -t ai-keycloak-config:demo
           --build-arg KEYCLOAK_URL=http://keycloak:8080
-          --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/keycloak-config:demo
+          --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/ai-keycloak-config:demo
 
-      - name: tag & push keycloak-config to git container registry
+      - name: tag & push ai-keycloak-config to git container registry
         if: github.event.pull_request.head.repo.full_name == github.repository
-        run: docker tag keycloak-config:demo docker.pkg.github.com/$GITHUB_REPOSITORY/keycloak-config:demo && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/keycloak-config:demo
+        run: docker tag ai-keycloak-config:demo docker.pkg.github.com/$GITHUB_REPOSITORY/ai-keycloak-config:demo && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/ai-keycloak-config:demo
 
   cucumber-tests:
     name: Runs cucumber-tests
