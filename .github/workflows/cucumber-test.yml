@@ -99,7 +99,7 @@ jobs:
         run: docker tag ai-reviewer-admin:builder docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-admin:builder && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-admin:builder
 
   ai-keycloak-config-gcr:
-    name: Keycloack Config GCR
+    name: ai-Keycloack Config GCR
     runs-on: ubuntu-latest
     steps:
       - name: Pull Git repo.
