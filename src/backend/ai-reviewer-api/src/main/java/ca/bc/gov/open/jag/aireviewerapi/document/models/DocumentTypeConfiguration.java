@@ -1,16 +1,14 @@
 package ca.bc.gov.open.jag.aireviewerapi.document.models;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.UUID;
-
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DocumentConfig;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.PropertyConfig;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DocumentConfig;
-import ca.bc.gov.open.jag.aidiligenclient.diligen.model.PropertyConfig;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class DocumentTypeConfiguration extends Auditable {
 

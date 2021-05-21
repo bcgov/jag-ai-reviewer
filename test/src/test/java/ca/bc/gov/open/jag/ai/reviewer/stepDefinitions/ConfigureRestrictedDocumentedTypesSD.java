@@ -1,7 +1,9 @@
 package ca.bc.gov.open.jag.ai.reviewer.stepDefinitions;
 
 import ca.bc.gov.open.jag.ai.reviewer.Keys;
+import ca.bc.gov.open.jag.ai.reviewer.models.UserIdentity;
 import ca.bc.gov.open.jag.ai.reviewer.services.DocumentTypeConfigService;
+import ca.bc.gov.open.jag.ai.reviewer.services.OauthService;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -19,8 +21,10 @@ import java.util.UUID;
 
 public class ConfigureRestrictedDocumentedTypesSD {
 
+    private final OauthService oauthService;
     private final DocumentTypeConfigService documentTypeConfigService;
 
+    private UserIdentity actualUserIdentity;
     private Response actualCreateRestrictedDocumentConfigResponse;
     private Response actualUpdatedRestrictedDocumentConfigResponse;
     private Response actualDeleteRestrictedDocumentTypeByIdResponse;
@@ -30,8 +34,8 @@ public class ConfigureRestrictedDocumentedTypesSD {
 
     private final Logger logger = LoggerFactory.getLogger(ConfigureRestrictedDocumentedTypesSD.class);
 
-    public ConfigureRestrictedDocumentedTypesSD(DocumentTypeConfigService documentTypeConfigService) {
-
+    public ConfigureRestrictedDocumentedTypesSD(OauthService oauthService, DocumentTypeConfigService documentTypeConfigService) {
+        this.oauthService = oauthService;
         this.documentTypeConfigService = documentTypeConfigService;
     }
 
@@ -39,7 +43,9 @@ public class ConfigureRestrictedDocumentedTypesSD {
     public void useAddsANewRestrictedDocumentType() throws IOException {
         logger.info("Creating a new restricted document type configuration");
 
-        actualCreateRestrictedDocumentConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(Keys.RESTRICTED_DOCUMENT_TYPE_PAYLOAD, Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
+        actualUserIdentity = oauthService.getUserIdentity();
+
+        actualCreateRestrictedDocumentConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(actualUserIdentity.getAccessToken(), Keys.RESTRICTED_DOCUMENT_TYPE_PAYLOAD, Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         logger.info("Api response status code: {}", actualCreateRestrictedDocumentConfigResponse.getStatusCode());
 
@@ -68,8 +74,10 @@ public class ConfigureRestrictedDocumentedTypesSD {
     public void userUpdatesAnExistingRestrictedDocumentType() throws IOException, JSONException {
         logger.info("Updating a restricted document type configuration");
 
+        actualUserIdentity = oauthService.getUserIdentity();
+
         actualUpdatedRestrictedDocumentConfigResponse = documentTypeConfigService
-                .updateDocumentTypeConfigResponse(getDocumentId().toString(),
+                .updateDocumentTypeConfigResponse(actualUserIdentity.getAccessToken(), getDocumentId().toString(),
                         Keys.RESTRICTED_DOCUMENT_TYPE_UPDATE_PAYLOAD,
                         Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
 
@@ -88,7 +96,7 @@ public class ConfigureRestrictedDocumentedTypesSD {
     public void updatedDocumentDetailsCanBeRetrievedById() {
         logger.info("Requesting to get restricted doc type by id");
 
-        Response actualGetRestrictedDocumentTypeByIdResponse = documentTypeConfigService.getRestrictedDocumentTypeByIdResponse(getDocumentId());
+        Response actualGetRestrictedDocumentTypeByIdResponse = documentTypeConfigService.getRestrictedDocumentTypeByIdResponse(actualUserIdentity.getAccessToken(), getDocumentId());
 
         JsonPath actualUpdatedConfigResponseJsonPath = new JsonPath(actualGetRestrictedDocumentTypeByIdResponse.asString());
 
@@ -104,8 +112,10 @@ public class ConfigureRestrictedDocumentedTypesSD {
     public void userDeletesAnExistingRestrictedDocumentTypeUsingId() {
         logger.info("Requesting to delete the document type by id");
 
-        actualDeleteRestrictedDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(getDocumentId(),
-                                                            Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
+        actualUserIdentity = oauthService.getUserIdentity();
+
+        actualDeleteRestrictedDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(actualUserIdentity.getAccessToken(), getDocumentId(),
+                Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
     }
 
     @Then("requested document is deleted")
@@ -118,12 +128,14 @@ public class ConfigureRestrictedDocumentedTypesSD {
     public void userRequestsToGetAllExistingRestrictedDocumentTypes() throws IOException {
         logger.info("Creating a first restricted document type configuration");
 
-        actualCreateRestrictedDocumentConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(Keys.RESTRICTED_DOCUMENT_TYPE_PAYLOAD, Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
+        actualUserIdentity = oauthService.getUserIdentity();
+
+        actualCreateRestrictedDocumentConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(actualUserIdentity.getAccessToken(), Keys.RESTRICTED_DOCUMENT_TYPE_PAYLOAD, Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         Assert.assertEquals(HttpStatus.SC_OK, actualCreateRestrictedDocumentConfigResponse.getStatusCode());
 
         logger.info("Creating a second restricted document type configuration");
-        Response actualCreateSecondRestrictedDocumentConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(Keys.ADDITIONAL_RESTRICTED_DOCUMENT_TYPE_PAYLOAD, Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
+        Response actualCreateSecondRestrictedDocumentConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(actualUserIdentity.getAccessToken(), Keys.ADDITIONAL_RESTRICTED_DOCUMENT_TYPE_PAYLOAD, Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         Assert.assertEquals(HttpStatus.SC_OK, actualCreateSecondRestrictedDocumentConfigResponse.getStatusCode());
     }
@@ -132,7 +144,7 @@ public class ConfigureRestrictedDocumentedTypesSD {
     public void allRestrictedDocumentTypesDetailsCanBeRetrieved() {
         logger.info("Requesting to get all document types");
 
-        actualGetAllRestrictedDocumentTypeResponse = documentTypeConfigService.getDocumentTypeConfiguration(Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
+        actualGetAllRestrictedDocumentTypeResponse = documentTypeConfigService.getDocumentTypeConfiguration(actualUserIdentity.getAccessToken(), Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
         Assert.assertEquals(HttpStatus.SC_OK, actualGetAllRestrictedDocumentTypeResponse.getStatusCode());
 
         actualGetAllDocTypeJsonPath = new JsonPath(actualGetAllRestrictedDocumentTypeResponse.asString());
@@ -151,9 +163,9 @@ public class ConfigureRestrictedDocumentedTypesSD {
         logger.info("Requesting to delete the first document type by id");
 
         actualDeleteRestrictedDocumentTypeByIdResponse = documentTypeConfigService
-                .deleteDocumentTypeByIdResponse(UUID.fromString(actualGetAllDocTypeJsonPath.get("id[0]")), Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
+                .deleteDocumentTypeByIdResponse(actualUserIdentity.getAccessToken(), UUID.fromString(actualGetAllDocTypeJsonPath.get("id[0]")), Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
 
-        actualGetAllRestrictedDocumentTypeResponse = documentTypeConfigService.getDocumentTypeConfiguration(Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
+        actualGetAllRestrictedDocumentTypeResponse = documentTypeConfigService.getDocumentTypeConfiguration(actualUserIdentity.getAccessToken(), Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
         Assert.assertEquals(HttpStatus.SC_OK, actualGetAllRestrictedDocumentTypeResponse.getStatusCode());
 
         actualGetAllDocTypeJsonPath = new JsonPath(actualGetAllRestrictedDocumentTypeResponse.asString());
@@ -164,17 +176,17 @@ public class ConfigureRestrictedDocumentedTypesSD {
         logger.info("Requesting to delete the second document type by id");
 
         actualDeleteRestrictedDocumentTypeByIdResponse = documentTypeConfigService
-                .deleteDocumentTypeByIdResponse(UUID.fromString(actualGetAllDocTypeJsonPath.get(Keys.ID_INDEX_FROM_RESPONSE)), Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
+                .deleteDocumentTypeByIdResponse(actualUserIdentity.getAccessToken(), UUID.fromString(actualGetAllDocTypeJsonPath.get(Keys.ID_INDEX_FROM_RESPONSE)), Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
         Assert.assertEquals(HttpStatus.SC_NO_CONTENT, actualDeleteRestrictedDocumentTypeByIdResponse.getStatusCode());
 
-        actualGetAllRestrictedDocumentTypeResponse = documentTypeConfigService.getDocumentTypeConfiguration(Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
+        actualGetAllRestrictedDocumentTypeResponse = documentTypeConfigService.getDocumentTypeConfiguration(actualUserIdentity.getAccessToken(), Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH);
         Assert.assertEquals(HttpStatus.SC_OK, actualGetAllRestrictedDocumentTypeResponse.getStatusCode());
     }
 
     private UUID getDocumentId() {
         logger.info("Requesting to get all document types");
 
-        actualGetAllDocTypeJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
+        actualGetAllDocTypeJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(actualUserIdentity.getAccessToken(), Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
         return UUID.fromString(actualGetAllDocTypeJsonPath.get(Keys.ID_INDEX_FROM_RESPONSE));
     }
 }

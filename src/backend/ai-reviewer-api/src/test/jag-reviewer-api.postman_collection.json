@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "45a8c23a-4549-4d89-9119-996ec7331777",
-		"name": "jag-reviewer-api Copy",
+		"_postman_id": "da892582-86c5-4bef-a89a-9dd0c634926a",
+		"name": "jag-reviewer-api",
 		"description": "Ai Reviewer api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,31 @@
 			"item": [
 				{
 					"name": "Create DocumentTypeConfiguration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get id\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"id\", jsonData.id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -34,7 +58,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"documentType\": \"RCC\",\r\n        \"documentConfig\": {\r\n            \"properties\": {\r\n                \"court\": {\r\n                    \"type\": \"object\",\r\n                    \"fieldId\": null,\r\n                    \"properties\": {\r\n                        \"nested\": {\r\n                            \"type\": \"object\",\r\n                            \"properties\": {\r\n                                \"myLocation\": {\r\n                                    \"type\": \"string\",\r\n                                    \"fieldId\": 230,\r\n                                    \"properties\": {}\r\n                                }\r\n                            }\r\n                        },\r\n                        \"courtLocation\": {\r\n                            \"type\": \"string\",\r\n                            \"fieldId\": 230,\r\n                            \"properties\": {}\r\n                        },\r\n                        \"courtLevel\": {\r\n                            \"type\": \"string\",\r\n                            \"fieldId\": 229,\r\n                            \"properties\": {}\r\n                        },\r\n                        \"courtClass\": {\r\n                            \"type\": \"string\",\r\n                            \"fieldId\": 230,\r\n                            \"properties\": {}\r\n                        },\r\n                        \"division\": {\r\n                            \"type\": \"string\",\r\n                            \"fieldId\": 210,\r\n                            \"properties\": {}\r\n                        },\r\n                        \"fileNumber\": {\r\n                            \"type\": \"string\",\r\n                            \"fieldId\": 228,\r\n                            \"properties\": {}\r\n                        },\r\n                        \"participatingClass\": {\r\n                            \"type\": \"string\",\r\n                            \"fieldId\": 210,\r\n                            \"properties\": {}\r\n                        },\r\n                        \"agencyId\": {\r\n                            \"type\": \"string\",\r\n                            \"fieldId\": 210,\r\n                            \"properties\": {}\r\n                        },\r\n                        \"locationDescription\": {\r\n                            \"type\": \"string\",\r\n                            \"fieldId\": 210,\r\n                            \"properties\": {}\r\n                        },\r\n                        \"levelDescription\": {\r\n                            \"type\": \"string\",\r\n                            \"fieldId\": 210,\r\n                            \"properties\": {}\r\n                        },\r\n                        \"classDescription\": {\r\n                            \"type\": \"string\",\r\n                            \"fieldId\": 210,\r\n                            \"properties\": {}\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }",
+							"raw": "{\r\n    \"documentType\": {\r\n        \"type\": \"DEVRCC\",\r\n        \"description\": \"Response to Civil Claim\"\r\n    },\r\n    \"projectId\": 21,\r\n    \"documentConfig\": {\r\n        \"properties\": {\r\n            \"court\": {\r\n                \"type\": \"object\",\r\n                \"fieldId\": null,\r\n                \"properties\": {\r\n                    \"nested\": {\r\n                        \"type\": \"object\",\r\n                        \"properties\": {\r\n                            \"myLocation\": {\r\n                                \"type\": \"string\",\r\n                                \"fieldId\": 230,\r\n                                \"properties\": {}\r\n                            }\r\n                        }\r\n                    },\r\n                    \"courtLocation\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 230,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"courtLevel\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 229,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"courtClass\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 230,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"division\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"fileNumber\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 228,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"participatingClass\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"agencyId\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"locationDescription\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"levelDescription\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"classDescription\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -155,6 +179,16 @@
 				{
 					"name": "Get DocumentConfiguration",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -176,7 +210,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/documentTypeConfigurations?documentType=RCC",
+							"raw": "{{baseUrl}}/documentTypeConfigurations?documentType=DEVRCC",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -186,7 +220,7 @@
 							"query": [
 								{
 									"key": "documentType",
-									"value": "RCC"
+									"value": "DEVRCC"
 								}
 							]
 						}
@@ -294,12 +328,33 @@
 				},
 				{
 					"name": "Update DocumentTypeConfiguration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"id\": \"enter an ID\",\r\n    \"documentType\": {\r\n        \"type\": \"TEST\",\r\n        \"description\": \"TEST\"\r\n    },\r\n    \"projectId\": 2,\r\n    \"documentConfig\": {\r\n        \"properties\": {\r\n            \"document\": {\r\n                \"type\": \"object\",\r\n                \"fieldId\": null,\r\n                \"properties\": {\r\n                    \"documentType\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 232,\r\n                        \"properties\": {}\r\n                    }\r\n                }\r\n            },\r\n            \"court\": {\r\n                \"type\": \"object\",\r\n                \"fieldId\": null,\r\n                \"properties\": {\r\n                    \"location\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 230,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"level\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 229,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"class\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"division\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"fileNumber\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 228,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"participatingClass\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"agencyId\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"locationDescription\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"levelDescription\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"classDescription\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    }\r\n                }\r\n            },\r\n            \"parties\": {\r\n                \"type\": \"object\",\r\n                \"fieldId\": null,\r\n                \"properties\": {\r\n                    \"defedants\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 319,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"plaintiffs\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 320,\r\n                        \"properties\": {}\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n}",
+							"raw": " {\r\n    \"id\": \"{{id}}\",\r\n    \"documentType\": {\r\n        \"type\": \"DEVRCC\",\r\n        \"description\": \"TEST\"\r\n    },\r\n    \"projectId\": 2,\r\n    \"documentConfig\": {\r\n        \"properties\": {\r\n            \"document\": {\r\n                \"type\": \"object\",\r\n                \"fieldId\": null,\r\n                \"properties\": {\r\n                    \"documentType\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 232,\r\n                        \"properties\": {}\r\n                    }\r\n                }\r\n            },\r\n            \"court\": {\r\n                \"type\": \"object\",\r\n                \"fieldId\": null,\r\n                \"properties\": {\r\n                    \"location\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 230,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"level\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 229,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"class\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"division\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"fileNumber\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 228,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"participatingClass\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"agencyId\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"locationDescription\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"levelDescription\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"classDescription\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 210,\r\n                        \"properties\": {}\r\n                    }\r\n                }\r\n            },\r\n            \"parties\": {\r\n                \"type\": \"object\",\r\n                \"fieldId\": null,\r\n                \"properties\": {\r\n                    \"defedants\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 319,\r\n                        \"properties\": {}\r\n                    },\r\n                    \"plaintiffs\": {\r\n                        \"type\": \"string\",\r\n                        \"fieldId\": 320,\r\n                        \"properties\": {}\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -321,6 +376,16 @@
 				{
 					"name": "Delete DocumentTypeConfiguration",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -342,6 +407,26 @@
 					},
 					"response": []
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -349,7 +434,31 @@
 			"item": [
 				{
 					"name": "Extract document form data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get documentId\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"documentId\", jsonData.document.documentId);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -360,7 +469,7 @@
 							{
 								"description": "(Required) A document type",
 								"key": "X-Document-Type",
-								"value": "RCC"
+								"value": "DEVRCC"
 							},
 							{
 								"key": "Content-Type",
@@ -489,6 +598,26 @@
 						}
 					]
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -497,6 +626,16 @@
 				{
 					"name": "Get All",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -514,16 +653,26 @@
 				{
 					"name": "Get One",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/restrictedDocumentTypes/810edbd7-6fc1-483e-a2ff-c86ed677c6f2",
+							"raw": "{{baseUrl}}/restrictedDocumentTypes/{{id}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"restrictedDocumentTypes",
-								"810edbd7-6fc1-483e-a2ff-c86ed677c6f2"
+								"{{id}}"
 							]
 						}
 					},
@@ -531,7 +680,31 @@
 				},
 				{
 					"name": "Add",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get id\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"id\", jsonData.id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -558,11 +731,21 @@
 				{
 					"name": "Update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"810edbd7-6fc1-483e-a2ff-c86ed677c6f2\",\r\n  \"documentType\": {\r\n    \"type\": \"TESTT\",\r\n    \"description\": \"Test update\"\r\n  }\r\n}",
+							"raw": "{\r\n  \"id\": \"{{id}}\",\r\n  \"documentType\": {\r\n    \"type\": \"TESTT\",\r\n    \"description\": \"Test update\"\r\n  }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -584,6 +767,16 @@
 				{
 					"name": "Delete",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -607,6 +800,16 @@
 				{
 					"name": "Get Processed Document",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -616,18 +819,38 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/documents/processed/1234",
+							"raw": "{{baseUrl}}/documents/processed/{{documentId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"documents",
 								"processed",
-								"1234"
+								"{{documentId}}"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -637,11 +860,14 @@
 				{
 					"name": "Document Status Update",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"data\": [\r\n    {\r\n      \"id\": 2390,\r\n      \"status\": \"PROCESSED\"\r\n    }\r\n  ],\r\n  \"event\": \"FILE_PROCESSED\"\r\n}",
+							"raw": "{\r\n  \"data\": [\r\n    {\r\n      \"id\": \"{{documentId}}\",\r\n      \"status\": \"PROCESSED\"\r\n    }\r\n  ],\r\n  \"event\": \"FILE_PROCESSED\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -656,6 +882,99 @@
 							"path": [
 								"documents",
 								"webhookEvent"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ai-Reviewer Clients",
+			"item": [
+				{
+					"name": "1 - Get a JWT Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get jwt\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.environment.set(\"jwt\", jsonData.access_token);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Cookie",
+								"value": "8a49b93d4f41531bc1d1ef85f2b65254=2fb8f4c2fe6843d186204f21cc45dd4b"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "ai-reviewer-developer",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client-secret}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keycloak-environment}}/auth/realms/{{keycloak-realm}}/protocol/openid-connect/token",
+							"host": [
+								"{{keycloak-environment}}"
+							],
+							"path": [
+								"auth",
+								"realms",
+								"{{keycloak-realm}}",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ai Reviewer Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8090/actuator/health",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"actuator",
+								"health"
 							]
 						}
 					},

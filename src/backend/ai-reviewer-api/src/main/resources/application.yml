@@ -44,3 +44,13 @@ mailsend:
 erroremail:
   toEmail: ${ERROR_TO_ADDRESS:test@somewhere.co}
   fromEmail: ${ERROR_FROM_ADDRESS:test@somewhere.co}
+
+keycloak:
+  auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL}
+  realm: ${KEYCLOAK_REALM}
+  resource: ${KEYCLOAK_RESOURCE:ai-reviewer-api}
+  credentials:
+    secret: ${KEYCLOAK_CREDENTIALS_SECRET}
+  use-resource-role-mappings: true
+  bearer-only: true
+  ssl-required: ${KEYCLOAK_SSL_REQUIRED:external}

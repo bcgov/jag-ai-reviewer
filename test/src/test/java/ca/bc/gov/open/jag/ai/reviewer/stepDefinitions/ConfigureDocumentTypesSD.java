@@ -1,7 +1,9 @@
 package ca.bc.gov.open.jag.ai.reviewer.stepDefinitions;
 
 import ca.bc.gov.open.jag.ai.reviewer.Keys;
+import ca.bc.gov.open.jag.ai.reviewer.models.UserIdentity;
 import ca.bc.gov.open.jag.ai.reviewer.services.DocumentTypeConfigService;
+import ca.bc.gov.open.jag.ai.reviewer.services.OauthService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,18 +22,19 @@ import static org.junit.Assert.assertEquals;
 
 public class ConfigureDocumentTypesSD {
 
+    private final OauthService oauthService;
     private final DocumentTypeConfigService documentTypeConfigService;
 
+    private UserIdentity actualUserIdentity;
     private Response actualCreatedConfigResponse;
     private Response actualUpdatedConfigResponse;
     private Response actualDeleteDocumentTypeByIdResponse;
-
     private JsonPath actualConfigResponseJsonPath;
 
     private final Logger logger = LoggerFactory.getLogger(ConfigureDocumentTypesSD.class);
 
-    public ConfigureDocumentTypesSD(DocumentTypeConfigService documentTypeConfigService) {
-
+    public ConfigureDocumentTypesSD(OauthService oauthService, DocumentTypeConfigService documentTypeConfigService) {
+        this.oauthService = oauthService;
         this.documentTypeConfigService = documentTypeConfigService;
     }
 
@@ -39,20 +42,22 @@ public class ConfigureDocumentTypesSD {
     public void configureADocumentType() throws IOException {
         logger.info("Creating a new document type configuration");
 
-        actualCreatedConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(Keys.DOCUMENT_TYPE_CONFIG_PAYLOAD, Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
+        actualUserIdentity = oauthService.getUserIdentity();
+
+        actualCreatedConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIG_PAYLOAD, Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         if (actualCreatedConfigResponse.getStatusCode() == HttpStatus.SC_BAD_REQUEST) {
             logger.info("Requesting to delete the document type by id");
 
-            actualConfigResponseJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(Keys.DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
+            actualConfigResponseJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
             UUID getDocTypeId = UUID.fromString(actualConfigResponseJsonPath.get(Keys.ID_INDEX_FROM_RESPONSE));
 
-            actualDeleteDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(getDocTypeId,
+            actualDeleteDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(actualUserIdentity.getAccessToken(), getDocTypeId,
                     Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
 
             assertEquals(HttpStatus.SC_NO_CONTENT, actualDeleteDocumentTypeByIdResponse.getStatusCode());
 
-            actualCreatedConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(Keys.DOCUMENT_TYPE_CONFIG_PAYLOAD, Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
+            actualCreatedConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIG_PAYLOAD, Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
         }
 
         logger.info("Api response status code: {}", actualCreatedConfigResponse.getStatusCode());
@@ -69,7 +74,7 @@ public class ConfigureDocumentTypesSD {
     public void documentTypeConfigCanBeRetrieved() {
         logger.info("Get created document type configuration");
 
-        actualCreatedConfigResponse = documentTypeConfigService.getDocumentTypeConfiguration(Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
+        actualCreatedConfigResponse = documentTypeConfigService.getDocumentTypeConfiguration(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         logger.info("Api response: {}", actualCreatedConfigResponse.asString());
 
@@ -82,8 +87,10 @@ public class ConfigureDocumentTypesSD {
     public void userUpdatesAnExistingConfiguredDocumentType() throws IOException, JSONException {
         logger.info("Updating a document type configuration");
 
+        actualUserIdentity = oauthService.getUserIdentity();
+
         actualUpdatedConfigResponse = documentTypeConfigService
-                .updateDocumentTypeConfigResponse(getActualDocumentId().toString(),
+                .updateDocumentTypeConfigResponse(actualUserIdentity.getAccessToken(), getActualDocumentId().toString(),
                         Keys.DOCUMENT_TYPE_CONFIG_UPDATE_PAYLOAD,
                         Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
 
@@ -101,7 +108,9 @@ public class ConfigureDocumentTypesSD {
     public void updatedDocumentTypeConfigurationCanBeRetrieved() {
         logger.info("Requesting to get updated doc type");
 
-        Response actualGetAllDocumentTypesResponse = documentTypeConfigService.getDocumentTypeConfiguration(Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
+        actualUserIdentity = oauthService.getUserIdentity();
+
+        Response actualGetAllDocumentTypesResponse = documentTypeConfigService.getDocumentTypeConfiguration(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         JsonPath actualUpdatedConfigResponseJsonPath = new JsonPath(actualGetAllDocumentTypesResponse.asString());
 
@@ -118,7 +127,9 @@ public class ConfigureDocumentTypesSD {
     public void userDeletesAnExistingConfiguredDocumentTypeUsingId() {
         logger.info("Requesting to delete the document type by id");
 
-        actualDeleteDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(getActualDocumentId(),
+        actualUserIdentity = oauthService.getUserIdentity();
+
+        actualDeleteDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(actualUserIdentity.getAccessToken(), getActualDocumentId(),
                 Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
     }
 
@@ -131,7 +142,7 @@ public class ConfigureDocumentTypesSD {
     private UUID getActualDocumentId() {
         logger.info("Requesting to get all document types");
 
-        actualConfigResponseJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(Keys.DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
+        actualConfigResponseJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
         return UUID.fromString(actualConfigResponseJsonPath.get(Keys.ID_INDEX_FROM_RESPONSE));
     }
 }
