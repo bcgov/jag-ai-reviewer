@@ -14,13 +14,13 @@ public class OauthService {
     @Value("${KEYCLOAK_HOST:http://localhost:8081}")
     private String keycloakHost;
 
-    @Value("${KEYCLOAK_REALM}")
+    @Value("${KEYCLOAK_REALM:ai-reviewer}")
     private String keycloakRealm;
 
-    @Value("${KEYCLOAK_CLIENT_ID}")
+    @Value("${KEYCLOAK_CLIENT_ID:ai-reviewer-developer}")
     private String keycloakClientId;
 
-    @Value("${KEYCLOAK_CREDENTIALS_SECRET}")
+    @Value("${KEYCLOAK_CREDENTIALS_SECRET:ae18ccc9-06c2-4227-8c64-3d06d95511d5}")
     private String keycloakCredentialsSecret;
 
     private final Logger logger = LoggerFactory.getLogger(OauthService.class);
