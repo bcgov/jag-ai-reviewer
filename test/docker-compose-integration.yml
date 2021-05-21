@@ -22,5 +22,5 @@ services:
   ###                                        KEYCLOAK Config                                ###
   #############################################################################################
   keycloak-config:
-    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/keycloak-config:demo
+    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/ai-keycloak-config:demo
 
