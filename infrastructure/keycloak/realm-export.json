@@ -839,7 +839,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "ae18ccc9-06c2-4227-8c64-3d06d95511d6",
       "redirectUris": [
         "http://localhost:8090/*"
       ],

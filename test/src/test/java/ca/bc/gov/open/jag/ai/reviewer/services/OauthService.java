@@ -20,7 +20,7 @@ public class OauthService {
     @Value("${KEYCLOAK_CLIENT_ID:ai-reviewer-developer}")
     private String keycloakClientId;
 
-    @Value("${KEYCLOAK_CREDENTIALS_SECRET:ae18ccc9-06c2-4227-8c64-3d06d95511d5}")
+    @Value("${KEYCLOAK_CREDENTIALS_SECRET:ae18ccc9-06c2-4227-8c64-3d06d95511d6}")
     private String keycloakCredentialsSecret;
 
     private final Logger logger = LoggerFactory.getLogger(OauthService.class);
