@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.ai.reviewer.config.BrowserScopePostProcessor;
 import ca.bc.gov.open.jag.ai.reviewer.page.AiReviewerAdminClientPage;
 import ca.bc.gov.open.jag.ai.reviewer.services.DocumentTypeConfigService;
 import ca.bc.gov.open.jag.ai.reviewer.services.ExtractDocumentService;
+import ca.bc.gov.open.jag.ai.reviewer.services.OauthService;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,6 +21,11 @@ public class TestConfig {
 
     @Value("${default.timeout:30}")
     private int timeout;
+
+    @Bean
+    public OauthService oauthService() {
+        return new OauthService();
+    }
 
     @Bean
     public ExtractDocumentService extractDocumentService() {

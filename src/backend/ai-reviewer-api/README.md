@@ -45,6 +45,11 @@ You should use environment variables to configure the jag ai-reviewer-api
 | REDIS_PASSWORD               					  | String  | Redis password                               | defaulted to `admin`           |
 | CSO_WEBHOOK_ENDPOINT               			  | String  | CSO notification endpoint                    | defaulted to  mock service     |
 | CSO_WEBHOOK_RETURN_ENDPOINT    				  | String  | Endpoint for cso to return                   | defaulted to  mock service     |
+| KEYCLOAK_AUTH_SERVER_URL                        | String  | The keycloak auth server URL                 | not set by default             |
+| KEYCLOAK_REALM                                  | String  | The keycloak realm name                      | not set by default             |
+| KEYCLOAK_RESOURCE                               | String  | The keycloak resource name                   | not set by default             |
+| KEYCLOAK_CREDENTIALS_SECRET                     | String  | The keycloak Credentials Secrets             | not set by default             |
+| KEYCLOAK_SSL_REQUIRED                           | String  | The keycloak SSL required                    | defaulted to `external`        |
 
 
 ## Backend Folder Structure
