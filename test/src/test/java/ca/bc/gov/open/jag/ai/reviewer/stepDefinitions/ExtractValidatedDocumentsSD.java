@@ -2,8 +2,10 @@ package ca.bc.gov.open.jag.ai.reviewer.stepDefinitions;
 
 import ca.bc.gov.open.jag.ai.reviewer.Keys;
 import ca.bc.gov.open.jag.ai.reviewer.helpers.SubmissionHelper;
+import ca.bc.gov.open.jag.ai.reviewer.models.UserIdentity;
 import ca.bc.gov.open.jag.ai.reviewer.services.DocumentTypeConfigService;
 import ca.bc.gov.open.jag.ai.reviewer.services.ExtractDocumentService;
+import ca.bc.gov.open.jag.ai.reviewer.services.OauthService;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -27,14 +29,18 @@ import static org.junit.Assert.assertNotNull;
 
 public class ExtractValidatedDocumentsSD {
 
+    private final OauthService oauthService;
     private final ExtractDocumentService extractDocumentService;
     private final DocumentTypeConfigService documentTypeConfigService;
+
+    private UserIdentity actualUserIdentity;
     private Response actualExtractDocumentServiceResponse;
     private JsonPath actualExtractDocumentsJsonPath;
 
     private final Logger logger = LoggerFactory.getLogger(ExtractValidatedDocumentsSD.class);
 
-    public ExtractValidatedDocumentsSD(DocumentTypeConfigService documentTypeConfigService, ExtractDocumentService extractDocumentService) {
+    public ExtractValidatedDocumentsSD(OauthService oauthService, DocumentTypeConfigService documentTypeConfigService, ExtractDocumentService extractDocumentService) {
+        this.oauthService = oauthService;
         this.extractDocumentService = extractDocumentService;
         this.documentTypeConfigService = documentTypeConfigService;
 
@@ -45,7 +51,9 @@ public class ExtractValidatedDocumentsSD {
 
         logger.info("Creating a new document type configuration");
 
-        Response actualCreatedConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(Keys.DOCUMENT_TYPE_CONFIG_PAYLOAD, Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
+        actualUserIdentity = oauthService.getUserIdentity();
+
+        Response actualCreatedConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIG_PAYLOAD, Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         logger.info("Api response status code: {}", actualCreatedConfigResponse.getStatusCode());
 
@@ -56,7 +64,7 @@ public class ExtractValidatedDocumentsSD {
 
         MultiPartSpecification fileSpec = SubmissionHelper.fileSpecBuilder(resource, Keys.TEST_VALID_DOCUMENT_PDF);
 
-        actualExtractDocumentServiceResponse = extractDocumentService.extractDocumentsResponse(UUID.fromString(Keys.ACTUAL_X_TRANSACTION_ID), docType, fileSpec);
+        actualExtractDocumentServiceResponse = extractDocumentService.extractDocumentsResponse(actualUserIdentity.getAccessToken(), UUID.fromString(Keys.ACTUAL_X_TRANSACTION_ID), docType, fileSpec);
 
         logger.info("Api response status code: {}", actualExtractDocumentServiceResponse.getStatusCode());
         logger.info("Api response: {}", actualExtractDocumentServiceResponse.asString());
@@ -93,11 +101,11 @@ public class ExtractValidatedDocumentsSD {
     public void deleteDocument() {
         logger.info("Requesting to get all document types");
 
-        JsonPath actualConfigResponseJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(Keys.DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
+        JsonPath actualConfigResponseJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
         UUID getDocTypeId = UUID.fromString(actualConfigResponseJsonPath.get(Keys.ID_INDEX_FROM_RESPONSE));
 
         logger.info("Requesting to delete the document type by id");
-        Response actualDeleteDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(getDocTypeId,
+        Response actualDeleteDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(actualUserIdentity.getAccessToken(), getDocTypeId,
                 Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         assertEquals(HttpStatus.SC_NO_CONTENT, actualDeleteDocumentTypeByIdResponse.getStatusCode());

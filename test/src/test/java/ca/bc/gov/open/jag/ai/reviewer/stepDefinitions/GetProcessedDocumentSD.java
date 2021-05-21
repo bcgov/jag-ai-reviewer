@@ -2,8 +2,10 @@ package ca.bc.gov.open.jag.ai.reviewer.stepDefinitions;
 
 import ca.bc.gov.open.jag.ai.reviewer.Keys;
 import ca.bc.gov.open.jag.ai.reviewer.helpers.SubmissionHelper;
+import ca.bc.gov.open.jag.ai.reviewer.models.UserIdentity;
 import ca.bc.gov.open.jag.ai.reviewer.services.DocumentTypeConfigService;
 import ca.bc.gov.open.jag.ai.reviewer.services.ExtractDocumentService;
+import ca.bc.gov.open.jag.ai.reviewer.services.OauthService;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -26,17 +28,22 @@ import static org.junit.Assert.assertEquals;
 
 public class GetProcessedDocumentSD {
 
+    private final OauthService oauthService;
     private final ExtractDocumentService extractDocumentService;
+    private final DocumentTypeConfigService documentTypeConfigService;
+
+    private UserIdentity actualUserIdentity;
     private Response actualValidExtractDocumentServiceResponse;
     private Response actualInvalidExtractDocumentServiceResponse;
     private Response actualInvalidGetProcessedResponse;
-    private final DocumentTypeConfigService documentTypeConfigService;
+
     JsonPath actualExtractDocumentsJsonPath;
     JsonPath actualExtractInvalidDocumentsJsonPath;
 
     private final Logger logger = LoggerFactory.getLogger(GetProcessedDocumentSD.class);
 
-    public GetProcessedDocumentSD(DocumentTypeConfigService documentTypeConfigService, ExtractDocumentService extractDocumentService) {
+    public GetProcessedDocumentSD(OauthService oauthService, DocumentTypeConfigService documentTypeConfigService, ExtractDocumentService extractDocumentService) {
+        this.oauthService = oauthService;
         this.extractDocumentService = extractDocumentService;
         this.documentTypeConfigService = documentTypeConfigService;
     }
@@ -47,7 +54,9 @@ public class GetProcessedDocumentSD {
 
         logger.info("Creating a new document type configuration");
 
-        Response actualCreatedConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(Keys.DOCUMENT_TYPE_CONFIG_PAYLOAD, Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
+        actualUserIdentity = oauthService.getUserIdentity();
+
+        Response actualCreatedConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIG_PAYLOAD, Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         logger.info("Api response status code: {}", actualCreatedConfigResponse.getStatusCode());
 
@@ -58,7 +67,7 @@ public class GetProcessedDocumentSD {
 
         MultiPartSpecification fileSpec = SubmissionHelper.fileSpecBuilder(resource, Keys.TEST_VALID_DOCUMENT_PDF);
 
-        actualValidExtractDocumentServiceResponse = extractDocumentService.extractDocumentsResponse(UUID.fromString(Keys.ACTUAL_X_TRANSACTION_ID), docType, fileSpec);
+        actualValidExtractDocumentServiceResponse = extractDocumentService.extractDocumentsResponse(actualUserIdentity.getAccessToken(), UUID.fromString(Keys.ACTUAL_X_TRANSACTION_ID), docType, fileSpec);
 
         logger.info("Api response status code for valid docType: {}", actualValidExtractDocumentServiceResponse.getStatusCode());
         logger.info("Api response for valid docType: {}", actualValidExtractDocumentServiceResponse.asString());
@@ -75,7 +84,7 @@ public class GetProcessedDocumentSD {
 
         Integer documentIdForValidDocument = actualExtractDocumentsJsonPath.get("document.documentId");
 
-        actualValidExtractDocumentServiceResponse = extractDocumentService.getProcessedDocumentDataById(UUID.fromString(Keys.ACTUAL_X_TRANSACTION_ID), documentIdForValidDocument);
+        actualValidExtractDocumentServiceResponse = extractDocumentService.getProcessedDocumentDataById(actualUserIdentity.getAccessToken(), UUID.fromString(Keys.ACTUAL_X_TRANSACTION_ID), documentIdForValidDocument);
 
         logger.info("Api response status code for valid docType event: {}", actualValidExtractDocumentServiceResponse.getStatusCode());
         logger.info("Api response for valid docType event: {}", actualValidExtractDocumentServiceResponse.asString());
@@ -102,11 +111,11 @@ public class GetProcessedDocumentSD {
 
         logger.info("Requesting to get all document types");
 
-        JsonPath actualConfigResponseJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(Keys.DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
+        JsonPath actualConfigResponseJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
         UUID getDocTypeId = UUID.fromString(actualConfigResponseJsonPath.get(Keys.ID_INDEX_FROM_RESPONSE));
 
         logger.info("Requesting to delete the document type by id");
-        Response actualDeleteDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(getDocTypeId,
+        Response actualDeleteDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(actualUserIdentity.getAccessToken(), getDocTypeId,
                 Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         assertEquals(HttpStatus.SC_NO_CONTENT, actualDeleteDocumentTypeByIdResponse.getStatusCode());
@@ -117,7 +126,10 @@ public class GetProcessedDocumentSD {
     public void invalidRCCDocumentIsUploaded(String docType) throws IOException {
 
         logger.info("Creating a new document type configuration");
-        Response actualCreatedConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(Keys.DOCUMENT_TYPE_CONFIG_PAYLOAD, Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
+
+        actualUserIdentity = oauthService.getUserIdentity();
+
+        Response actualCreatedConfigResponse = documentTypeConfigService.createDocumentTypeConfigResponse(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIG_PAYLOAD, Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         logger.info("Api response status code: {}", actualCreatedConfigResponse.getStatusCode());
         logger.info("Submitting request to upload document");
@@ -127,7 +139,7 @@ public class GetProcessedDocumentSD {
 
         MultiPartSpecification fileSpec = SubmissionHelper.fileSpecBuilder(resource, Keys.TEST_INVALID_DOCUMENT_PDF);
 
-        actualInvalidExtractDocumentServiceResponse = extractDocumentService.extractDocumentsResponse(UUID.fromString(Keys.ACTUAL_X_TRANSACTION_ID), docType, fileSpec);
+        actualInvalidExtractDocumentServiceResponse = extractDocumentService.extractDocumentsResponse(actualUserIdentity.getAccessToken(), UUID.fromString(Keys.ACTUAL_X_TRANSACTION_ID), docType, fileSpec);
 
         logger.info("Api response status code for invalid docType event: {}", actualInvalidExtractDocumentServiceResponse.getStatusCode());
         logger.info("Api response for invalid docType event: {}", actualInvalidExtractDocumentServiceResponse.asString());
@@ -146,7 +158,7 @@ public class GetProcessedDocumentSD {
 
         Thread.sleep(1500L);
 
-        actualInvalidGetProcessedResponse = extractDocumentService.getProcessedDocumentDataById(UUID.fromString(Keys.ACTUAL_X_TRANSACTION_ID), documentIdForInvalidDocument);
+        actualInvalidGetProcessedResponse = extractDocumentService.getProcessedDocumentDataById(actualUserIdentity.getAccessToken(), UUID.fromString(Keys.ACTUAL_X_TRANSACTION_ID), documentIdForInvalidDocument);
 
         logger.info("Api response status code for invalid docType event: {}", actualInvalidGetProcessedResponse.getStatusCode());
         logger.info("Api response for invalid docType event: {}", actualInvalidGetProcessedResponse.asString());
@@ -175,11 +187,11 @@ public class GetProcessedDocumentSD {
 
         logger.info("Requesting to get all document types");
 
-        JsonPath actualConfigResponseJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(Keys.DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
+        JsonPath actualConfigResponseJsonPath = new JsonPath(documentTypeConfigService.getDocumentTypeConfiguration(actualUserIdentity.getAccessToken(), Keys.DOCUMENT_TYPE_CONFIGURATION_PATH).asString());
         UUID getDocTypeId = UUID.fromString(actualConfigResponseJsonPath.get(Keys.ID_INDEX_FROM_RESPONSE));
 
         logger.info("Requesting to delete the document type by id");
-        Response actualDeleteDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(getDocTypeId,
+        Response actualDeleteDocumentTypeByIdResponse = documentTypeConfigService.deleteDocumentTypeByIdResponse(actualUserIdentity.getAccessToken(), getDocTypeId,
                 Keys.DOCUMENT_TYPE_CONFIGURATION_PATH);
 
         assertEquals(HttpStatus.SC_NO_CONTENT, actualDeleteDocumentTypeByIdResponse.getStatusCode());
