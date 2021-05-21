@@ -169,9 +169,9 @@ jobs:
         run: docker-compose up -d ai-reviewer-api ai-reviewer-mock-api ai-reviewer-admin
 
       - name: Configure keycloak (Local REPO only)
-          if: github.event.pull_request.head.repo.full_name == github.repository
-          run: |
-            docker-compose -f docker-compose.yml  -f test/docker-compose-integration.yml up keycloak-config
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          docker-compose -f docker-compose.yml  -f test/docker-compose-integration.yml up keycloak-config
 
       - name: Configure keycloak (FORK only)
         if: github.event.pull_request.head.repo.full_name != github.repository

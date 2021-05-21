@@ -4,23 +4,23 @@ services:
   ###                           AI Reviewer backend app                                ###
   #############################################################################################
   ai-reviewer-api:
-    image: docker.pkg.github.com/bcgov/jag-file-submission/ai-reviewer-api
+    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/ai-reviewer-api
 
   #############################################################################################
   ###                           AI Reviewer Mock Service                                 ###
   #############################################################################################
   ai-reviewer-mock-api:
-    image: docker.pkg.github.com/bcgov/jag-file-submission/ai-reviewer-mock-api
+    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/ai-reviewer-mock-api
 
   #############################################################################################
   ###                           AI REVIEWER ADMIN (DEMO)                                 ###
   #############################################################################################
   ai-reviewer-admin:
-    image: docker.pkg.github.com/bcgov/jag-file-submission/ai-reviewer-admin
+    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/ai-reviewer-admin
 
   #############################################################################################
   ###                                        KEYCLOAK Config                                ###
   #############################################################################################
   keycloak-config:
-    image: docker.pkg.github.com/bcgov/jag-file-submission/keycloak-config:demo
+    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/keycloak-config:demo
 
