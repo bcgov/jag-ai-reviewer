@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.ai.reviewer.config.BrowserScopePostProcessor;
 import ca.bc.gov.open.jag.ai.reviewer.page.AiReviewerAdminClientPage;
 import ca.bc.gov.open.jag.ai.reviewer.services.DocumentTypeConfigService;
 import ca.bc.gov.open.jag.ai.reviewer.services.ExtractDocumentService;
+import ca.bc.gov.open.jag.ai.reviewer.services.ExtractNotificationService;
 import ca.bc.gov.open.jag.ai.reviewer.services.OauthService;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -35,6 +36,11 @@ public class TestConfig {
     @Bean
     public DocumentTypeConfigService documentTypeConfigService() {
         return new DocumentTypeConfigService();
+    }
+
+    @Bean
+    public ExtractNotificationService extractNotificationService() {
+        return new ExtractNotificationService();
     }
 
     @Bean

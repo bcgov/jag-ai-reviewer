@@ -7,6 +7,12 @@ services:
     image: docker.pkg.github.com/bcgov/jag-ai-reviewer/ai-reviewer-api
 
   #############################################################################################
+  ###                           AI reviewer cso backend app                                 ###
+  #############################################################################################
+  ai-reviewer-cso-api:
+    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/ai-reviewer-cso-api
+
+  #############################################################################################
   ###                           AI Reviewer Mock Service                                 ###
   #############################################################################################
   ai-reviewer-mock-api:
