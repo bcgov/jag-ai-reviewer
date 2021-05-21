@@ -18,6 +18,8 @@ import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentException;
 import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerRestrictedDocumentException;
 import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerVirusFoundException;
 import ca.bc.gov.open.jag.aireviewerapi.utils.TikaAnalysis;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -66,10 +68,15 @@ public class DocumentValidatorImpl implements DocumentValidator {
 
         try {
             clamAvService.scan(new ByteArrayInputStream(file.getBytes()));
-            if (!TikaAnalysis.isPdf(file)) throw new AiReviewerDocumentException("Invalid file type");
+            if (!TikaAnalysis.isPdf(file)) {
+                logger.error("A document is not PDF");
+            	throw new AiReviewerDocumentException("Invalid file type");
+            }
         } catch (VirusDetectedException e) {
+            logger.error("Virus found in document");
             throw new AiReviewerVirusFoundException("Virus found in document");
         } catch (IOException e) {
+            logger.error("File is corrupt");
             throw new AiReviewerDocumentException("File is corrupt");
         }
 
@@ -83,6 +90,9 @@ public class DocumentValidatorImpl implements DocumentValidator {
         Optional<DocumentValidationResult> documentTypeResult = validateDocumentType(documentId, documentTypeConfiguration, formData);
 
         documentTypeResult.ifPresent(validationResults::add);
+        if (documentTypeResult.isPresent()) {
+			logger.warn("document {} failed validation: {}", documentId, documentTypeResult.get().toJSON());
+        }
 
         validationResults.addAll(validateParties(answers));
 

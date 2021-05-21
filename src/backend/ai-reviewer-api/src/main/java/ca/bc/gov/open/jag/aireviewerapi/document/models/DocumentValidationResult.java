@@ -1,6 +1,8 @@
 package ca.bc.gov.open.jag.aireviewerapi.document.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DocumentValidationResult {
     private ValidationTypes type;
@@ -63,4 +65,19 @@ public class DocumentValidationResult {
         }
 
     }
+
+	/**
+	 * Returns a json string representation of the object if possible. If an error
+	 * occurs during serialization, a simple toString is returned instead.
+	 * 
+	 * @return
+	 */
+	public String toJSON() {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return mapper.writeValueAsString(this);
+		} catch (JsonProcessingException e) {
+			return this.toString();
+		}
+	}
 }

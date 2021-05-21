@@ -32,6 +32,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StopWatch;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.RolesAllowed;
@@ -206,7 +207,10 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
                 MDC.put(Keys.DOCUMENT_TYPE, extractRequest.getDocument().getType());
 
                 extractRequest.updateProcessedTimeMillis();
-                logger.info("document processing time: [{}]", extractRequest.getProcessedTimeMillis());
+                logger.info("document processed: [processingTime: {} ms, fileSize: {} bytes, transactionID: {}]", 
+                		extractRequest.getProcessedTimeMillis(), 
+                		extractedResponse.getDocument().getSize(),
+                		extractRequest.getExtract().getTransactionId());
                 extractStore.put(documentEvent.getDocumentId(), extractRequest);
 
                 if (extractRequestCached.get().getExtract().getUseWebhook()) {
