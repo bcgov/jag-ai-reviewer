@@ -145,26 +145,6 @@ public class ExtractDocumentFormDataTest {
     }
 
     @Test
-    @DisplayName("400: document configuration not present")
-    public void withDocumentTypeNotInMongoReturnBadRequest() throws IOException {
-
-        Mockito.when(diligenServiceMock.postDocument(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(BigDecimal.TEN);
-
-        Mockito.doNothing().when(documentValidatorMock).validateDocument(any(), any());
-        Path path = Paths.get("src/test/resources/" + CASE_1);
-
-        UUID transactionId = UUID.randomUUID();
-
-        MultipartFile multipartFile = new MockMultipartFile(CASE_1,
-                CASE_1, APPLICATION_PDF, Files.readAllBytes(path));
-
-        ResponseEntity<DocumentExtractResponse> actual = sut.extractDocumentFormData(transactionId, NOT_FOUND_DOCUMENT_TYPE, true, multipartFile);
-
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, actual.getStatusCode());
-
-    }
-
-    @Test
     @DisplayName("Error: non pdf throws exception")
     public void withNonPdfFilesShouldReturnOk() throws IOException {
 
