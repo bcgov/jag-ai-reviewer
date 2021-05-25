@@ -16,6 +16,6 @@ public class AuditConfig {
 
     @Bean
     public AuditorAware<String> auditorAware() {
-        return new MongoAuditorAware();
+        return new AuditorAwareImpl();
     }
 }
