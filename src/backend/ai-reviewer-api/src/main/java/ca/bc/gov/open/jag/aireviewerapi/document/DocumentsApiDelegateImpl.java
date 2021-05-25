@@ -79,12 +79,6 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
         MDC.put(Keys.DOCUMENT_TYPE, xDocumentType);
 
-        DocumentTypeConfiguration documentTypeConfiguration = documentTypeConfigurationRepository.findByDocumentType(xDocumentType);
-
-        if (documentTypeConfiguration == null) {
-            return new ResponseEntity("Document type not found", HttpStatus.BAD_REQUEST);
-        }
-
         long receivedTimeMillis = System.currentTimeMillis();
 
         logger.info("document extract request received");
@@ -92,6 +86,8 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         documentValidator.validateDocument(xDocumentType, file);
 
         logger.info("document is valid");
+
+        DocumentTypeConfiguration documentTypeConfiguration = documentTypeConfigurationRepository.findByDocumentType(xDocumentType);
 
         //Due to a bug in mapstruct logic has been performed inline
         ExtractRequest extractRequest = extractRequestMapper.toExtractRequest(extractRequestMapper.toExtract(xTransactionId, (xUseWebhook == null || xUseWebhook)), xDocumentType, file, receivedTimeMillis);
