@@ -1,13 +1,8 @@
 package ca.bc.gov.open.jag.aireviewerapi.queue;
 
-<<<<<<< HEAD:src/backend/ai-reviewer-api/src/main/java/ca/bc/gov/open/jag/efilingreviewerapi/queue/TempConfig.java
-import ca.bc.gov.open.efilingdiligenclient.diligen.DiligenService;
-import ca.bc.gov.open.jag.efilingreviewerapi.api.DocumentsApiDelegate;
-=======
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
 import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApiDelegate;
 import ca.bc.gov.open.jag.aireviewerapi.document.DocumentsApiDelegateImpl;
->>>>>>> 377a1fa68ff1a40e5a3bd176647681cb18080cee:src/backend/ai-reviewer-api/src/main/java/ca/bc/gov/open/jag/aireviewerapi/queue/TempConfig.java
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
