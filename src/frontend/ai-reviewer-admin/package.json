@@ -58,7 +58,8 @@
       "src/**/*.js",
       "!src/index.js",
       "!src/EnvConfig.js",
-      "!src/**/test-data.js"
+      "!src/**/test-data.js",
+      "!src/domain/authentication/*.js"
     ]
   }
 }
