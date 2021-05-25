@@ -2,8 +2,11 @@ package ca.bc.gov.open.jag.aireviewerapi.document.validators;
 
 import ca.bc.gov.open.clamav.starter.ClamAvService;
 import ca.bc.gov.open.clamav.starter.VirusDetectedException;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.Field;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenAnswerField;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DocumentConfig;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.PropertyConfig;
 import ca.bc.gov.open.jag.aireviewerapi.Keys;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentValidation;
@@ -15,6 +18,12 @@ import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentException;
 import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerRestrictedDocumentException;
 import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerVirusFoundException;
 import ca.bc.gov.open.jag.aireviewerapi.utils.TikaAnalysis;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,6 +34,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -58,23 +68,31 @@ public class DocumentValidatorImpl implements DocumentValidator {
 
         try {
             clamAvService.scan(new ByteArrayInputStream(file.getBytes()));
-            if (!TikaAnalysis.isPdf(file)) throw new AiReviewerDocumentException("Invalid file type");
+            if (!TikaAnalysis.isPdf(file)) {
+                logger.error("A document is not PDF");
+            	throw new AiReviewerDocumentException("Invalid file type");
+            }
         } catch (VirusDetectedException e) {
+            logger.error("Virus found in document");
             throw new AiReviewerVirusFoundException("Virus found in document");
         } catch (IOException e) {
+            logger.error("File is corrupt");
             throw new AiReviewerDocumentException("File is corrupt");
         }
 
     }
 
     @Override
-    public DocumentValidation validateExtractedDocument(BigDecimal documentId, DocumentTypeConfiguration documentTypeConfiguration, List<DiligenAnswerField> answers) {
+    public DocumentValidation validateExtractedDocument(BigDecimal documentId, DocumentTypeConfiguration documentTypeConfiguration, List<DiligenAnswerField> answers, ObjectNode formData) {
 
         List<DocumentValidationResult> validationResults = new ArrayList<>();
 
-        Optional<DocumentValidationResult> documentTypeResult = validateDocumentType(documentId, answers, documentTypeConfiguration);
+        Optional<DocumentValidationResult> documentTypeResult = validateDocumentType(documentId, documentTypeConfiguration, formData);
 
         documentTypeResult.ifPresent(validationResults::add);
+        if (documentTypeResult.isPresent()) {
+			logger.warn("document {} failed validation: {}", documentId, documentTypeResult.get().toJSON());
+        }
 
         validationResults.addAll(validateParties(answers));
 
@@ -83,10 +101,13 @@ public class DocumentValidatorImpl implements DocumentValidator {
     }
 
     private Optional<DocumentValidationResult> validateDocumentType(BigDecimal documentId,
-                                                                List<DiligenAnswerField> answers,
-                                                                DocumentTypeConfiguration documentTypeConfiguration) {
+                                                                DocumentTypeConfiguration documentTypeConfiguration,
+                                                                ObjectNode formData) {
 
-        Optional<String> returnedDocumentType = findDocumentType(answers);
+
+
+
+        Optional<String> returnedDocumentType = (!StringUtils.isBlank(formData.get("document").get("documentType").asText()) ? Optional.of(formData.get("document").get("documentType").asText()) : Optional.empty());
 
         if (!returnedDocumentType.isPresent() || !returnedDocumentType.get().equals(documentTypeConfiguration.getDocumentTypeDescription())) {
             if (returnedDocumentType.isPresent() && restrictedDocumentRepository.existsByDocumentTypeDescription(returnedDocumentType.get())) {
@@ -130,18 +151,6 @@ public class DocumentValidatorImpl implements DocumentValidator {
 
     }
 
-    private Optional<String> findDocumentType(List<DiligenAnswerField> answers) {
-
-        Optional<DiligenAnswerField> documentTypeAnswer = answers.stream()
-                .filter(answer -> answer.getId().equals(Keys.ANSWER_DOCUMENT_TYPE_ID))
-                .findFirst();
-
-        if (!documentTypeAnswer.isPresent()) return Optional.empty();
-
-        return documentTypeAnswer.get().getValues().stream().findFirst();
-
-    }
-
     private List<String> findPartiesByType(List<DiligenAnswerField> answers, Integer id) {
 
         Optional<DiligenAnswerField> documentTypeAnswer = answers.stream()
@@ -153,4 +162,5 @@ public class DocumentValidatorImpl implements DocumentValidator {
         return documentTypeAnswer.get().getValues().stream().collect(Collectors.toList());
 
     }
+
 }

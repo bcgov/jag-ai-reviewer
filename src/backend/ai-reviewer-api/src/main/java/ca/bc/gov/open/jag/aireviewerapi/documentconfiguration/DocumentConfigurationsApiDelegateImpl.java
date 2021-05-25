@@ -32,13 +32,9 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
     }
 
     @Override
-<<<<<<< HEAD:src/backend/ai-reviewer-api/src/main/java/ca/bc/gov/open/jag/efilingreviewerapi/documentconfiguration/DocumentConfigurationsApiDelegateImpl.java
-    @RolesAllowed("ai-reviewer-api-client")
-    public ResponseEntity<List<ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentTypeConfiguration>> getDocumentConfigurations(String documentType) {
-=======
-    public ResponseEntity<List<ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentTypeConfiguration>> getDocumentConfigurations(String documentType) {
->>>>>>> 377a1fa68ff1a40e5a3bd176647681cb18080cee:src/backend/ai-reviewer-api/src/main/java/ca/bc/gov/open/jag/aireviewerapi/documentconfiguration/DocumentConfigurationsApiDelegateImpl.java
 
+    @RolesAllowed("ai-reviewer-api-client")
+    public ResponseEntity<List<ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentTypeConfiguration>> getDocumentConfigurations(String documentType) {
         List<DocumentTypeConfiguration> documentTypeConfigurations;
         if (StringUtils.isBlank(documentType)) {
             documentTypeConfigurations = documentTypeConfigurationRepository.findAll();
@@ -53,13 +49,8 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
     }
 
     @Override
-<<<<<<< HEAD:src/backend/ai-reviewer-api/src/main/java/ca/bc/gov/open/jag/efilingreviewerapi/documentconfiguration/DocumentConfigurationsApiDelegateImpl.java
     @RolesAllowed("ai-reviewer-api-admin")
-    public ResponseEntity<ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentTypeConfiguration> createDocumentTypeConfiguration(DocumentTypeConfigurationRequest documentTypeConfigurationRequest) {
-=======
     public ResponseEntity<ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentTypeConfiguration> createDocumentTypeConfiguration(DocumentTypeConfigurationRequest documentTypeConfigurationRequest) {
->>>>>>> 377a1fa68ff1a40e5a3bd176647681cb18080cee:src/backend/ai-reviewer-api/src/main/java/ca/bc/gov/open/jag/aireviewerapi/documentconfiguration/DocumentConfigurationsApiDelegateImpl.java
-
         if(documentTypeConfigurationRepository.findByDocumentType(documentTypeConfigurationRequest.getDocumentType().getType()) != null) {
             throw new AiReviewerDocumentTypeConfigurationException("There is already a document of that type");
         }
@@ -79,15 +70,9 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
     }
 
     @Override
-<<<<<<< HEAD:src/backend/ai-reviewer-api/src/main/java/ca/bc/gov/open/jag/efilingreviewerapi/documentconfiguration/DocumentConfigurationsApiDelegateImpl.java
     @RolesAllowed("ai-reviewer-api-admin")
-	public ResponseEntity<ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentTypeConfiguration> updateDocumentTypeConfiguration(
-			ca.bc.gov.open.jag.efilingreviewerapi.api.model.DocumentTypeConfiguration documentTypeConfiguration) {
-=======
 	public ResponseEntity<ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentTypeConfiguration> updateDocumentTypeConfiguration(
 			ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentTypeConfiguration documentTypeConfiguration) {
->>>>>>> 377a1fa68ff1a40e5a3bd176647681cb18080cee:src/backend/ai-reviewer-api/src/main/java/ca/bc/gov/open/jag/aireviewerapi/documentconfiguration/DocumentConfigurationsApiDelegateImpl.java
-
 		if (!documentTypeConfigurationRepository.existsByDocumentTypeAndId(
 				documentTypeConfiguration.getDocumentType().getType(), documentTypeConfiguration.getId())) {
 			throw new AiReviewerDocumentTypeConfigurationException("No matches found for that type and id");

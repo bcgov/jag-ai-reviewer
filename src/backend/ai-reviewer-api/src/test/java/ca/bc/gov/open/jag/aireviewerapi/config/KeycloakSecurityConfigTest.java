@@ -1,4 +1,4 @@
-package ca.bc.gov.open.jag.efilingreviewerapi.config;
+package ca.bc.gov.open.jag.aireviewerapi.config;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

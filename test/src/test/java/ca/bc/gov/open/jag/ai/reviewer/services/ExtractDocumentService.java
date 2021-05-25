@@ -15,10 +15,13 @@ public class ExtractDocumentService {
     @Value("${AI_REVIEWER_HOST:http://localhost:8090}")
     private String aiReviewerHost;
 
-    public Response extractDocumentsResponse(UUID transactionId, String documentType, MultiPartSpecification fileSpec) {
+    public Response extractDocumentsResponse(String accessToken, UUID transactionId, String documentType, MultiPartSpecification fileSpec) {
 
         RequestSpecification request = RestAssured
                 .given()
+                .auth()
+                .preemptive()
+                .oauth2(accessToken)
                 .relaxedHTTPSValidation("TLS")
                 .contentType("multipart/form-data")
                 .header(Keys.X_TRANSACTION_ID, transactionId)
@@ -34,10 +37,13 @@ public class ExtractDocumentService {
 
     }
 
-    public Response getProcessedDocumentDataById(UUID transactionId, Integer documentId) {
+    public Response getProcessedDocumentDataById(String accessToken, UUID transactionId, Integer documentId) {
 
         RequestSpecification request = RestAssured
                 .given()
+                .auth()
+                .preemptive()
+                .oauth2(accessToken)
                 .header(Keys.X_TRANSACTION_ID, transactionId);
 
         return request

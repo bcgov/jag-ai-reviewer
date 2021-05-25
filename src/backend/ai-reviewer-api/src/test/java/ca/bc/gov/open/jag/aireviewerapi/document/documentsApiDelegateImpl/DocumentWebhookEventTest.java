@@ -98,6 +98,7 @@ public class DocumentWebhookEventTest {
         Mockito.when(extractStoreMock.get(Mockito.eq(BigDecimal.ONE))).thenReturn(Optional.of(ExtractRequest.builder()
                 .document(Document.builder()
                         .type("TYPE")
+                        .size(BigDecimal.valueOf(54000))
                         .create())
                 .extract(Extract.builder()
                         .id(UUID.randomUUID())
@@ -112,6 +113,7 @@ public class DocumentWebhookEventTest {
         Mockito.when(extractStoreMock.get(Mockito.eq(BigDecimal.ZERO))).thenReturn(Optional.of(ExtractRequest.builder()
                 .document(Document.builder()
                         .type("TYPE")
+                        .size(BigDecimal.valueOf(54000))
                         .create())
                 .extract(Extract.builder()
                         .id(UUID.randomUUID())
@@ -126,7 +128,7 @@ public class DocumentWebhookEventTest {
                         .create())
                 .create()));
 
-        Mockito.doNothing().when(webHookServiceMock).sendDocumentReady(Mockito.any(), Mockito.any());
+        Mockito.doNothing().when(webHookServiceMock).sendDocumentReady(Mockito.any(), Mockito.any(), Mockito.any());
 
         sut = new DocumentsApiDelegateImpl(diligenServiceMock, extractRequestMapper, extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, null, webHookServiceMock);
 

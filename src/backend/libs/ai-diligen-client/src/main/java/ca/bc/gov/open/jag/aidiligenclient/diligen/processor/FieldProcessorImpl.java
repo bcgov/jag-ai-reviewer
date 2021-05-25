@@ -44,7 +44,6 @@ public class FieldProcessorImpl implements FieldProcessor {
         final ObjectNode objectNode = objectMapper.createObjectNode();
 
         for (Map.Entry<String, PropertyConfig> property : formData.getProperties().entrySet()) {
-
             if(StringUtils.equals("object", property.getValue().getType())) {
                 objectNode.set(property.getKey(), parseSchema(property.getValue(), fields));
             }

@@ -1,14 +1,10 @@
 {
 	"info": {
-<<<<<<< HEAD
-		"_postman_id": "1799fa58-a2af-4280-b399-24ee8f76a823",
-		"name": "jag-reviewer-api",
-		"description": "Efiling AI Reviewer api",
-=======
 		"_postman_id": "45a8c23a-4549-4d89-9119-996ec7331777",
 		"name": "jag-reviewer-api Copy",
+		"_postman_id": "da892582-86c5-4bef-a89a-9dd0c634926a",
+		"name": "jag-reviewer-api",
 		"description": "Ai Reviewer api",
->>>>>>> 377a1fa68ff1a40e5a3bd176647681cb18080cee
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -941,25 +937,20 @@
 								},
 								{
 									"key": "client_secret",
-									"value": "691d6e98-0c55-423f-b5ae-65ed4bfdfd99",
+									"value": "{{client-secret}}",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "https://dev.oidc.gov.bc.ca/auth/realms/tz0e228w/protocol/openid-connect/token",
-							"protocol": "https",
+							"raw": "{{keycloak-environment}}/auth/realms/{{keycloak-realm}}/protocol/openid-connect/token",
 							"host": [
-								"dev",
-								"oidc",
-								"gov",
-								"bc",
-								"ca"
+								"{{keycloak-environment}}"
 							],
 							"path": [
 								"auth",
 								"realms",
-								"tz0e228w",
+								"{{keycloak-realm}}",
 								"protocol",
 								"openid-connect",
 								"token"

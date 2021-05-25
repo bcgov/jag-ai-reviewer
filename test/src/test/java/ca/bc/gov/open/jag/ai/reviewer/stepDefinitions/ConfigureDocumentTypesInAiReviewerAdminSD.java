@@ -42,7 +42,7 @@ public class ConfigureDocumentTypesInAiReviewerAdminSD {
     public void validateDocumentTypeConfigurationIsCreated() {
         logger.info("Validating the document type and document description");
 
-        Assert.assertEquals("RCB", this.aiReviewerAdminClientPage.getDocumentType());
+        Assert.assertEquals("RCC", this.aiReviewerAdminClientPage.getDocumentType());
         Assert.assertEquals("Response to Civil Claim", this.aiReviewerAdminClientPage.getDocumentDescription());
     }
 

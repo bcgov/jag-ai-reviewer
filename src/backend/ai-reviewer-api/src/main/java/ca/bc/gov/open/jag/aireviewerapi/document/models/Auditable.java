@@ -2,15 +2,20 @@ package ca.bc.gov.open.jag.aireviewerapi.document.models;
 
 import java.util.Date;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.annotation.*;
 
 /**
- * An abstract Auditable class that auto-populates <code>createdDate</code>, <code>modifiedDate</code>, and
- * <code>version</code> fields. Class need only to extend this class to add auditing fields to a model object.
+ * An abstract Auditable class that auto-populates <code>createdBy</code>, <code>lastModifiedBy</code>,
+ * <code>createdDate</code>, <code>modifiedDate</code>, and <code>version</code> fields. Class need only to
+ * extend this class to add auditing fields to a model object.
  */
 public abstract class Auditable {
+
+	@CreatedBy
+	protected String createdBy;
+
+	@LastModifiedBy
+	protected String lastModifiedBy;
 
 	@CreatedDate
 	protected Date createdDate;
@@ -20,6 +25,22 @@ public abstract class Auditable {
 
 	@Version
 	private Integer version;
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+
+	public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
 
 	public Date getCreatedDate() {
 		return createdDate == null ? new Date() : createdDate;
