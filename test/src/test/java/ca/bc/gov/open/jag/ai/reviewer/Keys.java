@@ -22,10 +22,14 @@ public class Keys {
     public static final String ADDITIONAL_RESTRICTED_DOCUMENT_TYPE_PAYLOAD = "additional-restricted-document-type-payload.json";
     public static final String RESTRICTED_DOCUMENT_TYPE_UPDATE_PAYLOAD = "restricted-document-type-update-payload.json";
     public static final String DOCUMENT_TYPE_CONFIG_UPDATE_PAYLOAD = "document-type-config-update-payload.json";
+    public static final String EXTRACT_NOTIFICATION_PAYLOAD = "extract-notification-payload.json";
+
 
     // Api endpoint Paths
     public static final String EXTRACT_DOCUMENTS_PATH = "documents/extract";
     public static final String DOCUMENT_TYPE_CONFIGURATION_PATH = "documentTypeConfigurations";
     public static final String RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH = "restrictedDocumentTypes";
     public static final String DOCUMENTS_PROCESSED_PATH = "documents/processed";
+    public static final String EXTRACT_NOTIFICATION_PATH = "extract/notification";
+
 }
