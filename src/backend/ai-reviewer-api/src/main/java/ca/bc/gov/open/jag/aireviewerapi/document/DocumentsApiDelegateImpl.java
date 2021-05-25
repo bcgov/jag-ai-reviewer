@@ -1,30 +1,13 @@
 package ca.bc.gov.open.jag.aireviewerapi.document;
 
-import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
-import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
-import ca.bc.gov.open.jag.aidiligenclient.diligen.processor.FieldProcessor;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponse;
-import ca.bc.gov.open.jag.aireviewerapi.Keys;
-import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApiDelegate;
-import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentEvent;
-import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEvent;
-import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEventData;
-import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentExtractResponse;
-import ca.bc.gov.open.jag.aireviewerapi.api.model.ProcessedDocument;
-import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
-import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentException;
-import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerInvalidTransactionIdException;
-import ca.bc.gov.open.jag.aireviewerapi.webhook.WebHookService;
-import ca.bc.gov.open.jag.aireviewerapi.document.store.DocumentTypeConfigurationRepository;
-import ca.bc.gov.open.jag.aireviewerapi.document.validators.DocumentValidator;
-import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerCacheException;
-import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentConfigException;
-import ca.bc.gov.open.jag.aireviewerapi.extract.mappers.ExtractRequestMapper;
-import ca.bc.gov.open.jag.aireviewerapi.extract.mappers.ProcessedDocumentMapper;
-import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractRequest;
-import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractResponse;
-import ca.bc.gov.open.jag.aireviewerapi.extract.store.ExtractStore;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import javax.annotation.security.RolesAllowed;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -34,12 +17,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.security.RolesAllowed;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponse;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.processor.FieldProcessor;
+import ca.bc.gov.open.jag.aireviewerapi.Keys;
+import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApiDelegate;
+import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentEvent;
+import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentExtractResponse;
+import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEvent;
+import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEventData;
+import ca.bc.gov.open.jag.aireviewerapi.api.model.ProcessedDocument;
+import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
+import ca.bc.gov.open.jag.aireviewerapi.document.store.DocumentTypeConfigurationRepository;
+import ca.bc.gov.open.jag.aireviewerapi.document.validators.DocumentValidator;
+import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerCacheException;
+import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentConfigException;
+import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentException;
+import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerInvalidTransactionIdException;
+import ca.bc.gov.open.jag.aireviewerapi.extract.mappers.ExtractRequestMapper;
+import ca.bc.gov.open.jag.aireviewerapi.extract.mappers.ProcessedDocumentMapper;
+import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractRequest;
+import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractResponse;
+import ca.bc.gov.open.jag.aireviewerapi.extract.store.ExtractStore;
+import ca.bc.gov.open.jag.aireviewerapi.webhook.WebHookService;
 
 @Service
 public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
@@ -206,7 +209,10 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
                 MDC.put(Keys.DOCUMENT_TYPE, extractRequest.getDocument().getType());
 
                 extractRequest.updateProcessedTimeMillis();
-                logger.info("document processing time: [{}]", extractRequest.getProcessedTimeMillis());
+                logger.info("document processed: [processingTime: {} ms, fileSize: {} bytes, transactionID: {}]", 
+                		extractRequest.getProcessedTimeMillis(), 
+                		extractedResponse.getDocument().getSize(),
+                		extractRequest.getExtract().getTransactionId());
                 extractStore.put(documentEvent.getDocumentId(), extractRequest);
 
                 if (extractRequestCached.get().getExtract().getUseWebhook()) {
