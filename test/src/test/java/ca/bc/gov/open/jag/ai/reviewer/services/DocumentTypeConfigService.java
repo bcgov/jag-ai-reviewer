@@ -2,6 +2,8 @@ package ca.bc.gov.open.jag.ai.reviewer.services;
 
 import ca.bc.gov.open.jag.ai.reviewer.Keys;
 import io.restassured.RestAssured;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -19,30 +21,32 @@ import java.util.UUID;
 
 public class DocumentTypeConfigService {
 
-    @Value("${EFILING_REVIEWER_HOST:http://localhost:8090}")
-    private String eFilingReviewerHost;
+    @Value("${AI_REVIEWER_HOST:http://localhost:8090}")
+    private String aiReviewerHost;
 
     private final String COMMON_MESSAGE_FORMAT = "{0}/{1}";
 
-    public Response createDocumentTypeConfigResponse(String payloadPath, String pathParam) throws IOException {
+    public Response createDocumentTypeConfigResponse(String accessToken, String payloadPath, String pathParam) throws IOException {
 
         File resource = new ClassPathResource(
                 MessageFormat.format("payload/{0}", payloadPath)).getFile();
 
         RequestSpecification request = RestAssured
                 .given()
+                .auth().preemptive()
+                .oauth2(accessToken)
                 .contentType(ContentType.JSON)
                 .body(resource);
         return request
                 .when()
-                .post(MessageFormat.format(COMMON_MESSAGE_FORMAT, eFilingReviewerHost, pathParam))
+                .post(MessageFormat.format(COMMON_MESSAGE_FORMAT, aiReviewerHost, pathParam))
                 .then()
                 .extract()
                 .response();
 
     }
 
-    public Response updateDocumentTypeConfigResponse(String id, String payloadPath, String pathParam) throws IOException, JSONException {
+    public Response updateDocumentTypeConfigResponse(String accessToken, String id, String payloadPath, String pathParam) throws IOException, JSONException {
 
         File resource = new ClassPathResource(
                 MessageFormat.format("payload/{0}", payloadPath)).getFile();
@@ -56,40 +60,60 @@ public class DocumentTypeConfigService {
 
         RequestSpecification request = RestAssured
                 .given()
+                .auth().preemptive()
+                .oauth2(accessToken)
                 .contentType(ContentType.JSON)
                 .body(updatedJsonWithId);
         return request
                 .when()
-                .put(MessageFormat.format(COMMON_MESSAGE_FORMAT, eFilingReviewerHost, pathParam))
+                .put(MessageFormat.format(COMMON_MESSAGE_FORMAT, aiReviewerHost, pathParam))
                 .then()
                 .extract()
                 .response();
 
     }
 
-    public Response getDocumentTypeConfiguration(String pathParam) {
+    public Response getDocumentTypeConfiguration(String accessToken, String pathParam) {
 
-        return RestAssured.when()
-                .get(MessageFormat.format(COMMON_MESSAGE_FORMAT, eFilingReviewerHost, pathParam))
+        RequestSpecification request = RestAssured
+                .given()
+                .auth()
+                .preemptive()
+                .oauth2(accessToken);
+
+        return request.when()
+                .get(MessageFormat.format(COMMON_MESSAGE_FORMAT, aiReviewerHost, pathParam))
                 .then()
                 .extract()
                 .response();
     }
 
-    public Response getRestrictedDocumentTypeByIdResponse(UUID id) {
+    public Response getRestrictedDocumentTypeByIdResponse(String accessToken, UUID id) {
 
-        return RestAssured.when()
-                .get(MessageFormat.format("{0}/{1}/{2}", eFilingReviewerHost,
+        RequestSpecification request = RestAssured
+                .given()
+                .auth()
+                .preemptive()
+                .oauth2(accessToken);
+
+        return request.when()
+                .get(MessageFormat.format("{0}/{1}/{2}", aiReviewerHost,
                         Keys.RESTRICTED_DOCUMENT_TYPE_CONFIGURATION_PATH, id))
                 .then()
                 .extract()
                 .response();
     }
 
-    public Response deleteDocumentTypeByIdResponse(UUID id, String pathParam) {
+    public Response deleteDocumentTypeByIdResponse(String accessToken, UUID id, String pathParam) {
 
-        return RestAssured.when()
-                .delete(MessageFormat.format("{0}/{1}/{2}", eFilingReviewerHost,
+        RequestSpecification request = RestAssured
+                .given()
+                .auth()
+                .preemptive()
+                .oauth2(accessToken);
+
+        return request.when()
+                .delete(MessageFormat.format("{0}/{1}/{2}", aiReviewerHost,
                         pathParam, id))
                 .then()
                 .extract()

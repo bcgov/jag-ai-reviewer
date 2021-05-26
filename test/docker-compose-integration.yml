@@ -1,19 +1,32 @@
 version: "3.7"
 services:
   #############################################################################################
-  ###                           Efiling reviewer backend app                                ###
+  ###                           AI Reviewer backend app                                ###
   #############################################################################################
-  efiling-reviewer-api:
-    image: docker.pkg.github.com/bcgov/jag-file-submission/efiling-reviewer-api
+  ai-reviewer-api:
+    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/ai-reviewer-api
+
+  #############################################################################################
+  ###                           AI reviewer cso backend app                                 ###
+  #############################################################################################
+  ai-reviewer-cso-api:
+    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/ai-reviewer-cso-api
 
   #############################################################################################
   ###                           AI Reviewer Mock Service                                 ###
   #############################################################################################
   ai-reviewer-mock-api:
-    image: docker.pkg.github.com/bcgov/jag-file-submission/ai-reviewer-mock-api
+    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/ai-reviewer-mock-api
 
   #############################################################################################
   ###                           AI REVIEWER ADMIN (DEMO)                                 ###
   #############################################################################################
   ai-reviewer-admin:
-    image: docker.pkg.github.com/bcgov/jag-file-submission/ai-reviewer-admin
+    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/ai-reviewer-admin
+
+  #############################################################################################
+  ###                                        KEYCLOAK Config                                ###
+  #############################################################################################
+  keycloak-config:
+    image: docker.pkg.github.com/bcgov/jag-ai-reviewer/ai-keycloak-config:demo
+

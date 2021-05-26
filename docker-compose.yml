@@ -12,3 +12,207 @@ services:
       - 3002:8080
     environment:
       - REACT_APP_AI_REVIEWER_API_URL=http://localhost:8090/
+
+  #############################################################################################
+  ###                           AI Reviewer backend app                                ###
+  #############################################################################################
+  ai-reviewer-api:
+    container_name: ai-reviewer-api
+    hostname: ai-reviewer-api
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile.ai-reviewer-api
+      args:
+        - SKIP_TESTS=true
+        - MVN_PROFILE=${MVN_PROFILE:-ai-reviewer}
+        - STARTERS_V=v0.1.8
+    ports:
+      - "8090:8080"
+    environment:
+      - DILIGEN_BASE_PATH=http://ai-reviewer-mock-api:1337
+      - DILIGEN_USERNAME=${DILIGEN_USERNAME}
+      - DILIGEN_PASSWORD=${DILIGEN_PASSWORD}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=admin
+      - AIR_SPRING_DATA_MONGODB_HOST=mongodb
+      - CLAMAV_HOST=clamav
+      - CLAMAV_PORT=3310
+      - CLAMAV_TIMEOUT=50000
+      - SW_AGENT_NAME=ai-reviewer-api
+      - SW_AGENT_COLLECTOR_BACKEND_SERVICES=skywalking-oap-server:11800
+      - KEYCLOAK_AUTH_SERVER_URL=${KEYCLOAK_AUTH_SERVER_URL:-http://keycloak:8080/auth}
+      - KEYCLOAK_REALM=${KEYCLOAK_REALM:-ai-reviewer}
+      - KEYCLOAK_RESOURCE=${KEYCLOAK_RESOURCE:-ai-reviewer-api}
+      - KEYCLOAK_CREDENTIALS_SECRET=${KEYCLOAK_CREDENTIALS_SECRET}
+      - KEYCLOAK_SSL_REQUIRED=${KEYCLOAK_SSL_REQUIRED:-none}
+
+  #############################################################################################
+  ###                           AI reviewer cso backend app                                 ###
+  #############################################################################################
+  ai-reviewer-cso-api:
+    container_name: ai-reviewer-cso-api
+    hostname: ai-reviewer-cso-api
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile.ai-reviewer-cso-api
+      args:
+        - SKIP_TESTS=true
+        - MVN_PROFILE=${MVN_PROFILE:-ai-reviewer-cso}
+        - STARTERS_V=v0.1.8
+    ports:
+      - "8686:8080"
+
+  #############################################################################################
+  ###                           AI Reviewer Mock Service                                    ###
+  #############################################################################################
+  ai-reviewer-mock-api:
+    container_name: ai-reviewer-mock-api
+    hostname: ai-reviewer-mock-api
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile.ai-reviewer-mock-api
+      args:
+        - SKIP_TESTS=true
+        - MVN_PROFILE=${MVN_PROFILE:-ai-reviewer-mock}
+        - STARTERS_V=v0.1.8
+    ports:
+      - "1337:1337"
+
+  #############################################################################################
+  ###                             CLAMAV                                                    ###
+  #############################################################################################
+  clamav:
+    image: mk0x/docker-clamav
+    ports:
+      - "3310:3310"
+
+  #############################################################################################
+  ###                             skywalking-oap-server                                     ###
+  #############################################################################################
+  skywalking-oap-server:
+    image: apache/skywalking-oap-server:8.5.0-es7
+    container_name: skywalking-oap-server
+    restart: always
+    ports:
+      - 11800:11800
+      - 12800:12800
+    environment:
+      SW_HEALTH_CHECKER: default
+
+  #############################################################################################
+  ###                             skywalking-ui                                              ###
+  #############################################################################################
+  skywalking-ui:
+    image: apache/skywalking-ui:8.5.0
+    container_name: skywalking-ui
+    depends_on:
+      - skywalking-oap-server
+    links:
+      - skywalking-oap-server
+    restart: always
+    ports:
+      - 8070:8080
+    environment:
+      SW_OAP_ADDRESS: skywalking-oap-server:12800
+
+  #############################################################################################
+  ###                             JAG MAIL IT                                               ###
+  #############################################################################################
+  mail-it:
+    build:
+      context: https://github.com/bcgov/jag-mail-it.git#main:src
+    ports:
+      - "8099:8080"
+    environment:
+      - JMT_SPRING_REDIS_PORT=6379
+      - JMT_SPRING_REDIS_HOST=redis
+      - JMT_SPRING_REDIS_PASSWORD=admin
+      - JMT_SPRING_EMAIL_HOST=mailhog
+      - JMT_SPRING_EMAIL_PORT=1025
+
+  #############################################################################################
+  ###                                 REDIS SERVER                                          ###
+  #############################################################################################
+  redis:
+    container_name: redis
+    image: redis
+    command: redis-server --requirepass admin
+    ports:
+      - "6379:6379"
+    volumes:
+      - data-redis:/data
+    restart: always
+
+  #############################################################################################
+  ###                                 REDIS COMMANDER                                       ###
+  #############################################################################################
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_PORT=6379
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=admin
+    ports:
+      - "8082:8081"
+
+  # #############################################################################################
+  # ###                                        KEYCLOAK                                       ###
+  # #############################################################################################
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    environment:
+      DB_VENDOR: H2
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+      KEYCLOAK_FRONTEND_URL: http://localhost:8081/auth
+    volumes:
+      - ./infrastructure/keycloak/realm-export.json:/tmp/realm-export.json
+    ports:
+      - 8081:8080
+
+  # #############################################################################################
+  # ###                                        KEYCLOAK Config                                ###
+  # #############################################################################################
+  keycloak-config:
+    command: sh -c "dockerize -wait http://keycloak:8080 -timeout 300s /tmp/createuser.sh"
+
+  #############################################################################################
+  ###                             CLAMAV                                                    ###
+  #############################################################################################
+  clamav:
+    image: mk0x/docker-clamav
+    ports:
+      - "3310:3310"
+
+  #############################################################################################
+  ###                             MONGO DB                                                  ###
+  #############################################################################################
+  mongodb:
+    image: 'mongo:latest'
+    container_name: 'mongodb'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME:-admin}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD:-admin}
+    volumes:
+      - mongo-volume:/data/db
+    ports:
+      - 27017:27017
+
+  mongo-express:
+    image: 'mongo-express'
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_ROOT_USERNAME:-admin}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_ROOT_PASSWORD:-admin}
+    ports:
+      - 8001:8081
+    
+volumes:
+  data-redis:
+    driver: local
+  mongo-volume:
