@@ -116,7 +116,7 @@ public class ExtractValidatedDocumentsSD {
         logger.info("Asserting invalid document response");
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, actualExtractDocumentServiceResponse.getStatusCode());
-        Assert.assertEquals("Document type not found", actualExtractDocumentServiceResponse.getBody().asString());
+        Assert.assertEquals("{\"error\":\"DOCUMENT_VALIDATION\",\"message\":\"Invalid document type\",\"details\":null}", actualExtractDocumentServiceResponse.getBody().asString());
 
         logger.info("Response matched requirements");
     }
