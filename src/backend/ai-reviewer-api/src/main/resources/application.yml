@@ -19,6 +19,10 @@ spring:
       database: ${AIR_SPRING_DATA_MONGODB_DATABASE:ai-reviewer}
       username: ${AIR_SPRING_DATA_MONGODB_USERNAME:admin}
       password: ${AIR_SPRING_DATA_MONGODB_PASSWORD:admin}
+  servlet:
+    multipart:
+      max-file-size: ${MAX_FILE_SIZE:10MB}
+      max-request-size: ${MAX_REQUEST_SIZE:100MB}
 jag:
   ai:
     cso:
