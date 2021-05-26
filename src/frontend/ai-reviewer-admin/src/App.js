@@ -7,6 +7,7 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 import { Header, Footer } from "shared-components";
+import AuthenticationGuard from "domain/authentication/AuthenticationGuard"
 import Container from "@material-ui/core/Container";
 import NavDrawer from "components/nav-drawer/NavDrawer";
 import DocumentTypeEditor from "domain/documents/DocumentTypeEditor";
@@ -22,21 +23,23 @@ function App() {
   return (
     <>
       <Header header={header} />
-      <Router>
-        <Container className="content">
-          <NavDrawer variant="permanent" />
-          <NavDrawer variant="temporary" />
+      <AuthenticationGuard>
+        <Router>
+          <Container className="content">
+            <NavDrawer variant="permanent" />
+            <NavDrawer variant="temporary" />
 
-          <Switch>
-            <Route exact path="/">
-              <DocumentTypeEditor />
-            </Route>
-            <Route exact path="/simulateTransaction/">
-              <SimulateTransaction />
-            </Route>
-          </Switch>
-        </Container>
-      </Router>
+            <Switch>
+              <Route exact path="/">
+                <DocumentTypeEditor />
+              </Route>
+              <Route exact path="/simulateTransaction/">
+                <SimulateTransaction />
+              </Route>
+            </Switch>
+          </Container>
+        </Router>
+      </AuthenticationGuard>
       <Footer />
     </>
   );
