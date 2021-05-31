@@ -90,7 +90,7 @@ public class ExtractValidatedDocumentsSD {
         Assert.assertTrue(actualExtractDocumentsJsonPath.get("document.documentId") instanceof Integer);
         Assert.assertEquals("RCC", actualExtractDocumentsJsonPath.get("document.type"));
         Assert.assertEquals(Keys.TEST_VALID_DOCUMENT_PDF, actualExtractDocumentsJsonPath.get("document.fileName"));
-        Assert.assertEquals(Integer.valueOf(689336), actualExtractDocumentsJsonPath.get("document.size"));
+        Assert.assertEquals(Integer.valueOf(58101), actualExtractDocumentsJsonPath.get("document.size"));
         Assert.assertEquals("application/octet-stream", actualExtractDocumentsJsonPath.get("document.contentType"));
 
         logger.info("Response matched requirements");
