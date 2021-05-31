@@ -2,7 +2,6 @@ package ca.bc.gov.open.jag.aireviewerapi.document.validators.documentValidator;
 
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenAnswerField;
-import ca.bc.gov.open.jag.aireviewerapi.Keys;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentValidation;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.ValidationTypes;
@@ -20,7 +19,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
