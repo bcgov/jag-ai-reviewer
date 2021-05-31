@@ -2,7 +2,6 @@ package ca.bc.gov.open.jag.aireviewerapi.document.validators.documentValidator;
 
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenAnswerField;
-import ca.bc.gov.open.jag.aireviewerapi.Keys;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentValidation;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.ValidationTypes;
@@ -20,7 +19,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,8 +31,6 @@ public class ValidateExtractedDocumentTest {
     private static final String RESTRICTED_DOCUMENT = "This is a temporary";
     private static final int NOT_DOCUMENT_TYPE_ID = 123;
     private static final String THE_VALUE = "THIS IS A VALUE";
-    private static final String PLAINTIFF = "PLAINTIFF";
-    private static final String DEFENDANT = "DEFENDANT";
     private static final DocumentTypeConfiguration DOCUMENT_TYPE_CONFIGURATION = DocumentTypeConfiguration
             .builder()
             .documentType("RCC")
@@ -79,20 +75,6 @@ public class ValidateExtractedDocumentTest {
                 .create();
 
         answers.add(documentAnswerField);
-
-        DiligenAnswerField plaintiffAnswerField = DiligenAnswerField.builder()
-                .id(Keys.ANSWER_PLAINTIFF_ID)
-                .values(Collections.singletonList(PLAINTIFF))
-                .create();
-
-        answers.add(plaintiffAnswerField);
-
-        DiligenAnswerField defendantAnswerField = DiligenAnswerField.builder()
-                .id(Keys.ANSWER_DEFENDANT_ID)
-                .values(Collections.singletonList(DEFENDANT))
-                .create();
-
-        answers.add(defendantAnswerField);
 
         ObjectNode json = new ObjectMapper().readValue("{\"document\": {\n" +
                 "            \"documentType\": \"" + RESPONSE_TO_CIVIL_CLAIM + "\",\n" +
@@ -182,74 +164,6 @@ public class ValidateExtractedDocumentTest {
 
 
         Assertions.assertThrows(AiReviewerRestrictedDocumentException.class, () -> sut.validateExtractedDocument(BigDecimal.ONE, DOCUMENT_TYPE_CONFIGURATION, answers, json));
-
-    }
-
-    @Test
-    @DisplayName("Error: too many plaintiffs found")
-    public void withInvalidPartiesPlaintiffs() throws JsonProcessingException {
-
-        List<DiligenAnswerField> answers= new ArrayList<>();
-        DiligenAnswerField documentAnswerField = DiligenAnswerField.builder()
-                .id(NOT_DOCUMENT_TYPE_ID)
-                .values(Collections.singletonList(RESPONSE_TO_CIVIL_CLAIM))
-                .create();
-
-        answers.add(documentAnswerField);
-
-        DiligenAnswerField plaintiffAnswerField = DiligenAnswerField.builder()
-                .id(Keys.ANSWER_PLAINTIFF_ID)
-                .values(Arrays.asList(PLAINTIFF, PLAINTIFF))
-                .create();
-
-        answers.add(plaintiffAnswerField);
-
-        ObjectNode json = new ObjectMapper().readValue("{\"document\": {\n" +
-                "            \"documentType\": \"" + RESPONSE_TO_CIVIL_CLAIM + "\",\n" +
-                "            \"dateFiled\": \"\",\n" +
-                "            \"filedBy\": \"\",\n" +
-                "            \"amended\": \"New\"\n" +
-                "        }}", ObjectNode.class);
-
-        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers, json);
-
-        Assertions.assertEquals(ValidationTypes.PARTIES_PLAINTIFF, actual.getValidationResults().get(0).getType());
-        Assertions.assertEquals("2", actual.getValidationResults().get(0).getActual());
-        Assertions.assertEquals("1", actual.getValidationResults().get(0).getExpected());
-
-    }
-
-    @Test
-    @DisplayName("Error: too many defendants found")
-    public void withInvalidPartiesDefendants() throws JsonProcessingException {
-
-        List<DiligenAnswerField> answers= new ArrayList<>();
-        DiligenAnswerField documentAnswerField = DiligenAnswerField.builder()
-                .id(NOT_DOCUMENT_TYPE_ID)
-                .values(Collections.singletonList(RESPONSE_TO_CIVIL_CLAIM))
-                .create();
-
-        answers.add(documentAnswerField);
-
-        DiligenAnswerField defendantAnswerField = DiligenAnswerField.builder()
-                .id(Keys.ANSWER_DEFENDANT_ID)
-                .values(Arrays.asList(DEFENDANT, DEFENDANT))
-                .create();
-
-        answers.add(defendantAnswerField);
-
-        ObjectNode json = new ObjectMapper().readValue("{\"document\": {\n" +
-                "            \"documentType\": \"" + RESPONSE_TO_CIVIL_CLAIM + "\",\n" +
-                "            \"dateFiled\": \"\",\n" +
-                "            \"filedBy\": \"\",\n" +
-                "            \"amended\": \"New\"\n" +
-                "        }}", ObjectNode.class);
-
-        DocumentValidation actual = sut.validateExtractedDocument(BigDecimal.ZERO, DOCUMENT_TYPE_CONFIGURATION, answers, json);
-
-        Assertions.assertEquals(ValidationTypes.PARTIES_DEFENDANT, actual.getValidationResults().get(0).getType());
-        Assertions.assertEquals("2", actual.getValidationResults().get(0).getActual());
-        Assertions.assertEquals("1", actual.getValidationResults().get(0).getExpected());
 
     }
 

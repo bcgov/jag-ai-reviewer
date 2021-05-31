@@ -1,49 +1,89 @@
 {
   "properties": {
+    "document": {
+      "type": "object",
+      "fieldId": null,
+      "properties": {
+        "documentType": {
+          "type": "string",
+          "fieldId": 232,
+          "properties": {}
+        },
+        "dateFiled": {
+          "type": "string",
+          "fieldId": 260,
+          "properties": {}
+        },
+        "filedBy": {
+          "type":"string",
+          "fieldId": 231,
+          "properties": {}
+        },
+        "amended": {
+          "type":"string",
+          "fieldId": 240,
+          "properties": {}
+        }
+      }
+    },
     "court": {
       "type": "object",
+      "fieldId": null,
       "properties": {
         "location": {
           "type": "string",
-          "fieldId": 230
+          "fieldId": 230,
+          "properties": {}
         },
         "level": {
           "type": "string",
-          "fieldId": 229
+          "fieldId": 229,
+          "properties": {}
         },
-        "courtClass": {
+        "class": {
           "type": "string",
-          "fieldId": 234
-        },
-        "division": {
-          "type": "string",
-          "fieldId": 210
+          "fieldId": 234,
+          "properties": {}
         },
         "fileNumber": {
           "type": "string",
-          "fieldId": 228
-        },
-        "participatingClass": {
+          "fieldId": 228,
+          "properties": {}
+        }
+      }
+    },
+    "parties" : {
+      "type": "object",
+      "fieldId": null,
+      "properties": {
+        "defendants": {
           "type": "string",
-          "fieldId": 210
+          "fieldId": 320,
+          "properties": {}
         },
-        "agencyId": {
+        "plaintiffs": {
           "type": "string",
-          "fieldId": 210
+          "fieldId": 319,
+          "properties": {}
+        }
+      }
+    },
+    "validation" : {
+      "type": "object",
+      "fieldId": null,
+      "properties": {
+        "errorCodes": {
+          "type": "string",
+          "fieldId": 865,
+          "properties": {}
         },
-        "locationDescription": {
+        "comments": {
           "type": "string",
-          "fieldId": 210
-        },
-        "levelDescription": {
-          "type": "string",
-          "fieldId": 210
-        },
-        "classDescription": {
-          "type": "string",
-          "fieldId": 210
+          "fieldId": 259,
+          "properties": {}
         }
       }
     }
   }
 }
+
