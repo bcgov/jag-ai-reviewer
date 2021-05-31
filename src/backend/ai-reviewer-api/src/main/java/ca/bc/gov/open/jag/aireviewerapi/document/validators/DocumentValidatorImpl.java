@@ -2,12 +2,8 @@ package ca.bc.gov.open.jag.aireviewerapi.document.validators;
 
 import ca.bc.gov.open.clamav.starter.ClamAvService;
 import ca.bc.gov.open.clamav.starter.VirusDetectedException;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.Field;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenAnswerField;
-import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DocumentConfig;
-import ca.bc.gov.open.jag.aidiligenclient.diligen.model.PropertyConfig;
-import ca.bc.gov.open.jag.aireviewerapi.Keys;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentValidation;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentValidationResult;
@@ -19,9 +15,6 @@ import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerRestrictedDocumentExcept
 import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerVirusFoundException;
 import ca.bc.gov.open.jag.aireviewerapi.utils.TikaAnalysis;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -34,9 +27,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class DocumentValidatorImpl implements DocumentValidator {
@@ -94,8 +85,6 @@ public class DocumentValidatorImpl implements DocumentValidator {
 			logger.warn("document {} failed validation: {}", documentId, documentTypeResult.get().toJSON());
         }
 
-        validationResults.addAll(validateParties(answers));
-
         return new DocumentValidation(validationResults);
 
     }
@@ -125,42 +114,6 @@ public class DocumentValidatorImpl implements DocumentValidator {
                     .create());
         }
         return Optional.empty();
-    }
-
-    private List<DocumentValidationResult> validateParties(List<DiligenAnswerField> answers) {
-
-        List<DocumentValidationResult> validationResults = new ArrayList<>();
-
-        if (findPartiesByType(answers, Keys.ANSWER_PLAINTIFF_ID).size() > 1) {
-            validationResults.add(DocumentValidationResult.builder()
-                    .actual(String.valueOf(findPartiesByType(answers, Keys.ANSWER_PLAINTIFF_ID).size()))
-                    .expected("1")
-                    .type(ValidationTypes.PARTIES_PLAINTIFF)
-                    .create());
-        }
-
-        if (findPartiesByType(answers, Keys.ANSWER_DEFENDANT_ID).size() > 1) {
-            validationResults.add(DocumentValidationResult.builder()
-                    .actual(String.valueOf(findPartiesByType(answers, Keys.ANSWER_DEFENDANT_ID).size()))
-                    .expected("1")
-                    .type(ValidationTypes.PARTIES_DEFENDANT)
-                    .create());
-        }
-
-        return validationResults;
-
-    }
-
-    private List<String> findPartiesByType(List<DiligenAnswerField> answers, Integer id) {
-
-        Optional<DiligenAnswerField> documentTypeAnswer = answers.stream()
-                .filter(answer -> answer.getId().equals(id))
-                .findFirst();
-
-        if (!documentTypeAnswer.isPresent()) return new ArrayList<>();
-
-        return documentTypeAnswer.get().getValues().stream().collect(Collectors.toList());
-
     }
 
 }
