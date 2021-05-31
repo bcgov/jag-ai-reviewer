@@ -83,17 +83,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.skywalking</groupId>
-			<artifactId>apm-toolkit-trace</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.skywalking</groupId>
-			<artifactId>apm-toolkit-logback-1.x</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-core</artifactId>
 		</dependency>
