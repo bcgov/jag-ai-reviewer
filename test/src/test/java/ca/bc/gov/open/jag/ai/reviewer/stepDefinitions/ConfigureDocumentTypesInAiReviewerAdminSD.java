@@ -33,6 +33,8 @@ public class ConfigureDocumentTypesInAiReviewerAdminSD {
         logger.info("Navigating to Ai reviewer admin client");
 
         this.aiReviewerAdminClientPage.goTo(aiReviewerAdminClientUrl);
+        this.aiReviewerAdminClientPage.loginWithIdir();
+
         this.aiReviewerAdminClientPage.addNewDocTypeConfiguration();
 
         logger.info("Added new document config json and submitted");
@@ -51,6 +53,8 @@ public class ConfigureDocumentTypesInAiReviewerAdminSD {
         logger.info("Navigating to Ai reviewer admin page");
 
         this.aiReviewerAdminClientPage.goTo(aiReviewerAdminClientUrl);
+        this.aiReviewerAdminClientPage.loginWithIdir();
+
         this.aiReviewerAdminClientPage.updateDocTypeConfiguration();
 
         logger.info("Updated existing document config json and submitted");
@@ -69,6 +73,8 @@ public class ConfigureDocumentTypesInAiReviewerAdminSD {
         logger.info("Navigating to Ai reviewer admin url");
 
         this.aiReviewerAdminClientPage.goTo(aiReviewerAdminClientUrl);
+        this.aiReviewerAdminClientPage.loginWithIdir();
+
         this.aiReviewerAdminClientPage.deleteDocTypeConfiguration();
 
         logger.info("Deleted existing document config json and submitted");
