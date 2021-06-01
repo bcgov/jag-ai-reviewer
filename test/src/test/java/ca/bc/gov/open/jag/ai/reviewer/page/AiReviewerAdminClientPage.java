@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
@@ -14,6 +15,23 @@ import java.nio.file.Paths;
 import java.text.MessageFormat;
 
 public class AiReviewerAdminClientPage extends BasePage {
+
+
+    @Value("${IDIR_USERNAME:bobross}")
+    private String idirUsername;
+
+    @Value("${IDIR_PASSWORD:changeme}")
+    private String idirPassword;
+
+    //Page Objects:
+    @FindBy(id = "username")
+    private WebElement usernameField;
+
+    @FindBy(id = "password")
+    private WebElement passwordField;
+
+    @FindBy(id = "kc-login")
+    private WebElement signInButton;
 
     private static final String DOCUMENT_TYPE_LIST = "document-type-list";
 
@@ -92,4 +110,12 @@ public class AiReviewerAdminClientPage extends BasePage {
         return documentConfigList.getText().isEmpty();
     }
 
+    public void loginWithIdir() {
+        wait.until(ExpectedConditions.titleContains("Sign in to ai-reviewer"));
+        wait.until(ExpectedConditions.visibilityOf(usernameField));
+        usernameField.sendKeys(idirUsername);
+        passwordField.sendKeys(idirPassword);
+        signInButton.click();
+        wait.until(ExpectedConditions.titleIs("AI Reviewer Admin Client"));
+    }
 }
