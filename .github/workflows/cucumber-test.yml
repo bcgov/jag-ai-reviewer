@@ -166,10 +166,10 @@ jobs:
 
       # pulling images is faster than caching in most of the case
       - name: pull available docker images first
-        run: docker-compose pull -q --parallel redis clamav mongodb skywalking-oap-server keycloak
+        run: docker-compose pull -q --parallel redis clamav mongodb keycloak
 
       - name: Standup Infra
-        run: docker-compose up -d redis clamav mongodb skywalking-oap-server keycloak
+        run: docker-compose up -d redis clamav mongodb keycloak
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
