@@ -58,7 +58,7 @@ public class FieldProcessorImpl implements FieldProcessor {
                 objectNode.put(property.getKey(), value);
 
                 if (property.getKey().equals("errorCodes")) {
-                    logger.info("{} Errors encountered", value.split(",").length);
+                    logger.info("Reviewer extracted: {} errors", value.split(",").length);
                 }
 
             }
