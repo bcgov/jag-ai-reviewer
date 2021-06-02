@@ -41,5 +41,5 @@ ARG SERVICE_NAME=ai-reviewer-api
 
 COPY --from=build ./${SERVICE_NAME}/target/${SERVICE_NAME}-*.jar /app/service.jar
 
-CMD ["java", "-javaagent:/app/agent/skywalking-agent.jar",  "-jar", "/app/service.jar"]
+CMD ["java", "-jar", "/app/service.jar"]
 #############################################################################################
