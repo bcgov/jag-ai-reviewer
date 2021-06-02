@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.aidiligenclient.diligen.processor;
 
+import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenAuthServiceImpl;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DocumentConfig;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.PropertyConfig;
 import ca.bc.gov.open.jag.aidiligenclient.api.model.Field;
@@ -7,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FieldProcessorImpl implements FieldProcessor {
+
+    Logger logger = LoggerFactory.getLogger(FieldProcessorImpl.class);
 
     public ObjectNode getJson(DocumentConfig formData, List<Field> fields) {
 
@@ -49,7 +54,13 @@ public class FieldProcessorImpl implements FieldProcessor {
             }
 
             if(StringUtils.equals("string", property.getValue().getType())) {
-                objectNode.put(property.getKey(), extractStringValue(property.getValue(), fields));
+                String value = extractStringValue(property.getValue(), fields);
+                objectNode.put(property.getKey(), value);
+
+                if (property.getKey().equals("errorCodes")) {
+                    logger.info("{} Errors encountered", value.split(",").length);
+                }
+
             }
 
             if(StringUtils.equals("array", property.getValue().getType())) {
