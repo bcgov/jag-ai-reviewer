@@ -19,7 +19,7 @@
             <appender name="splunk" class="com.splunk.logging.HttpEventCollectorLogbackAppender">
                 <url>${SPLUNK_URL}</url>
                 <token>${SPLUNK_TOKEN}</token>
-                <source>ai_reviewer-api</source>
+                <source>ai-reviewer-api</source>
                 <host>${HOSTNAME}</host>
                 <sourcetype>app-logs</sourcetype>
                 <middleware>HttpEventCollectorUnitTestMiddleware</middleware>
