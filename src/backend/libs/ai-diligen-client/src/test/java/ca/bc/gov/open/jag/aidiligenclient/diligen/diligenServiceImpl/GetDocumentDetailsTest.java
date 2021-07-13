@@ -107,8 +107,8 @@ public class GetDocumentDetailsTest {
        assertEquals(1, result.getAnswers().get(0).getId());
        assertEquals(TYPE, result.getAnswers().get(0).getFieldType().getType());
        assertTrue(result.getAnswers().get(0).getFieldType().isMulti());
-       assertEquals(1, result.getAnswers().get(0).getFieldType().getOptions().size());
-       assertEquals(STRING, result.getAnswers().get(0).getFieldType().getOptions().get(0));
+       assertEquals(0, result.getAnswers().get(0).getFieldType().getOptions().size());
+       //assertEquals(STRING, result.getAnswers().get(0).getFieldType().getOptions().get(0));
        assertEquals(1, result.getAnswers().get(0).getValues().size());
        assertEquals(STRING, result.getAnswers().get(0).getValues().get(0));
 
@@ -163,9 +163,10 @@ public class GetDocumentDetailsTest {
         FieldType fieldType = new FieldType();
         fieldType.setMulti(true);
         fieldType.setType(TYPE);
+        List<Object> objects = new ArrayList<>();
         List<String> strings = new ArrayList<>();
         strings.add(STRING);
-        fieldType.setOptions(strings);
+        fieldType.setOptions(objects);
         field.setFieldType(fieldType);
         field.setValues(strings);
 
