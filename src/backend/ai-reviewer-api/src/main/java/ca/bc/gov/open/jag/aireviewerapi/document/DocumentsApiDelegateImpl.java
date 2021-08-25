@@ -185,6 +185,8 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
             extractRequestCached.ifPresent(extractRequest -> {
 
+                MDC.put(Keys.DOCUMENT_TYPE, extractRequest.getDocument().getType());
+
                 DocumentTypeConfiguration config = documentTypeConfigurationRepository.findByDocumentType(extractRequest.getDocument().getType());
 
                 if(config == null)
@@ -201,8 +203,6 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
                         .create();
 
                 extractStore.put(documentEvent.getDocumentId(), extractedResponse);
-
-                MDC.put(Keys.DOCUMENT_TYPE, extractRequest.getDocument().getType());
 
                 extractRequest.updateProcessedTimeMillis();
                 logger.info("document processed: [processingTime: {} ms, fileSize: {} bytes, transactionID: {}]", 
