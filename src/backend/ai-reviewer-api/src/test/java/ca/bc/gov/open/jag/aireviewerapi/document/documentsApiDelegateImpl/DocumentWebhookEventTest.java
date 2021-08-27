@@ -130,7 +130,7 @@ public class DocumentWebhookEventTest {
 
         Mockito.doNothing().when(webHookServiceMock).sendDocumentReady(Mockito.any(), Mockito.any(), Mockito.any());
 
-        sut = new DocumentsApiDelegateImpl(diligenServiceMock, extractRequestMapper, extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, null, webHookServiceMock);
+        sut = new DocumentsApiDelegateImpl(diligenServiceMock, extractRequestMapper, extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, null, webHookServiceMock, null);
 
     }
 

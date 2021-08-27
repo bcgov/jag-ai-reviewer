@@ -25,6 +25,8 @@ spring:
       max-request-size: ${MAX_REQUEST_SIZE:100MB}
 jag:
   ai:
+    feature:
+      redisQueue: ${FEATURE_USE_REDIS_QUEUE:true}
     cso:
       webhook:
         basePath: ${CSO_WEBHOOK_ENDPOINT:http://ai-reviewer-mock-api:1337}

@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.annotation.security.RolesAllowed;
 
+import ca.bc.gov.open.jag.aireviewerapi.core.FeatureProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -58,6 +59,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
     private final DocumentTypeConfigurationRepository documentTypeConfigurationRepository;
     private final ProcessedDocumentMapper processedDocumentMapper;
     private final WebHookService webHookService;
+    private final FeatureProperties featureProperties;
 
     public DocumentsApiDelegateImpl(
             DiligenService diligenService,
@@ -65,7 +67,11 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
             ExtractStore extractStore,
             StringRedisTemplate stringRedisTemplate,
             FieldProcessor fieldProcessor,
-            DocumentValidator documentValidator, DocumentTypeConfigurationRepository documentTypeConfigurationRepository, ProcessedDocumentMapper processedDocumentMapper, WebHookService webHookService) {
+            DocumentValidator documentValidator,
+            DocumentTypeConfigurationRepository documentTypeConfigurationRepository,
+            ProcessedDocumentMapper processedDocumentMapper,
+            WebHookService webHookService,
+            FeatureProperties featureProperties) {
 
         this.diligenService = diligenService;
         this.extractRequestMapper = extractRequestMapper;
@@ -76,6 +82,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         this.documentTypeConfigurationRepository = documentTypeConfigurationRepository;
         this.processedDocumentMapper = processedDocumentMapper;
         this.webHookService = webHookService;
+        this.featureProperties = featureProperties;
     }
 
     @Override
@@ -99,8 +106,10 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
         BigDecimal response = diligenService.postDocument(xDocumentType, file, documentTypeConfiguration.getProjectId());
 
-        //Temporary
-        stringRedisTemplate.convertAndSend("documentWait", response.toPlainString());
+        if (featureProperties.getRedisQueue()) {
+            logger.warn("Using redis queue not webHook");
+            stringRedisTemplate.convertAndSend("documentWait", response.toPlainString());
+        }
 
         Optional<ExtractRequest> extractRequestCached = extractStore.put(response, extractRequest);
 
