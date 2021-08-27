@@ -156,91 +156,91 @@ jobs:
         if: github.event.pull_request.head.repo.full_name == github.repository
         run: docker tag ai-keycloak-config:demo docker.pkg.github.com/$GITHUB_REPOSITORY/ai-keycloak-config:demo && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/ai-keycloak-config:demo
 
-  cucumber-tests:
-    name: Runs cucumber-tests
-    runs-on: ubuntu-latest
-    needs: [ai-reviewer-api-gcr, ai-reviewer-mock-api-gcr, ai-reviewer-admin-gcr, ai-reviewer-cso-api-gcr, ai-keycloak-config-gcr]
-    steps:
-      - name: Pull Git repo.
-        uses: actions/checkout@v2
+#  cucumber-tests:
+#    name: Runs cucumber-tests
+#    runs-on: ubuntu-latest
+#    needs: [ai-reviewer-api-gcr, ai-reviewer-mock-api-gcr, ai-reviewer-admin-gcr, ai-reviewer-cso-api-gcr, ai-keycloak-config-gcr]
+#    steps:
+#      - name: Pull Git repo.
+#        uses: actions/checkout@v2
 
       # pulling images is faster than caching in most of the case
-      - name: pull available docker images first
-        run: docker-compose pull -q --parallel redis clamav mongodb keycloak
+#      - name: pull available docker images first
+#        run: docker-compose pull -q --parallel redis clamav mongodb keycloak#
 
-      - name: Standup Infra
-        run: docker-compose up -d redis clamav mongodb keycloak
+      # - name: Standup Infra
+        # run: docker-compose up -d redis clamav mongodb keycloak
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          registry: docker.pkg.github.com
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Login to Docker Hub
+        # uses: docker/login-action@v1
+        # with:
+          # registry: docker.pkg.github.com
+          # username: ${{ github.repository_owner }}
+          # password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      # - name: Cache local Maven repository
+        # uses: actions/cache@v2
+        # with:
+          # path: ~/.m2/repository
+          # key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          # restore-keys: |
+            # ${{ runner.os }}-maven-
 
-      - name: Pull images (Local REPO only)
-        if: github.event.pull_request.head.repo.full_name == github.repository
-        run: docker-compose -f docker-compose.yml  -f test/docker-compose-integration.yml pull --parallel -q ai-reviewer-api ai-reviewer-mock-api ai-reviewer-admin ai-reviewer-cso-api keycloak-config
+      # - name: Pull images (Local REPO only)
+        # if: github.event.pull_request.head.repo.full_name == github.repository
+        # run: docker-compose -f docker-compose.yml  -f test/docker-compose-integration.yml pull --parallel -q ai-reviewer-api ai-reviewer-mock-api ai-reviewer-admin ai-reviewer-cso-api keycloak-config
 
-      - name: Standup Docker Pods (Local REPO only)
-        if: github.event.pull_request.head.repo.full_name == github.repository
-        run: docker-compose -f docker-compose.yml  -f test/docker-compose-integration.yml up -d ai-reviewer-api ai-reviewer-mock-api ai-reviewer-admin ai-reviewer-cso-api
+      # - name: Standup Docker Pods (Local REPO only)
+        # if: github.event.pull_request.head.repo.full_name == github.repository
+        # run: docker-compose -f docker-compose.yml  -f test/docker-compose-integration.yml up -d ai-reviewer-api ai-reviewer-mock-api ai-reviewer-admin ai-reviewer-cso-api
 
 
-      - name: Standup Docker Pods (FORK only)
-        if: github.event.pull_request.head.repo.full_name != github.repository
-        run: docker-compose up -d ai-reviewer-api ai-reviewer-mock-api ai-reviewer-admin ai-reviewer-cso-api
+      # - name: Standup Docker Pods (FORK only)
+        # if: github.event.pull_request.head.repo.full_name != github.repository
+        # run: docker-compose up -d ai-reviewer-api ai-reviewer-mock-api ai-reviewer-admin ai-reviewer-cso-api
 
-      - name: Configure keycloak (Local REPO only)
-        if: github.event.pull_request.head.repo.full_name == github.repository
-        run: |
-          docker-compose -f docker-compose.yml  -f test/docker-compose-integration.yml up keycloak-config
+      # - name: Configure keycloak (Local REPO only)
+        # if: github.event.pull_request.head.repo.full_name == github.repository
+        # run: |
+          # docker-compose -f docker-compose.yml  -f test/docker-compose-integration.yml up keycloak-config
 
-      - name: Configure keycloak (FORK only)
-        if: github.event.pull_request.head.repo.full_name != github.repository
-        run: |
-          docker-compose up keycloak-config
+      # - name: Configure keycloak (FORK only)
+        # if: github.event.pull_request.head.repo.full_name != github.repository
+        # run: |
+          # docker-compose up keycloak-config
 
-      - name: Running Integration Tests
-        env:
-          DOCKERIZE_VERSION: v0.6.1
-        continue-on-error: true
-        id: cucumber-test
-        run: |
+      # - name: Running Integration Tests
+        # env:
+          # DOCKERIZE_VERSION: v0.6.1
+        # continue-on-error: true
+        # id: cucumber-test
+        # run: |
 
-          # Maven requires chrome driver.
-          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt-get -qq -y install ./google-chrome-stable_current_amd64.deb
+          #Maven requires chrome driver.
+          # wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          # sudo apt-get -qq -y install ./google-chrome-stable_current_amd64.deb
 
-          # We need to test if ai-reviewer-api pod and service is running before we can proceed.  Using dockerize to proceed only after the below ports can be reached.
-          wget -q https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-          tar -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          #We need to test if ai-reviewer-api pod and service is running before we can proceed.  Using dockerize to proceed only after the below ports can be reached.
+          # wget -q https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          # tar -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-          ./dockerize -wait http://127.0.0.1:1337/api/isServerUp -timeout 120s -wait http://127.0.0.1:8090/actuator/health -timeout 120s -wait http://127.0.0.1:3002/actuator/health -timeout 120s -wait http://127.0.0.1:8686/actuator/health -timeout 120s
-          mvn verify -ntp -f test/pom.xml
+          # ./dockerize -wait http://127.0.0.1:1337/api/isServerUp -timeout 120s -wait http://127.0.0.1:8090/actuator/health -timeout 120s -wait http://127.0.0.1:3002/actuator/health -timeout 120s -wait http://127.0.0.1:8686/actuator/health -timeout 120s
+          # mvn verify -ntp -f test/pom.xml
 
-      # Upload Spark report for debugging purposes
-      - name: Upload Spark report for debugging purposes
-        uses: actions/upload-artifact@v2
-        with:
-          name: cucumber-spark-report
-          path: ./test/test-output/extent/Spark/Index.html
+      #Upload Spark report for debugging purposes
+      # - name: Upload Spark report for debugging purposes
+        # uses: actions/upload-artifact@v2
+        # with:
+          # name: cucumber-spark-report
+          # path: ./test/test-output/extent/Spark/Index.html
 
-      # Upload Cucumber JSON for debugging purposes
-      - name: Upload Cucumber JSON for debugging purposes
-        uses: actions/upload-artifact@v2
-        with:
-          name: cucumber-json-report
-          path: ./test/target/cucumber-reports/CucumberTestReport.json
+      #Upload Cucumber JSON for debugging purposes
+      # - name: Upload Cucumber JSON for debugging purposes
+        # uses: actions/upload-artifact@v2
+        # with:
+          # name: cucumber-json-report
+          # path: ./test/target/cucumber-reports/CucumberTestReport.json
 
-      - name: Set action status
-        if: steps.cucumber-test.outcome != 'success'
-        run: exit 1
+      # - name: Set action status
+        # if: steps.cucumber-test.outcome != 'success'
+        # run: exit 1
