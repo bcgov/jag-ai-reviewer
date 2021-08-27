@@ -1744,4 +1744,4 @@ components:
         options:
           type: array
           items:
-            type: string
+            type: object

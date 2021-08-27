@@ -5,13 +5,13 @@ import java.util.List;
 public class DiligenAnswerFieldType {
     private String type;
     private boolean multi;
-    private List<String> options;
+    private List<Object> options;
 
     public String getType() {  return type;  }
 
     public boolean isMulti() {  return multi;  }
 
-    public List<String> getOptions() {  return options;  }
+    public List<Object> getOptions() {  return options;  }
 
     public DiligenAnswerFieldType(DiligenAnswerFieldType.Builder builder) {
         this.type = builder.type;
@@ -27,7 +27,7 @@ public class DiligenAnswerFieldType {
 
         private String type;
         private boolean multi;
-        private List<String> options;
+        private List<Object> options;
 
 
         public DiligenAnswerFieldType.Builder type(String type) {
@@ -40,7 +40,7 @@ public class DiligenAnswerFieldType {
             return this;
         }
 
-        public DiligenAnswerFieldType.Builder options(List<String> options) {
+        public DiligenAnswerFieldType.Builder options(List<Object> options) {
             this.options = options;
             return this;
         }
