@@ -4,6 +4,7 @@ import ca.bc.gov.open.clamav.starter.VirusDetectedException;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.processor.FieldProcessor;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentExtractResponse;
+import ca.bc.gov.open.jag.aireviewerapi.core.FeatureProperties;
 import ca.bc.gov.open.jag.aireviewerapi.document.DocumentsApiDelegateImpl;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.aireviewerapi.document.store.DocumentTypeConfigurationRepository;
@@ -94,8 +95,10 @@ public class ExtractDocumentFormDataTest {
         
         Mockito.doNothing().when(stringRedisTemplateMock).convertAndSend(any(), any());
 
-        ExtractRequestMapper extractRequestMapper = new ExtractRequestMapperImpl();
-        sut = new DocumentsApiDelegateImpl(diligenServiceMock, extractRequestMapper, extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, null, null);
+        FeatureProperties featureProperties = new FeatureProperties();
+        featureProperties.setRedisQueue(true);
+
+        sut = new DocumentsApiDelegateImpl(diligenServiceMock, new ExtractRequestMapperImpl(), extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, null, null, featureProperties);
 
     }
     @Test
