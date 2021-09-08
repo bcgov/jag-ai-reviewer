@@ -12,6 +12,7 @@ import ca.bc.gov.open.jag.aireviewerapi.core.FeatureProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,7 @@ import ca.bc.gov.open.jag.aireviewerapi.extract.store.ExtractStore;
 import ca.bc.gov.open.jag.aireviewerapi.webhook.WebHookService;
 
 @Service
+@EnableConfigurationProperties(FeatureProperties.class)
 public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
     Logger logger = LoggerFactory.getLogger(DocumentsApiDelegateImpl.class);
