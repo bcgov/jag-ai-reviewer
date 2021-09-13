@@ -1,7 +1,7 @@
-package ca.bc.gov.open.jag.aireviewerapi.webhook.config;
+package ca.bc.gov.open.jag.aireviewerapi.cso.config;
 
-import ca.bc.gov.open.jag.aireviewerapi.webhook.WebHookService;
-import ca.bc.gov.open.jag.aireviewerapi.webhook.properties.WebHookProperties;
+import ca.bc.gov.open.jag.aireviewerapi.cso.CSOORDSService;
+import ca.bc.gov.open.jag.aireviewerapi.cso.properties.CSOProperties;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,17 +12,17 @@ import org.springframework.web.client.RestTemplate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class WebHookConfigTest {
+public class CSOORDSConfigTest {
     ApplicationContextRunner context;
 
     @BeforeAll
     public void setup() {
         context = new ApplicationContextRunner()
-                .withUserConfiguration(WebHookConfig.class)
+                .withUserConfiguration(CSOORDSConfig.class)
                 .withBean(RestTemplate.class)
                 .withPropertyValues("jag.ai.cso.webhook.basePath=http://test",
                         "jag.ai.cso.webhook.returnPath=http://test")
-                .withUserConfiguration(WebHookProperties.class);
+                .withUserConfiguration(CSOProperties.class);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class WebHookConfigTest {
     public void testBeansAreGenerated() {
 
         context.run(it -> {
-            assertThat(it).hasSingleBean(WebHookService.class);
+            assertThat(it).hasSingleBean(CSOORDSService.class);
         });
 
     }

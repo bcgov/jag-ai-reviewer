@@ -1,7 +1,6 @@
-package ca.bc.gov.open.jag.aireviewerapi.webhook;
+package ca.bc.gov.open.jag.aireviewerapi.cso;
 
-import ca.bc.gov.open.jag.aireviewerapi.webhook.model.DocumentReady;
-import ca.bc.gov.open.jag.aireviewerapi.webhook.properties.WebHookProperties;
+import ca.bc.gov.open.jag.aireviewerapi.cso.properties.CSOProperties;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -15,10 +14,10 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class WebHookServiceImplTest {
+public class CSOORDSServiceImplTest {
 
     private static final String FAKE_PATH = "http://test";
-    WebHookService sut;
+    CSOORDSService sut;
 
     @Mock
     private RestTemplate restTemplateMock;
@@ -29,13 +28,13 @@ public class WebHookServiceImplTest {
 
         MockitoAnnotations.openMocks(this);
 
-        WebHookProperties webHookProperties = new WebHookProperties();
+        CSOProperties CSOProperties = new CSOProperties();
 
-        webHookProperties.setBasePath(FAKE_PATH);
-        webHookProperties.setReturnPath(FAKE_PATH);
+        CSOProperties.setBasePath(FAKE_PATH);
+        CSOProperties.setReturnPath(FAKE_PATH);
 
 
-        sut = new WebHookServiceImpl(restTemplateMock, webHookProperties);
+        sut = new CSOORDSServiceImpl(restTemplateMock, CSOProperties);
 
     }
 

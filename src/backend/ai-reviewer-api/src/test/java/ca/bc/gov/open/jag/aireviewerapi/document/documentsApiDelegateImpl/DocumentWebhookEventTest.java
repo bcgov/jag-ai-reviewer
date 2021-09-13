@@ -19,7 +19,7 @@ import ca.bc.gov.open.jag.aireviewerapi.extract.mappers.ExtractRequestMapperImpl
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.Extract;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractRequest;
 import ca.bc.gov.open.jag.aireviewerapi.extract.store.ExtractStore;
-import ca.bc.gov.open.jag.aireviewerapi.webhook.WebHookService;
+import ca.bc.gov.open.jag.aireviewerapi.cso.CSOORDSService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.*;
@@ -62,7 +62,7 @@ public class DocumentWebhookEventTest {
     private DocumentTypeConfigurationRepository documentTypeConfigurationRepositoryMock;
 
     @Mock
-    private WebHookService webHookServiceMock;
+    private CSOORDSService CSOORDSServiceMock;
 
     @BeforeAll
     public void beforeAll() {
@@ -128,9 +128,9 @@ public class DocumentWebhookEventTest {
                         .create())
                 .create()));
 
-        Mockito.doNothing().when(webHookServiceMock).sendDocumentReady(Mockito.any(), Mockito.any(), Mockito.any());
+        Mockito.doNothing().when(CSOORDSServiceMock).sendDocumentReady(Mockito.any(), Mockito.any(), Mockito.any());
 
-        sut = new DocumentsApiDelegateImpl(diligenServiceMock, extractRequestMapper, extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, null, webHookServiceMock, null);
+        sut = new DocumentsApiDelegateImpl(diligenServiceMock, extractRequestMapper, extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, null, CSOORDSServiceMock, null);
 
     }
 

@@ -1,4 +1,4 @@
-package ca.bc.gov.open.jag.aireviewerapi.webhook.model;
+package ca.bc.gov.open.jag.aireviewerapi.cso.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -44,7 +44,7 @@ import ca.bc.gov.open.jag.aireviewerapi.extract.mappers.ProcessedDocumentMapper;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractRequest;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractResponse;
 import ca.bc.gov.open.jag.aireviewerapi.extract.store.ExtractStore;
-import ca.bc.gov.open.jag.aireviewerapi.webhook.WebHookService;
+import ca.bc.gov.open.jag.aireviewerapi.cso.CSOORDSService;
 
 @Service
 @EnableConfigurationProperties(FeatureProperties.class)
@@ -60,7 +60,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
     private final DocumentValidator documentValidator;
     private final DocumentTypeConfigurationRepository documentTypeConfigurationRepository;
     private final ProcessedDocumentMapper processedDocumentMapper;
-    private final WebHookService webHookService;
+    private final CSOORDSService CSOORDSService;
     private final FeatureProperties featureProperties;
 
     public DocumentsApiDelegateImpl(
@@ -72,7 +72,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
             DocumentValidator documentValidator,
             DocumentTypeConfigurationRepository documentTypeConfigurationRepository,
             ProcessedDocumentMapper processedDocumentMapper,
-            WebHookService webHookService,
+            CSOORDSService CSOORDSService,
             FeatureProperties featureProperties) {
 
         this.diligenService = diligenService;
@@ -83,7 +83,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         this.documentValidator = documentValidator;
         this.documentTypeConfigurationRepository = documentTypeConfigurationRepository;
         this.processedDocumentMapper = processedDocumentMapper;
-        this.webHookService = webHookService;
+        this.CSOORDSService = CSOORDSService;
         this.featureProperties = featureProperties;
     }
 
@@ -224,7 +224,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
                 if (extractRequestCached.get().getExtract().getUseWebhook()) {
                     //Send document ready message
-                    webHookService.sendDocumentReady(documentEvent.getDocumentId(), extractRequest.getDocument().getType(), extractRequest.getExtract().getTransactionId());
+                    CSOORDSService.sendDocumentReady(extractedResponse);
                 }
             });
 
