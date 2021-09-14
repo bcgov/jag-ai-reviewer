@@ -37,7 +37,7 @@ public class CSOORDSServiceImpl implements CSOORDSService {
         int maxAttempt = 5;
         logger.info("Sending transaction {} extract to cso", processedDocument.getExtract().getTransactionId());
 
-        while(attempt < maxAttempt) {
+        while (attempt < maxAttempt) {
             logger.info("Attempting to send extract try number {}", (attempt + 1));
             try {
                 
@@ -48,11 +48,11 @@ public class CSOORDSServiceImpl implements CSOORDSService {
 
                 ResponseEntity result = restTemplate.postForEntity(MessageFormat.format(Keys.CSO_PATH, CSOProperties.getBasePath()),
                         entity,
-                        ProcessedDocument.class);
+                        String.class);
 
                 if (result.getStatusCode().is2xxSuccessful()) {
                     logger.info("Transaction {} has been received by cso", processedDocument.getExtract().getTransactionId());
-                    break;
+                    return;
                 }
             } catch (Exception ex) {
                 logger.error("Exception when sending extract to cso");
