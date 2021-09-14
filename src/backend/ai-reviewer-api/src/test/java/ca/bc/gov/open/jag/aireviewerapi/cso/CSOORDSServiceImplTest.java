@@ -1,8 +1,8 @@
 package ca.bc.gov.open.jag.aireviewerapi.cso;
 
+import ca.bc.gov.open.jag.aireviewerapi.api.model.Extract;
+import ca.bc.gov.open.jag.aireviewerapi.api.model.ProcessedDocument;
 import ca.bc.gov.open.jag.aireviewerapi.cso.properties.CSOProperties;
-import ca.bc.gov.open.jag.aireviewerapi.extract.models.Extract;
-import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractResponse;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -10,7 +10,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -45,13 +44,15 @@ public class CSOORDSServiceImplTest {
 
         Mockito.when(restTemplateMock.postForEntity(any(String.class), any(), any(Class.class))).thenReturn(ResponseEntity.ok("success"));
 
-        Assertions.assertDoesNotThrow(() -> sut.sendExtractedData(ExtractResponse.builder()
-                .extract(
-                        Extract.builder()
-                                .transactionId(UUID.randomUUID())
-                                .create()
-                )
-                .create()));
+        ProcessedDocument processedDocument = new ProcessedDocument();
+
+        Extract extract = new Extract();
+
+        extract.setTransactionId(UUID.randomUUID());
+
+        processedDocument.setExtract(extract);
+
+        Assertions.assertDoesNotThrow(() -> sut.sendExtractedData(processedDocument));
 
     }
 
@@ -61,13 +62,15 @@ public class CSOORDSServiceImplTest {
 
         Mockito.when(restTemplateMock.postForEntity(any(String.class), any(), any(Class.class))).thenReturn(ResponseEntity.notFound().build());
 
-        Assertions.assertDoesNotThrow(() -> sut.sendExtractedData(ExtractResponse.builder()
-                .extract(
-                        Extract.builder()
-                                .transactionId(UUID.randomUUID())
-                                .create()
-                )
-                .create()));
+        ProcessedDocument processedDocument = new ProcessedDocument();
+
+        Extract extract = new Extract();
+
+        extract.setTransactionId(UUID.randomUUID());
+
+        processedDocument.setExtract(extract);
+
+        Assertions.assertDoesNotThrow(() -> sut.sendExtractedData(processedDocument));
 
     }
 

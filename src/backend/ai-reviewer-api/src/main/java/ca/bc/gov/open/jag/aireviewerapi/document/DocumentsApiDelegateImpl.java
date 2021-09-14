@@ -228,7 +228,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
                 if (extractRequestCached.get().getExtract().getUseWebhook()) {
 
                     //Send data to cso
-                    CSOORDSService.sendExtractedData(extractedResponse);
+                    CSOORDSService.sendExtractedData(processedDocumentMapper.toProcessedDocument(extractedResponse, extractedResponse.getDocumentValidation().getValidationResults()));
                     //Remove the document from redis process is complete
                     extractStore.evict(documentEvent.getDocumentId());
                     extractStore.evictResponse(documentEvent.getDocumentId());

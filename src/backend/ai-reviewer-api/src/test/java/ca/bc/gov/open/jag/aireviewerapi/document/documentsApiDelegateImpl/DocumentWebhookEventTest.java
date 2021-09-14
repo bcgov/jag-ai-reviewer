@@ -11,11 +11,14 @@ import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEventData;
 import ca.bc.gov.open.jag.aireviewerapi.document.DocumentsApiDelegateImpl;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.Document;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
+import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentValidation;
+import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentValidationResult;
 import ca.bc.gov.open.jag.aireviewerapi.document.store.DocumentTypeConfigurationRepository;
 import ca.bc.gov.open.jag.aireviewerapi.document.validators.DocumentValidator;
 import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentException;
 import ca.bc.gov.open.jag.aireviewerapi.extract.mappers.ExtractRequestMapper;
 import ca.bc.gov.open.jag.aireviewerapi.extract.mappers.ExtractRequestMapperImpl;
+import ca.bc.gov.open.jag.aireviewerapi.extract.mappers.ProcessedDocumentMapperImpl;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.Extract;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractRequest;
 import ca.bc.gov.open.jag.aireviewerapi.extract.store.ExtractStore;
@@ -128,9 +131,11 @@ public class DocumentWebhookEventTest {
                         .create())
                 .create()));
 
+        Mockito.when(documentValidatorMock.validateExtractedDocument(Mockito.any(),Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(new DocumentValidation(new ArrayList<>()));
+
         Mockito.doNothing().when(CSOORDSServiceMock).sendExtractedData(Mockito.any());
 
-        sut = new DocumentsApiDelegateImpl(diligenServiceMock, extractRequestMapper, extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, null, CSOORDSServiceMock, null);
+        sut = new DocumentsApiDelegateImpl(diligenServiceMock, extractRequestMapper, extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, new ProcessedDocumentMapperImpl(), CSOORDSServiceMock, null);
 
     }
 
