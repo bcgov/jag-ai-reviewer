@@ -15,12 +15,12 @@
           "properties": {}
         },
         "filedBy": {
-          "type":"string",
+          "type": "string",
           "fieldId": 231,
           "properties": {}
         },
         "amended": {
-          "type":"string",
+          "type": "string",
           "fieldId": 240,
           "properties": {}
         }
@@ -52,23 +52,23 @@
         }
       }
     },
-    "parties" : {
+    "parties": {
       "type": "object",
       "fieldId": null,
       "properties": {
         "defendants": {
           "type": "string",
-          "fieldId": 320,
+          "fieldId": 1233,
           "properties": {}
         },
         "plaintiffs": {
           "type": "string",
-          "fieldId": 319,
+          "fieldId": 320,
           "properties": {}
         }
       }
     },
-    "validation" : {
+    "validation": {
       "type": "object",
       "fieldId": null,
       "properties": {

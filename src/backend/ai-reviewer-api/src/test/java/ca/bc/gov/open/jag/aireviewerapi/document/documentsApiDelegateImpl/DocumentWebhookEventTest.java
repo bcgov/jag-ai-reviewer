@@ -128,7 +128,7 @@ public class DocumentWebhookEventTest {
                         .create())
                 .create()));
 
-        Mockito.doNothing().when(CSOORDSServiceMock).sendDocumentReady(Mockito.any(), Mockito.any(), Mockito.any());
+        Mockito.doNothing().when(CSOORDSServiceMock).sendExtractedData(Mockito.any());
 
         sut = new DocumentsApiDelegateImpl(diligenServiceMock, extractRequestMapper, extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, null, CSOORDSServiceMock, null);
 

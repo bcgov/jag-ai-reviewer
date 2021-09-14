@@ -1,6 +1,5 @@
 package ca.bc.gov.open.jag.aidiligenclient.diligen.processor;
 
-import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenAuthServiceImpl;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DocumentConfig;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.PropertyConfig;
 import ca.bc.gov.open.jag.aidiligenclient.api.model.Field;
@@ -57,8 +56,15 @@ public class FieldProcessorImpl implements FieldProcessor {
                 String value = extractStringValue(property.getValue(), fields);
                 objectNode.put(property.getKey(), value);
 
+                //This logic is a requirement to report on error codes
                 if (property.getKey().equals("errorCodes")) {
+
                     logger.info("Reviewer extracted: {} errors", value.split(",").length);
+
+                    for(String errorCode : value.split(",")) {
+                        logger.info("Error code: {} detected", errorCode);
+                    }
+
                 }
 
             }

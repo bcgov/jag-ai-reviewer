@@ -126,7 +126,9 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
     @Override
     public ResponseEntity<Void> documentEvent(UUID xTransactionId, DocumentEvent documentEvent) {
+
         return handleDocumentEvent(documentEvent);
+
     }
 
     @Override
@@ -152,6 +154,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     @Override
@@ -184,6 +187,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
     }
 
     private ResponseEntity<Void> handleDocumentEvent(DocumentEvent documentEvent) {
+
         logger.info("document {} status has changed to {}", documentEvent.getDocumentId(), documentEvent.getStatus());
 
         if (documentEvent.getStatus().equalsIgnoreCase(Keys.PROCESSED_STATUS)) {
@@ -220,11 +224,18 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
                 		extractRequest.getProcessedTimeMillis(), 
                 		extractedResponse.getDocument().getSize(),
                 		extractRequest.getExtract().getTransactionId());
-                extractStore.put(documentEvent.getDocumentId(), extractRequest);
 
                 if (extractRequestCached.get().getExtract().getUseWebhook()) {
-                    //Send document ready message
-                    CSOORDSService.sendDocumentReady(extractedResponse);
+
+                    //Send data to cso
+                    CSOORDSService.sendExtractedData(extractedResponse);
+                    //Remove the document from redis process is complete
+                    extractStore.evict(documentEvent.getDocumentId());
+                    extractStore.evictResponse(documentEvent.getDocumentId());
+
+                } else {
+                    //Data is temporarily stored for process that does not return data to parent
+                    extractStore.put(documentEvent.getDocumentId(), extractRequest);
                 }
             });
 
@@ -232,6 +243,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
         MDC.remove(Keys.DOCUMENT_TYPE);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
 }

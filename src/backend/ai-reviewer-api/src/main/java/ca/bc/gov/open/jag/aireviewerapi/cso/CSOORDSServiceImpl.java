@@ -1,7 +1,6 @@
 package ca.bc.gov.open.jag.aireviewerapi.cso;
 
 import ca.bc.gov.open.jag.aireviewerapi.Keys;
-import ca.bc.gov.open.jag.aireviewerapi.cso.model.DocumentReady;
 import ca.bc.gov.open.jag.aireviewerapi.cso.properties.CSOProperties;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractResponse;
 import org.slf4j.Logger;
@@ -12,9 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.UUID;
 
 @Service
 public class CSOORDSServiceImpl implements CSOORDSService {
@@ -31,24 +28,27 @@ public class CSOORDSServiceImpl implements CSOORDSService {
 
 
     @Override
-    public void sendDocumentReady(ExtractResponse extractResponse) {
+    public void sendExtractedData(ExtractResponse extractResponse) {
 
         int attempt = 0;
         int maxAttempt = 5;
-        logger.info("Sending extract to parent");
+        logger.info("Sending transaction {} extract to cso", extractResponse.getExtract().getTransactionId());
 
         while(attempt < maxAttempt) {
             logger.info("Attempting to send extract try number {}", (attempt + 1));
             try {
                 
                 HttpHeaders headers = new HttpHeaders();
+                headers.setBasicAuth(CSOProperties.getUsername(), CSOProperties.getPassword());
+
+                HttpEntity<ExtractResponse> entity = new HttpEntity<>(extractResponse, headers);
 
                 ResponseEntity result = restTemplate.postForEntity(MessageFormat.format(Keys.CSO_PATH, CSOProperties.getBasePath()),
-                        extractResponse,
+                        entity,
                         ExtractResponse.class);
 
                 if (result.getStatusCode().is2xxSuccessful()) {
-                    logger.info("Document has been received by parent");
+                    logger.info("Transaction {} has been received by cso", extractResponse.getExtract().getTransactionId());
                     break;
                 }
             } catch (Exception ex) {
@@ -57,6 +57,8 @@ public class CSOORDSServiceImpl implements CSOORDSService {
             attempt++;
 
         }
+
+        logger.info("Transaction {} failed to send data to cso", extractResponse.getExtract().getTransactionId());
 
     }
 

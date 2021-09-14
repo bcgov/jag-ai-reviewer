@@ -1,6 +1,8 @@
 package ca.bc.gov.open.jag.aireviewerapi.cso;
 
 import ca.bc.gov.open.jag.aireviewerapi.cso.properties.CSOProperties;
+import ca.bc.gov.open.jag.aireviewerapi.extract.models.Extract;
+import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractResponse;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -17,6 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 public class CSOORDSServiceImplTest {
 
     private static final String FAKE_PATH = "http://test";
+
     CSOORDSService sut;
 
     @Mock
@@ -31,8 +34,6 @@ public class CSOORDSServiceImplTest {
         CSOProperties CSOProperties = new CSOProperties();
 
         CSOProperties.setBasePath(FAKE_PATH);
-        CSOProperties.setReturnPath(FAKE_PATH);
-
 
         sut = new CSOORDSServiceImpl(restTemplateMock, CSOProperties);
 
@@ -44,7 +45,13 @@ public class CSOORDSServiceImplTest {
 
         Mockito.when(restTemplateMock.postForEntity(any(String.class), any(), any(Class.class))).thenReturn(ResponseEntity.ok("success"));
 
-        Assertions.assertDoesNotThrow(() -> sut.sendDocumentReady(BigDecimal.ONE, "DOCUMENT TYPE", UUID.randomUUID()));
+        Assertions.assertDoesNotThrow(() -> sut.sendExtractedData(ExtractResponse.builder()
+                .extract(
+                        Extract.builder()
+                                .transactionId(UUID.randomUUID())
+                                .create()
+                )
+                .create()));
 
     }
 
@@ -54,7 +61,13 @@ public class CSOORDSServiceImplTest {
 
         Mockito.when(restTemplateMock.postForEntity(any(String.class), any(), any(Class.class))).thenReturn(ResponseEntity.notFound().build());
 
-        Assertions.assertDoesNotThrow(() -> sut.sendDocumentReady(BigDecimal.ONE, "DOCUMENT TYPE", UUID.randomUUID()));
+        Assertions.assertDoesNotThrow(() -> sut.sendExtractedData(ExtractResponse.builder()
+                .extract(
+                        Extract.builder()
+                                .transactionId(UUID.randomUUID())
+                                .create()
+                )
+                .create()));
 
     }
 
