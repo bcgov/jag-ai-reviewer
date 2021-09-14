@@ -98,37 +98,6 @@ jobs:
         if: github.event.pull_request.head.repo.full_name == github.repository
         run: docker tag ai-reviewer-admin:builder docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-admin:builder && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-admin:builder
 
-  ai-reviewer-cso-api-gcr:
-    name: Ai Reviewer Cso Api GCR
-    runs-on: ubuntu-latest
-    steps:
-      - name: Pull Git repo.
-        uses: actions/checkout@v2
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          registry: docker.pkg.github.com
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Pull ai-reviewer-cso-api-builder
-        run: docker pull docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-cso-api:builder || true
-
-      - name: build ai-reviewer-cso-apii-builder
-        run: docker build ./src/backend
-          -f ./src/backend/Dockerfile.ai-reviewer-cso-api
-          --target build
-          -t ai-reviewer-cso-api:builder
-          --build-arg SERVICE_NAME=ai-reviewer-cso-api
-          --build-arg MVN_PROFILE=ai-reviewer-cso
-          --build-arg STARTERS_V=v0.1.8
-          --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-cso-api:builder
-
-      - name: tag & push ai-reviewer-cso-api to git container registry
-        if: github.event.pull_request.head.repo.full_name == github.repository
-        run: docker tag ai-reviewer-cso-api:builder docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-cso-api:builder && docker push docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-cso-api:builder
-
   ai-keycloak-config-gcr:
     name: Ai-Keycloack Config GCR
     runs-on: ubuntu-latest
