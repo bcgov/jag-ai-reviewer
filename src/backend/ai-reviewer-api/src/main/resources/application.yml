@@ -28,9 +28,9 @@ jag:
     feature:
       redisQueue: ${FEATURE_USE_REDIS_QUEUE:true}
     cso:
-      webhook:
-        basePath: ${CSO_WEBHOOK_ENDPOINT:http://ai-reviewer-mock-api:1337}
-        returnPath: ${CSO_WEBHOOK_RETURN_ENDPOINT:http://ai-reviewer-api:8090}
+      basePath: ${CSO_ORDS_ENDPOINT:http://ai-reviewer-mock-api:1337}
+      username: ${CSO_ORDS_USERNAME}
+      password: ${CSO_ORDS_PASSWORD}
     diligen:
       health:
         enabled: ${DILIGEN_HEALTH_ENABLED:true}

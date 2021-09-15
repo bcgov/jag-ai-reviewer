@@ -44,7 +44,7 @@ import ca.bc.gov.open.jag.aireviewerapi.extract.mappers.ProcessedDocumentMapper;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractRequest;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractResponse;
 import ca.bc.gov.open.jag.aireviewerapi.extract.store.ExtractStore;
-import ca.bc.gov.open.jag.aireviewerapi.webhook.WebHookService;
+import ca.bc.gov.open.jag.aireviewerapi.cso.CSOORDSService;
 
 @Service
 @EnableConfigurationProperties(FeatureProperties.class)
@@ -60,7 +60,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
     private final DocumentValidator documentValidator;
     private final DocumentTypeConfigurationRepository documentTypeConfigurationRepository;
     private final ProcessedDocumentMapper processedDocumentMapper;
-    private final WebHookService webHookService;
+    private final CSOORDSService csoOrdsService;
     private final FeatureProperties featureProperties;
 
     public DocumentsApiDelegateImpl(
@@ -72,7 +72,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
             DocumentValidator documentValidator,
             DocumentTypeConfigurationRepository documentTypeConfigurationRepository,
             ProcessedDocumentMapper processedDocumentMapper,
-            WebHookService webHookService,
+            CSOORDSService csoOrdsService,
             FeatureProperties featureProperties) {
 
         this.diligenService = diligenService;
@@ -83,7 +83,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         this.documentValidator = documentValidator;
         this.documentTypeConfigurationRepository = documentTypeConfigurationRepository;
         this.processedDocumentMapper = processedDocumentMapper;
-        this.webHookService = webHookService;
+        this.csoOrdsService = csoOrdsService;
         this.featureProperties = featureProperties;
     }
 
@@ -126,7 +126,9 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
     @Override
     public ResponseEntity<Void> documentEvent(UUID xTransactionId, DocumentEvent documentEvent) {
+
         return handleDocumentEvent(documentEvent);
+
     }
 
     @Override
@@ -152,6 +154,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     @Override
@@ -184,6 +187,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
     }
 
     private ResponseEntity<Void> handleDocumentEvent(DocumentEvent documentEvent) {
+
         logger.info("document {} status has changed to {}", documentEvent.getDocumentId(), documentEvent.getStatus());
 
         if (documentEvent.getStatus().equalsIgnoreCase(Keys.PROCESSED_STATUS)) {
@@ -220,11 +224,18 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
                 		extractRequest.getProcessedTimeMillis(), 
                 		extractedResponse.getDocument().getSize(),
                 		extractRequest.getExtract().getTransactionId());
-                extractStore.put(documentEvent.getDocumentId(), extractRequest);
 
                 if (extractRequestCached.get().getExtract().getUseWebhook()) {
-                    //Send document ready message
-                    webHookService.sendDocumentReady(documentEvent.getDocumentId(), extractRequest.getDocument().getType(), extractRequest.getExtract().getTransactionId());
+
+                    //Send data to cso
+                    csoOrdsService.sendExtractedData(processedDocumentMapper.toProcessedDocument(extractedResponse, extractedResponse.getDocumentValidation().getValidationResults()));
+                    //Remove the document from redis process is complete
+                    extractStore.evict(documentEvent.getDocumentId());
+                    extractStore.evictResponse(documentEvent.getDocumentId());
+
+                } else {
+                    //Data is temporarily stored for process that does not return data to parent
+                    extractStore.put(documentEvent.getDocumentId(), extractRequest);
                 }
             });
 
@@ -232,6 +243,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
         MDC.remove(Keys.DOCUMENT_TYPE);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
 }

@@ -32,7 +32,7 @@ services:
     ports:
       - "8090:8080"
     environment:
-      - DILIGEN_BASE_PATH=http://ai-reviewer-mock-api:1337
+      - DILIGEN_BASE_PATH=${DILIGEN_BASE_PATH:http://ai-reviewer-mock-api:1337}
       - DILIGEN_USERNAME=${DILIGEN_USERNAME}
       - DILIGEN_PASSWORD=${DILIGEN_PASSWORD}
       - REDIS_HOST=redis
@@ -47,22 +47,10 @@ services:
       - KEYCLOAK_RESOURCE=${KEYCLOAK_RESOURCE:-ai-reviewer-api}
       - KEYCLOAK_CREDENTIALS_SECRET=${KEYCLOAK_CREDENTIALS_SECRET}
       - KEYCLOAK_SSL_REQUIRED=${KEYCLOAK_SSL_REQUIRED:-none}
-
-  #############################################################################################
-  ###                           AI reviewer cso backend app                                 ###
-  #############################################################################################
-  ai-reviewer-cso-api:
-    container_name: ai-reviewer-cso-api
-    hostname: ai-reviewer-cso-api
-    build:
-      context: ./src/backend
-      dockerfile: Dockerfile.ai-reviewer-cso-api
-      args:
-        - SKIP_TESTS=true
-        - MVN_PROFILE=${MVN_PROFILE:-ai-reviewer-cso}
-        - STARTERS_V=v0.1.8
-    ports:
-      - "8686:8080"
+      - CSO_ORDS_ENDPOINT=${CSO_ORDS_ENDPOINT:http://ai-reviewer-mock-api:1337}
+      - CSO_ORDS_USERNAME=${CSO_ORDS_USERNAME}
+      - CSO_ORDS_PASSWORD=${CSO_ORDS_PASSWORD}
+      - FEATURE_USE_REDIS_QUEUE=${FEATURE_USE_REDIS_QUEUE}
 
   #############################################################################################
   ###                           AI Reviewer Mock Service                                    ###
@@ -89,20 +77,6 @@ services:
       - "3310:3310"
 
 
-  #############################################################################################
-  ###                             JAG MAIL IT                                               ###
-  #############################################################################################
-  mail-it:
-    build:
-      context: https://github.com/bcgov/jag-mail-it.git#main:src
-    ports:
-      - "8099:8080"
-    environment:
-      - JMT_SPRING_REDIS_PORT=6379
-      - JMT_SPRING_REDIS_HOST=redis
-      - JMT_SPRING_REDIS_PASSWORD=admin
-      - JMT_SPRING_EMAIL_HOST=mailhog
-      - JMT_SPRING_EMAIL_PORT=1025
 
   #############################################################################################
   ###                                 REDIS SERVER                                          ###
@@ -132,9 +106,9 @@ services:
     ports:
       - "8082:8081"
 
-  # #############################################################################################
-  # ###                                        KEYCLOAK                                       ###
-  # #############################################################################################
+  ##############################################################################################
+  ####                                        KEYCLOAK                                       ###
+  ##############################################################################################
   keycloak:
     image: quay.io/keycloak/keycloak
     environment:
@@ -153,14 +127,6 @@ services:
   # #############################################################################################
   keycloak-config:
     command: sh -c "dockerize -wait http://keycloak:8080 -timeout 300s /tmp/createuser.sh"
-
-  #############################################################################################
-  ###                             CLAMAV                                                    ###
-  #############################################################################################
-  clamav:
-    image: mk0x/docker-clamav
-    ports:
-      - "3310:3310"
 
   #############################################################################################
   ###                             MONGO DB                                                  ###
