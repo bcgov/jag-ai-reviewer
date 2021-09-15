@@ -32,7 +32,7 @@ services:
     ports:
       - "8090:8080"
     environment:
-      - DILIGEN_BASE_PATH=${DILIGEN_BASE_PATH:http://ai-reviewer-mock-api:1337}
+      - DILIGEN_BASE_PATH=${DILIGEN_BASE_PATH:-http://ai-reviewer-mock-api:1337}
       - DILIGEN_USERNAME=${DILIGEN_USERNAME}
       - DILIGEN_PASSWORD=${DILIGEN_PASSWORD}
       - REDIS_HOST=redis
@@ -47,7 +47,7 @@ services:
       - KEYCLOAK_RESOURCE=${KEYCLOAK_RESOURCE:-ai-reviewer-api}
       - KEYCLOAK_CREDENTIALS_SECRET=${KEYCLOAK_CREDENTIALS_SECRET}
       - KEYCLOAK_SSL_REQUIRED=${KEYCLOAK_SSL_REQUIRED:-none}
-      - CSO_ORDS_ENDPOINT=${CSO_ORDS_ENDPOINT:http://ai-reviewer-mock-api:1337}
+      - CSO_ORDS_ENDPOINT=${CSO_ORDS_ENDPOINT:-http://ai-reviewer-mock-api:1337}
       - CSO_ORDS_USERNAME=${CSO_ORDS_USERNAME}
       - CSO_ORDS_PASSWORD=${CSO_ORDS_PASSWORD}
       - FEATURE_USE_REDIS_QUEUE=${FEATURE_USE_REDIS_QUEUE}
