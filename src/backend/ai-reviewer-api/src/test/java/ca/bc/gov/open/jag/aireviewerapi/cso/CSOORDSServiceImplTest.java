@@ -30,11 +30,11 @@ public class CSOORDSServiceImplTest {
 
         MockitoAnnotations.openMocks(this);
 
-        CSOProperties CSOProperties = new CSOProperties();
+        CSOProperties csoproperties = new CSOProperties();
 
-        CSOProperties.setBasePath(FAKE_PATH);
+        csoproperties.setBasePath(FAKE_PATH);
 
-        sut = new CSOORDSServiceImpl(restTemplateMock, CSOProperties);
+        sut = new CSOORDSServiceImpl(restTemplateMock, csoproperties);
 
     }
 
@@ -42,7 +42,7 @@ public class CSOORDSServiceImplTest {
     @DisplayName("Success: accept any event")
     public void withParentAppAvailableDocumentReadySent() {
 
-        Mockito.when(restTemplateMock.postForEntity(any(String.class), any(), any(Class.class))).thenReturn(ResponseEntity.ok("success"));
+        Mockito.when(restTemplateMock.exchange(any(String.class), any(), any(), any(Class.class))).thenReturn(ResponseEntity.ok("success"));
 
         ProcessedDocument processedDocument = new ProcessedDocument();
 
@@ -60,7 +60,7 @@ public class CSOORDSServiceImplTest {
     @DisplayName("Error: message was not sent")
     public void withParentAppDownFiveAttemptsMade() {
 
-        Mockito.when(restTemplateMock.postForEntity(any(String.class), any(), any(Class.class))).thenReturn(ResponseEntity.notFound().build());
+        Mockito.when(restTemplateMock.exchange(any(String.class), any(), any(), any(Class.class))).thenReturn(ResponseEntity.ok("success"));
 
         ProcessedDocument processedDocument = new ProcessedDocument();
 

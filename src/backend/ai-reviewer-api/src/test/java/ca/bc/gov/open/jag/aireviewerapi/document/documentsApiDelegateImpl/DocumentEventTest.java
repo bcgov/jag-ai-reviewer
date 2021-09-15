@@ -63,7 +63,7 @@ public class DocumentEventTest {
     private DocumentTypeConfigurationRepository documentTypeConfigurationRepositoryMock;
 
     @Mock
-    private CSOORDSService CSOORDSServiceMock;
+    private CSOORDSService csoOrdsServicemock;
 
     @BeforeAll
     public void beforeAll() {
@@ -127,11 +127,11 @@ public class DocumentEventTest {
                         .create())
                 .create()));
 
-        Mockito.doNothing().when(CSOORDSServiceMock).sendExtractedData(Mockito.any());
+        Mockito.doNothing().when(csoOrdsServicemock).sendExtractedData(Mockito.any());
 
         Mockito.when(documentValidatorMock.validateExtractedDocument(Mockito.any(),Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(new DocumentValidation(new ArrayList<>()));
 
-        sut = new DocumentsApiDelegateImpl(diligenServiceMock, extractRequestMapper, extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, new ProcessedDocumentMapperImpl(), CSOORDSServiceMock, null);
+        sut = new DocumentsApiDelegateImpl(diligenServiceMock, extractRequestMapper, extractStoreMock, stringRedisTemplateMock, fieldProcessorMock, documentValidatorMock, documentTypeConfigurationRepositoryMock, new ProcessedDocumentMapperImpl(), csoOrdsServicemock, null);
 
     }
 

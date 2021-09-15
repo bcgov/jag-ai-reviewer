@@ -60,7 +60,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
     private final DocumentValidator documentValidator;
     private final DocumentTypeConfigurationRepository documentTypeConfigurationRepository;
     private final ProcessedDocumentMapper processedDocumentMapper;
-    private final CSOORDSService CSOORDSService;
+    private final CSOORDSService csoOrdsService;
     private final FeatureProperties featureProperties;
 
     public DocumentsApiDelegateImpl(
@@ -72,7 +72,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
             DocumentValidator documentValidator,
             DocumentTypeConfigurationRepository documentTypeConfigurationRepository,
             ProcessedDocumentMapper processedDocumentMapper,
-            CSOORDSService CSOORDSService,
+            CSOORDSService csoOrdsService,
             FeatureProperties featureProperties) {
 
         this.diligenService = diligenService;
@@ -83,7 +83,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         this.documentValidator = documentValidator;
         this.documentTypeConfigurationRepository = documentTypeConfigurationRepository;
         this.processedDocumentMapper = processedDocumentMapper;
-        this.CSOORDSService = CSOORDSService;
+        this.csoOrdsService = csoOrdsService;
         this.featureProperties = featureProperties;
     }
 
@@ -228,7 +228,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
                 if (extractRequestCached.get().getExtract().getUseWebhook()) {
 
                     //Send data to cso
-                    CSOORDSService.sendExtractedData(processedDocumentMapper.toProcessedDocument(extractedResponse, extractedResponse.getDocumentValidation().getValidationResults()));
+                    csoOrdsService.sendExtractedData(processedDocumentMapper.toProcessedDocument(extractedResponse, extractedResponse.getDocumentValidation().getValidationResults()));
                     //Remove the document from redis process is complete
                     extractStore.evict(documentEvent.getDocumentId());
                     extractStore.evictResponse(documentEvent.getDocumentId());

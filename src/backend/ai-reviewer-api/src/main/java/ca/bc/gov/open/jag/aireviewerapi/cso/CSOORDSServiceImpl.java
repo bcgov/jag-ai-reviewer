@@ -3,12 +3,12 @@ package ca.bc.gov.open.jag.aireviewerapi.cso;
 import ca.bc.gov.open.jag.aireviewerapi.Keys;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.ProcessedDocument;
 import ca.bc.gov.open.jag.aireviewerapi.cso.properties.CSOProperties;
-import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,33 +20,34 @@ import java.text.MessageFormat;
 public class CSOORDSServiceImpl implements CSOORDSService {
 
     private final RestTemplate restTemplate;
-    private final CSOProperties CSOProperties;
+    private final CSOProperties csoProperties;
 
     Logger logger = LoggerFactory.getLogger(CSOORDSServiceImpl.class);
 
-    public CSOORDSServiceImpl(RestTemplate restTemplate, CSOProperties CSOProperties) {
+    public CSOORDSServiceImpl(RestTemplate restTemplate, CSOProperties csoProperties) {
         this.restTemplate = restTemplate;
-        this.CSOProperties = CSOProperties;
+        this.csoProperties = csoProperties;
     }
 
 
     @Override
     public void sendExtractedData(ProcessedDocument processedDocument) {
 
-        int attempt = 0;
+        int attempt = 1;
         int maxAttempt = 5;
         logger.info("Sending transaction {} extract to cso", processedDocument.getExtract().getTransactionId());
 
-        while (attempt < maxAttempt) {
-            logger.info("Attempting to send extract try number {}", (attempt + 1));
+        while (attempt <= maxAttempt) {
+            logger.info("Attempting to send extract try number {}", attempt);
             try {
                 
                 HttpHeaders headers = new HttpHeaders();
-                headers.setBasicAuth(CSOProperties.getUsername(), CSOProperties.getPassword());
+                headers.setBasicAuth(csoProperties.getUsername(), csoProperties.getPassword());
 
                 HttpEntity<Object> entity = new HttpEntity<>(processedDocument, headers);
 
-                ResponseEntity result = restTemplate.postForEntity(MessageFormat.format(Keys.CSO_PATH, CSOProperties.getBasePath()),
+                ResponseEntity result = restTemplate.exchange(MessageFormat.format(Keys.CSO_PATH , csoProperties.getBasePath()),
+                        HttpMethod.PUT,
                         entity,
                         String.class);
 
