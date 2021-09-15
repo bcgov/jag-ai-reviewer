@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ParentControllerTest {
 
     private static final String DOCUMENT_TYPE = "TYPE";
