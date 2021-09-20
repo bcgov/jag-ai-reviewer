@@ -1724,6 +1724,8 @@ components:
       properties:
         id:
           type: integer
+        project_field_key:
+          type: string
         name:
           type: string
         created_by:

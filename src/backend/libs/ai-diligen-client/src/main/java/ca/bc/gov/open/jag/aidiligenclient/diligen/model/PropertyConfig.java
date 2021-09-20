@@ -7,6 +7,7 @@ public class PropertyConfig {
 
     private String type;
     private Integer fieldId;
+    private String fieldKey;
     Map<String, PropertyConfig> properties = new LinkedHashMap<>();
 
     public String getType() {
@@ -32,4 +33,9 @@ public class PropertyConfig {
     public void setProperties(Map<String, PropertyConfig> properties) {
         this.properties = properties;
     }
+
+    public String getFieldKey() { return fieldKey; }
+
+    public void setFieldKey(String fieldKey) { this.fieldKey = fieldKey; }
+
 }

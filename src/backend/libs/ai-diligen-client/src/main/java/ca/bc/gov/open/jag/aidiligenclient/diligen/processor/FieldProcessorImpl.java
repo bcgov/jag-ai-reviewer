@@ -83,7 +83,7 @@ public class FieldProcessorImpl implements FieldProcessor {
 
     private String extractStringValue(PropertyConfig formDataProperty, List<Field> fields) {
 
-        Optional<List<String>> values = fields.stream().filter(x -> x.getId().equals(formDataProperty.getFieldId())).findFirst().map(x -> x.getValues());
+        Optional<List<String>> values = fields.stream().filter(x -> x.getProjectFieldKey().equals(formDataProperty.getFieldKey())).findFirst().map(x -> x.getValues());
 
         return values.map(strings -> strings.stream().map(Object::toString)
                 .collect(Collectors.joining(","))).orElse("");
@@ -92,7 +92,7 @@ public class FieldProcessorImpl implements FieldProcessor {
     
     private List<String> extractArrayValue(PropertyConfig formDataProperty, List<Field> fields) {
 
-        Optional<List<String>> values = fields.stream().filter(x -> x.getId().equals(formDataProperty.getFieldId())).findFirst().map(x -> x.getValues());
+        Optional<List<String>> values = fields.stream().filter(x -> x.getProjectFieldKey().equals(formDataProperty.getFieldKey())).findFirst().map(x -> x.getValues());
 
         return values.orElseGet(ArrayList::new);
 
