@@ -3,25 +3,36 @@
     "document": {
       "type": "object",
       "fieldId": null,
+      "fieldKey": null,
       "properties": {
         "documentType": {
           "type": "string",
-          "fieldId": 232,
+          "fieldId": 233,
+          "fieldKey": "005_answer_document_type_ceis_code",
           "properties": {}
         },
         "dateFiled": {
           "type": "string",
-          "fieldId": 260,
+          "fieldId": 235,
+          "fieldKey": "006_answer_filing_date",
+          "properties": {}
+        },
+        "originalDate": {
+          "type": "string",
+          "fieldId": 238,
+          "fieldKey": "010_answer_original_document_date_filed_for_use_with_amended_documents_only",
           "properties": {}
         },
         "filedBy": {
           "type": "string",
-          "fieldId": 231,
+          "fieldId": 236,
+          "fieldKey": "007_answer_submitted_by_defendant_or_counsel",
           "properties": {}
         },
         "amended": {
           "type": "string",
-          "fieldId": 240,
+          "fieldId": 237,
+          "fieldKey": "009_answer_new_or_amended_document",
           "properties": {}
         }
       }
@@ -29,25 +40,30 @@
     "court": {
       "type": "object",
       "fieldId": null,
+      "fieldKey": null,
       "properties": {
         "location": {
           "type": "string",
-          "fieldId": 230,
+          "fieldId": 232,
+          "fieldKey": "004_answer_location",
           "properties": {}
         },
         "level": {
           "type": "string",
-          "fieldId": 229,
+          "fieldId": 230,
+          "fieldKey": "002_answer_court_level",
           "properties": {}
         },
         "class": {
           "type": "string",
-          "fieldId": 234,
+          "fieldId": 231,
+          "fieldKey": "003_answer_class",
           "properties": {}
         },
         "fileNumber": {
           "type": "string",
-          "fieldId": 228,
+          "fieldId": 229,
+          "fieldKey": "001_answer_file_number",
           "properties": {}
         }
       }
@@ -55,15 +71,12 @@
     "parties": {
       "type": "object",
       "fieldId": null,
+      "fieldKey": null,
       "properties": {
-        "defendants": {
+        "parties": {
           "type": "string",
-          "fieldId": 1233,
-          "properties": {}
-        },
-        "plaintiffs": {
-          "type": "string",
-          "fieldId": 320,
+          "fieldId": 241,
+          "fieldKey": "filing_parties_entities",
           "properties": {}
         }
       }
@@ -71,19 +84,21 @@
     "validation": {
       "type": "object",
       "fieldId": null,
+      "fieldKey": null,
       "properties": {
         "errorCodes": {
           "type": "string",
-          "fieldId": 865,
+          "fieldId": 240,
+          "fieldKey": "error_codes",
           "properties": {}
         },
         "comments": {
           "type": "string",
-          "fieldId": 259,
+          "fieldId": 239,
+          "fieldKey": "comments_for_e_registry_staff",
           "properties": {}
         }
       }
     }
   }
 }
-
