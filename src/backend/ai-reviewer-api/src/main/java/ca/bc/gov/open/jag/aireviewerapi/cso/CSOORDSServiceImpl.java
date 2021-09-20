@@ -54,6 +54,12 @@ public class CSOORDSServiceImpl implements CSOORDSService {
                 if (result.getStatusCode().is2xxSuccessful()) {
                     logger.info("Transaction {} has been received by cso", processedDocument.getExtract().getTransactionId());
                     return;
+                } else if (result.getStatusCode().is4xxClientError()) {
+                    logger.info("Transaction {} has failed to send data to cso with a 400 status ", processedDocument.getExtract().getTransactionId());
+                    return;
+                } else if (result.getStatusCode().is5xxServerError()) {
+                    logger.info("Transaction {} has failed to send data to cso with a 500 status ", processedDocument.getExtract().getTransactionId());
+                    return;
                 }
             } catch (Exception ex) {
                 logger.error("Exception when sending extract to cso");

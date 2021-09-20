@@ -74,4 +74,40 @@ public class CSOORDSServiceImplTest {
 
     }
 
+    @Test()
+    @DisplayName("Error: cso returned 400")
+    public void withCSOReturned400() {
+
+        Mockito.when(restTemplateMock.exchange(any(String.class), any(), any(), any(Class.class))).thenReturn(ResponseEntity.badRequest().build());
+
+        ProcessedDocument processedDocument = new ProcessedDocument();
+
+        Extract extract = new Extract();
+
+        extract.setTransactionId(UUID.randomUUID());
+
+        processedDocument.setExtract(extract);
+
+        Assertions.assertDoesNotThrow(() -> sut.sendExtractedData(processedDocument));
+
+    }
+
+    @Test()
+    @DisplayName("Error: cso returned 500")
+    public void withCSOReturned500() {
+
+        Mockito.when(restTemplateMock.exchange(any(String.class), any(), any(), any(Class.class))).thenReturn(ResponseEntity.status(500).build());
+
+        ProcessedDocument processedDocument = new ProcessedDocument();
+
+        Extract extract = new Extract();
+
+        extract.setTransactionId(UUID.randomUUID());
+
+        processedDocument.setExtract(extract);
+
+        Assertions.assertDoesNotThrow(() -> sut.sendExtractedData(processedDocument));
+
+    }
+
 }
