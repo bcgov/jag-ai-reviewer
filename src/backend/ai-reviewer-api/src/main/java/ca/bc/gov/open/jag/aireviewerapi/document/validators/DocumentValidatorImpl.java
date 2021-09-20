@@ -98,7 +98,7 @@ public class DocumentValidatorImpl implements DocumentValidator {
 
         Optional<String> returnedDocumentType = (!StringUtils.isBlank(formData.get("document").get("documentType").asText()) ? Optional.of(formData.get("document").get("documentType").asText()) : Optional.empty());
 
-        if (!returnedDocumentType.isPresent() || !returnedDocumentType.get().equals(documentTypeConfiguration.getDocumentTypeDescription())) {
+        if (!returnedDocumentType.isPresent() || !returnedDocumentType.get().equals(documentTypeConfiguration.getDocumentType())) {
             if (returnedDocumentType.isPresent() && restrictedDocumentRepository.existsByDocumentTypeDescription(returnedDocumentType.get())) {
                 logger.error("Document {} of type {} detected.", documentId, returnedDocumentType.get());
                 diligenService.deleteDocument(documentId);

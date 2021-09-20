@@ -26,7 +26,7 @@ import java.util.List;
 @DisplayName("DocumentsValidatorImpl test suite")
 public class ValidateExtractedDocumentTest {
 
-    private static final String RESPONSE_TO_CIVIL_CLAIM = "Response to Civil Claim";
+    private static final String RESPONSE_TO_CIVIL_CLAIM = "RCC";
     private static final String NOT_RESPONSE_TO_CIVIL_CLAIM = "THIS IS NOT VALID";
     private static final String RESTRICTED_DOCUMENT = "This is a temporary";
     private static final int NOT_DOCUMENT_TYPE_ID = 123;
