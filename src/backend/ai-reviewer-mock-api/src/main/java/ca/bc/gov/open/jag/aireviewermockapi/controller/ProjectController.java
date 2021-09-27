@@ -90,7 +90,7 @@ public class ProjectController {
                 "  \"event\": \"FILE_PROCESSED\"\n" +
                 "}";
 
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity(body, headers);
+        HttpEntity<String> requestEntity = new HttpEntity<String>(body, headers);
 
         ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
     }
