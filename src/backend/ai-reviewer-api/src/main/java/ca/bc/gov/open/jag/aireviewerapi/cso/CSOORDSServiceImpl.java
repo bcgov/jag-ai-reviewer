@@ -73,14 +73,40 @@ public class CSOORDSServiceImpl implements CSOORDSService {
     private void autoProcess(CSOResult csoResult) {
 
         if (csoResult.getSuccess() != null && csoResult.getSuccess()) {
+
             logger.info("CSO validation succeeded");
 
-            HttpEntity entity = new HttpEntity(setupBasicAuth(csoProperties.getEfileUsername(), csoProperties.getEfilePassword()));
+            int attempt = 1;
+            int maxAttempt = 5;
 
-            restTemplate.exchange(MessageFormat.format(Keys.AUTO_EFILE_PATH, csoProperties.getEfileBasePath(), csoResult.getPackageId()),
+            logger.info("Triggering auto efile");
+
+            while (attempt <= maxAttempt) {
+
+                logger.info("Attempting to trigger auto efile try number {}", attempt);
+
+                try {
+                    HttpEntity entity = new HttpEntity(setupBasicAuth(csoProperties.getEfileUsername(), csoProperties.getEfilePassword()));
+
+                    ResponseEntity<Object> result = restTemplate.exchange(MessageFormat.format(Keys.AUTO_EFILE_PATH, csoProperties.getEfileBasePath(), csoResult.getPackageId()),
                             HttpMethod.GET,
                             entity,
                             Object.class);
+
+                    if (result.getStatusCode().is2xxSuccessful()) {
+                        logger.info("Transaction has been auto filed");
+                        return;
+                    }
+                } catch (HttpStatusCodeException e) {
+                    logger.info("Auto file returned status code {}", e.getStatusCode());
+                } catch (Exception ex) {
+                    logger.error("Exception when executing auto efile");
+                }
+                attempt++;
+
+            }
+
+            logger.info("Failure in triggering auto efile");
 
         } else {
             logger.info("CSO validation failed");
