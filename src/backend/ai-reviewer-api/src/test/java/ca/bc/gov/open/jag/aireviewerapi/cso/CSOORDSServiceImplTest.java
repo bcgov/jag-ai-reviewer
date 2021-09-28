@@ -32,7 +32,7 @@ public class CSOORDSServiceImplTest {
 
         CSOProperties csoproperties = new CSOProperties();
 
-        csoproperties.setBasePath(FAKE_PATH);
+        csoproperties.setOrdsBasePath(FAKE_PATH);
 
         sut = new CSOORDSServiceImpl(restTemplateMock, csoproperties);
 
