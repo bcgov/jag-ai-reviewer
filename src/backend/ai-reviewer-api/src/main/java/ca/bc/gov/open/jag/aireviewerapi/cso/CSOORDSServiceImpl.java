@@ -86,7 +86,8 @@ public class CSOORDSServiceImpl implements CSOORDSService {
                 logger.info("Attempting to trigger auto efile try number {}", attempt);
 
                 try {
-                    HttpEntity entity = new HttpEntity(setupBasicAuth(csoProperties.getEfileUsername(), csoProperties.getEfilePassword()));
+
+                    HttpEntity<?> entity = new HttpEntity<>(setupBasicAuth(csoProperties.getEfileUsername(), csoProperties.getEfilePassword()));
 
                     ResponseEntity<Object> result = restTemplate.exchange(MessageFormat.format(Keys.AUTO_EFILE_PATH, csoProperties.getEfileBasePath(), csoResult.getPackageId()),
                             HttpMethod.GET,
@@ -97,10 +98,15 @@ public class CSOORDSServiceImpl implements CSOORDSService {
                         logger.info("Transaction has been auto filed");
                         return;
                     }
+
                 } catch (HttpStatusCodeException e) {
+
                     logger.info("Auto file returned status code {}", e.getStatusCode());
+
                 } catch (Exception ex) {
+
                     logger.error("Exception when executing auto efile");
+                    
                 }
                 attempt++;
 
