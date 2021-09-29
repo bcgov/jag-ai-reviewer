@@ -125,6 +125,11 @@ public class DocumentEventTest {
                 .document(Document.builder()
                         .type("NO-CONFIG")
                         .create())
+                .extract(Extract.builder()
+                        .id(UUID.randomUUID())
+                        .transactionId(UUID.randomUUID())
+                        .useWebhook(false)
+                        .create())
                 .create()));
 
         Mockito.doNothing().when(csoOrdsServicemock).sendExtractedData(Mockito.any());
