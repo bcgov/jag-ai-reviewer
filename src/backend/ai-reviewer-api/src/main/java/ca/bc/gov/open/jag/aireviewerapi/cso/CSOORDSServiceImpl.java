@@ -37,7 +37,7 @@ public class CSOORDSServiceImpl implements CSOORDSService {
 
         int attempt = 1;
         int maxAttempt = 5;
-        logger.info("Sending transaction {} extract to cso", processedDocument.getExtract().getTransactionId());
+        logger.info("Sending extract to cso");
 
         while (attempt <= maxAttempt) {
             logger.info("Attempting to send extract try number {}", attempt);
@@ -51,11 +51,11 @@ public class CSOORDSServiceImpl implements CSOORDSService {
                         CSOResult.class);
 
                 if (result.getStatusCode().is2xxSuccessful()) {
-                    logger.info("Transaction {} has been received by cso", processedDocument.getExtract().getTransactionId());
 
+                    logger.info("Extract has been received by cso");
                     autoProcess(result.getBody());
-
                     return;
+
                 }
             } catch (HttpStatusCodeException e) {
                 logger.info("CSO returned status code {}", e.getStatusCode());
@@ -66,7 +66,7 @@ public class CSOORDSServiceImpl implements CSOORDSService {
 
         }
 
-        logger.info("Transaction {} failed to send data to cso", processedDocument.getExtract().getTransactionId());
+        logger.info("Extract failed to send data to cso");
 
     }
 
