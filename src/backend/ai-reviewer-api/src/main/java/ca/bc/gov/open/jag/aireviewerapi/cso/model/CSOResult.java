@@ -8,7 +8,7 @@ public class CSOResult {
 
     @JsonProperty("is_valid")
     private Boolean success;
-    @JsonProperty("packageId")
+    @JsonProperty("package_id")
     private BigDecimal packageId;
 
     public Boolean getSuccess() {  return success; }
