@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class CSOResult {
 
-    @JsonProperty("success")
+    @JsonProperty("is_valid")
     private Boolean success;
     @JsonProperty("packageId")
     private BigDecimal packageId;
