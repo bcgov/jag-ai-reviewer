@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.annotation.security.RolesAllowed;
 
 import ca.bc.gov.open.jag.aireviewerapi.core.FeatureProperties;
+import ca.bc.gov.open.jag.aireviewerapi.utils.MD5;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -92,6 +93,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
     public ResponseEntity<DocumentExtractResponse> extractDocumentFormData(UUID xTransactionId, String xDocumentType, Boolean xUseWebhook, MultipartFile file) {
 
         MDC.put(Keys.DOCUMENT_TYPE, xDocumentType);
+        MDC.put(Keys.TRANSACTION_ID, MD5.hashValue(xTransactionId.toString()));
 
         long receivedTimeMillis = System.currentTimeMillis();
 
@@ -118,7 +120,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         if (!extractRequestCached.isPresent())
             throw new AiReviewerCacheException("Could not cache extract request");
 
-        MDC.remove(Keys.DOCUMENT_TYPE);
+        MDC.clear();
 
         return ResponseEntity.ok(extractRequestMapper.toDocumentExtractResponse(extractRequestCached.get(), response));
 
@@ -133,6 +135,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
     @Override
     public ResponseEntity<Void> documentWebhookEvent(DocumentWebhookEvent documentWebhookEvent) {
+
         logger.info("Received webhook event");
 
         ArrayList<DocumentEvent> documentEvents = new ArrayList<>();
@@ -201,6 +204,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
             extractRequestCached.ifPresent(extractRequest -> {
 
                 MDC.put(Keys.DOCUMENT_TYPE, extractRequest.getDocument().getType());
+                MDC.put(Keys.TRANSACTION_ID, MD5.hashValue(extractRequest.getExtract().getTransactionId().toString()));
 
                 DocumentTypeConfiguration config = documentTypeConfigurationRepository.findByDocumentType(extractRequest.getDocument().getType());
 
@@ -220,10 +224,9 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
                 extractStore.put(documentEvent.getDocumentId(), extractedResponse);
 
                 extractRequest.updateProcessedTimeMillis();
-                logger.info("document processed: [processingTime: {} ms, fileSize: {} bytes, transactionID: {}]", 
+                logger.info("document processed: [processingTime: {} ms, fileSize: {} bytes]",
                 		extractRequest.getProcessedTimeMillis(), 
-                		extractedResponse.getDocument().getSize(),
-                		extractRequest.getExtract().getTransactionId());
+                		extractedResponse.getDocument().getSize());
 
                 if (extractRequestCached.get().getExtract().getUseWebhook()) {
 
@@ -241,7 +244,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
         }
 
-        MDC.remove(Keys.DOCUMENT_TYPE);
+        MDC.clear();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }

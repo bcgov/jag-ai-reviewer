@@ -5,22 +5,34 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "jag.ai.cso" )
 public class CSOProperties {
 
-    private String basePath;
-    private String username;
-    private String password;
+    private String ordsBasePath;
+    private String ordsUsername;
+    private String ordsPassword;
+    private String efileBasePath;
+    private String efileUsername;
+    private String efilePassword;
 
-    public String getBasePath() { return basePath; }
+    public String getOrdsBasePath() { return ordsBasePath; }
 
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
-    }
+    public void setOrdsBasePath(String ordsBasePath) { this.ordsBasePath = ordsBasePath; }
 
-    public String getUsername() { return username; }
+    public String getOrdsUsername() { return ordsUsername; }
 
-    public void setUsername(String username) { this.username = username; }
+    public void setOrdsUsername(String ordsUsername) { this.ordsUsername = ordsUsername; }
 
-    public String getPassword() { return password; }
+    public String getOrdsPassword() { return ordsPassword; }
 
-    public void setPassword(String password) { this.password = password; }
+    public void setOrdsPassword(String ordsPassword) {  this.ordsPassword = ordsPassword; }
 
+    public String getEfileBasePath() { return efileBasePath;  }
+
+    public void setEfileBasePath(String efileBasePath) { this.efileBasePath = efileBasePath; }
+
+    public String getEfileUsername() { return efileUsername; }
+
+    public void setEfileUsername(String efileUsername) { this.efileUsername = efileUsername; }
+
+    public String getEfilePassword() { return efilePassword; }
+
+    public void setEfilePassword(String efilePassword) { this.efilePassword = efilePassword; }
 }

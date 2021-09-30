@@ -28,9 +28,12 @@ jag:
     feature:
       redisQueue: ${FEATURE_USE_REDIS_QUEUE:true}
     cso:
-      basePath: ${CSO_ORDS_ENDPOINT:http://ai-reviewer-mock-api:1337}
-      username: ${CSO_ORDS_USERNAME}
-      password: ${CSO_ORDS_PASSWORD}
+      ordsBasePath: ${CSO_ORDS_ENDPOINT:http://ai-reviewer-mock-api:1337}
+      ordsUsername: ${CSO_ORDS_USERNAME}
+      ordsPassword: ${CSO_ORDS_PASSWORD}
+      efileBasePath: ${AUTO_EFILE_ENDPOINT:http://ai-reviewer-mock-api:1337}
+      efileUsername: ${AUTO_EFILE_USERNAME}
+      efilePassword: ${AUTO_EFILE_PASSWORD}
     diligen:
       health:
         enabled: ${DILIGEN_HEALTH_ENABLED:true}
