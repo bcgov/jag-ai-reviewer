@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       FILE_COUNTER: 0
-      CC_TEST_REPORTER_ID: 9ada3133fe9babf91a222009998b3545b7eae897a05900930bfa8a27fd82f385
+      CC_TEST_REPORTER_ID: 7a64e3e316d790b81411add57c07e4f8d5988ad69e1ef510b1bfb314e5459b6b
       ACTION_DEBUG: true
     
     steps:   
