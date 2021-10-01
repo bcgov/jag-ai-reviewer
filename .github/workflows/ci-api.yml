@@ -123,3 +123,7 @@ jobs:
         with:
           name: summed-java-coverage-report
           path: coverage/codeclimate-api.json
+      
+      # Upload total coverage report to Code Climate
+      - name: Upload coverage report to Code Climate
+        run: ./cc-test-reporter upload-coverage -d -i coverage/codeclimate-api.json
