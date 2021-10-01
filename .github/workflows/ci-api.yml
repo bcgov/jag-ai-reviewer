@@ -55,7 +55,7 @@ jobs:
           #echo "::set-env name=GIT_COMMIT_SHA::${{ github.event.pull_request.head.sha }}"
         if: github.event_name == 'pull_request'
 
-      # Set required Git env vars for a push to master
+      # Set required Git env vars for a push to main
       - name: Set ENV for codeclimate (push)
         run: |
           echo "GIT_BRANCH=$GITHUB_REF" >> $GITHUB_ENV
@@ -64,12 +64,12 @@ jobs:
           #echo "::set-env name=GIT_COMMIT_SHA::$GITHUB_SHA"
         if: github.event_name == 'push'
 
-      # Trimming the ref to master in order to publish correct report (paambaati)
-      - name: Set ref/head/master to master
+      # Trimming the ref to main in order to publish correct report (paambaati)
+      - name: Set ref/head/main to main
         run: |
-          echo "GIT_BRANCH=master" >> $GITHUB_ENV
-          #echo "::set-env name=GIT_BRANCH::master"
-        if: env.GIT_BRANCH == 'refs/heads/master'
+          echo "GIT_BRANCH=main" >> $GITHUB_ENV
+          #echo "::set-env name=GIT_BRANCH::main"
+        if: env.GIT_BRANCH == 'refs/heads/main'
 
       # Setup Java Environment
       - name: Set up JDK 1.8
