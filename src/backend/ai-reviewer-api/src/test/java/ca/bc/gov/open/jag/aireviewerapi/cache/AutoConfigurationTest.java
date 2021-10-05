@@ -12,7 +12,7 @@ import java.time.Duration;
 import java.util.Arrays;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@DisplayName("CacheConfiguration Test Suite")
+@DisplayName("Cache AutoConfiguration Test Suite")
 public class AutoConfigurationTest {
 
     private static final String TEST_CRED = "notapassword";
