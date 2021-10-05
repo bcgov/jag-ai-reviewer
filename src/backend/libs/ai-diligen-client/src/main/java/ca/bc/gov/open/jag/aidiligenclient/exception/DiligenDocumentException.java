@@ -6,7 +6,4 @@ public class DiligenDocumentException extends RuntimeException {
         super(message);
     }
 
-    public DiligenDocumentException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

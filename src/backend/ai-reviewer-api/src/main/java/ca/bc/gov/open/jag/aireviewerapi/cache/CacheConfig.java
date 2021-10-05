@@ -21,34 +21,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-
 @EnableCaching
 public class CacheConfig {
 
     /**
      * Configure the JedisConnectionFactory
+     *
      * @param properties The redis properties
      * @return a JedisConnectionFactory
      */
     @Bean
     public JedisConnectionFactory jedisConnectionFactory(RedisProperties properties) {
 
-        if(properties.getCluster() != null) {
+        if (properties.getCluster() != null) {
             RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(properties.getCluster().getNodes());
             redisClusterConfiguration.setPassword(properties.getPassword());
 
-            if(properties.getCluster().getMaxRedirects() != null)
+            if (properties.getCluster().getMaxRedirects() != null)
                 redisClusterConfiguration.setMaxRedirects(properties.getCluster().getMaxRedirects());
 
             return new JedisConnectionFactory(redisClusterConfiguration);
         }
 
-        if(properties.getSentinel() != null) {
-            RedisSentinelConfiguration redisSantinelConfiguration = new RedisSentinelConfiguration();
-            redisSantinelConfiguration.setMaster(properties.getSentinel().getMaster());
-            redisSantinelConfiguration.setSentinels(createSentinels(properties.getSentinel()));
-            redisSantinelConfiguration.setPassword(properties.getPassword());
-            return new JedisConnectionFactory(redisSantinelConfiguration);
+        if (properties.getSentinel() != null) {
+            RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration();
+            redisSentinelConfiguration.setMaster(properties.getSentinel().getMaster());
+            redisSentinelConfiguration.setSentinels(createSentinels(properties.getSentinel()));
+            redisSentinelConfiguration.setPassword(properties.getPassword());
+            return new JedisConnectionFactory(redisSentinelConfiguration);
         }
 
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
@@ -65,8 +65,7 @@ public class CacheConfig {
             try {
                 String[] parts = node.split(":");
                 nodes.add(new RedisNode(parts[0], Integer.valueOf(parts[1])));
-            }
-            catch (RuntimeException ex) {
+            } catch (RuntimeException ex) {
                 throw new IllegalStateException(
                         "Invalid redis sentinel " + "property '" + node + "'", ex);
             }
@@ -76,6 +75,7 @@ public class CacheConfig {
 
     /**
      * Configures the cache manager
+     *
      * @param jedisConnectionFactory A jedisConnectionFactory
      * @return
      */

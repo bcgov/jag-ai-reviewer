@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.aireviewermockapi.config.AiReviewerApiProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,6 +72,7 @@ public class ProjectController {
     }
 
     private void sendWebhookEvent() {
+
         String baseUrl = aiReviewerApiProperties.getBaseUrl();
         String url = MessageFormat.format("{0}{1}", baseUrl, "/documents/webhookEvent");
 
@@ -92,7 +92,8 @@ public class ProjectController {
 
         HttpEntity<String> requestEntity = new HttpEntity<String>(body, headers);
 
-        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+        restTemplate.postForEntity(url, requestEntity, String.class);
+
     }
 
 }
