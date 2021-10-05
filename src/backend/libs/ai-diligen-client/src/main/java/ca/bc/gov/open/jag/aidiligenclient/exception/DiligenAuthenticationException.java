@@ -6,7 +6,4 @@ public class DiligenAuthenticationException extends RuntimeException {
         super(message);
     }
 
-    public DiligenAuthenticationException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

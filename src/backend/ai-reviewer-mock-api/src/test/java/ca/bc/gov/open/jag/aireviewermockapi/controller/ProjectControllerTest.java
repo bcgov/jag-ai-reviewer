@@ -16,6 +16,9 @@ public class ProjectControllerTest {
     @BeforeAll
     public void beforeAll() {
         AiReviewerApiProperties aiReviewerApiProperties = new AiReviewerApiProperties();
+
+        aiReviewerApiProperties.setBaseUrl("localhost");
+
         sut = new ProjectController(aiReviewerApiProperties);
     }
 
@@ -35,6 +38,7 @@ public class ProjectControllerTest {
 
         ResponseEntity actual = sut.getFileId("", new HashMap<String, String>() {{
             put("filter[fileName]", "test-valid-document.pdf");
+            put("send_event", "true");
         }} );
 
         Assertions.assertEquals(HttpStatus.OK, actual.getStatusCode());
@@ -66,5 +70,6 @@ public class ProjectControllerTest {
         Assertions.assertEquals(HttpStatus.NOT_FOUND, actual.getStatusCode());
 
     }
+
 
 }

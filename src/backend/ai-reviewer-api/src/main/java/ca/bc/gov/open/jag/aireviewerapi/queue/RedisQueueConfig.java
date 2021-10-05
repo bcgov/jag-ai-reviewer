@@ -2,7 +2,6 @@ package ca.bc.gov.open.jag.aireviewerapi.queue;
 
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
 import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApiDelegate;
-import ca.bc.gov.open.jag.aireviewerapi.document.DocumentsApiDelegateImpl;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,7 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 @Configuration
 @EnableCaching
-public class TempConfig {
+public class RedisQueueConfig {
 
     @Bean
     RedisMessageListenerContainer container(JedisConnectionFactory jedisConnectionFactory,

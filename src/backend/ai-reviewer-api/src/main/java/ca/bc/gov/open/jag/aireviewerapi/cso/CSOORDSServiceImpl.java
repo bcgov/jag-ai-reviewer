@@ -58,9 +58,13 @@ public class CSOORDSServiceImpl implements CSOORDSService {
 
                 }
             } catch (HttpStatusCodeException e) {
+
                 logger.info("CSO returned status code {}", e.getStatusCode());
+
             } catch (Exception ex) {
+
                 logger.error("Exception when sending extract to cso");
+
             }
             attempt++;
 
