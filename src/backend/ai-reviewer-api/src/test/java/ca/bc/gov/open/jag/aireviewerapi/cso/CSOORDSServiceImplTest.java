@@ -56,7 +56,7 @@ public class CSOORDSServiceImplTest {
 
         CSOResult csoResult = new CSOResult();
         csoResult.setPackageId(BigDecimal.ONE);
-        csoResult.setSuccess(true);
+        csoResult.setSuccess("TRUE");
 
         Mockito.when(restTemplateMock.exchange(any(String.class), ArgumentMatchers.eq(HttpMethod.PUT), any(), any(Class.class))).thenReturn(ResponseEntity.ok(csoResult));
         Mockito.when(restTemplateMock.exchange(any(String.class), ArgumentMatchers.eq(HttpMethod.GET), any(), any(Class.class))).thenReturn(ResponseEntity.ok("success"));
@@ -79,7 +79,7 @@ public class CSOORDSServiceImplTest {
 
         CSOResult csoResult = new CSOResult();
         csoResult.setPackageId(BigDecimal.ONE);
-        csoResult.setSuccess(true);
+        csoResult.setSuccess("TRUE");
 
         Mockito.when(restTemplateMock.exchange(any(String.class), ArgumentMatchers.eq(HttpMethod.PUT), any(), any(Class.class))).thenReturn(ResponseEntity.ok(csoResult));
         Mockito.when(restTemplateMock.exchange(any(String.class), ArgumentMatchers.eq(HttpMethod.GET), any(), any(Class.class))).thenReturn(ResponseEntity.badRequest().build());
@@ -102,7 +102,7 @@ public class CSOORDSServiceImplTest {
 
         CSOResult csoResult = new CSOResult();
         csoResult.setPackageId(BigDecimal.ONE);
-        csoResult.setSuccess(true);
+        csoResult.setSuccess("TRUE");
 
         Mockito.when(restTemplateMock.exchange(any(String.class), ArgumentMatchers.eq(HttpMethod.PUT), any(), any(Class.class))).thenReturn(ResponseEntity.ok(csoResult));
         Mockito.when(restTemplateMock.exchange(any(String.class), ArgumentMatchers.eq(HttpMethod.GET), any(), any(Class.class))).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
@@ -125,7 +125,7 @@ public class CSOORDSServiceImplTest {
 
         CSOResult csoResult = new CSOResult();
         csoResult.setPackageId(BigDecimal.ONE);
-        csoResult.setSuccess(false);
+        csoResult.setSuccess("FALSE");
 
         Mockito.when(restTemplateMock.exchange(any(String.class), ArgumentMatchers.eq(HttpMethod.PUT), any(), any(Class.class))).thenReturn(ResponseEntity.ok(csoResult));
 
