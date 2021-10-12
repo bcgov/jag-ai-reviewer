@@ -76,7 +76,7 @@ public class CSOORDSServiceImpl implements CSOORDSService {
 
     private void autoProcess(CSOResult csoResult) {
 
-        if (csoResult.getSuccess() != null && csoResult.getSuccess()) {
+        if (csoResult.getSuccess() != null && csoResult.getSuccess().equalsIgnoreCase("TRUE")) {
 
             logger.info("CSO validation succeeded");
 

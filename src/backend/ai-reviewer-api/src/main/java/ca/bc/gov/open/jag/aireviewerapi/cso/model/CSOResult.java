@@ -7,13 +7,13 @@ import java.math.BigDecimal;
 public class CSOResult {
 
     @JsonProperty("is_valid")
-    private Boolean success;
+    private String success;
     @JsonProperty("package_id")
     private BigDecimal packageId;
 
-    public Boolean getSuccess() {  return success; }
+    public String getSuccess() {  return success; }
 
-    public void setSuccess(Boolean success) { this.success = success; }
+    public void setSuccess(String success) { this.success = success; }
 
     public BigDecimal getPackageId() { return packageId;  }
 
