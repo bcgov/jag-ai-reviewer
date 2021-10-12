@@ -3,15 +3,18 @@
     "test": {
       "type": "string",
       "fieldId": 229,
-      "fieldKey": "test1"
+      "fieldKey": "test1",
+      "businessObject": "projectFields"
     },
     "test2": {
       "type": "object",
+      "businessObject": "projectFields",
       "properties": {
         "test": {
           "type": "string",
           "fieldId": 229,
-          "fieldKey": "test1"
+          "fieldKey": "test1",
+          "businessObject": "projectFields"
         }
       }
     }

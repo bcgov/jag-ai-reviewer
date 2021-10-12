@@ -20,7 +20,7 @@ public class FieldProcessorImpl implements FieldProcessor {
 
     Logger logger = LoggerFactory.getLogger(FieldProcessorImpl.class);
 
-    public ObjectNode getJson(DocumentConfig formData, List<Field> fields) {
+    public ObjectNode getJson(DocumentConfig formData, List<Field> fields, Object details) {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -29,12 +29,32 @@ public class FieldProcessorImpl implements FieldProcessor {
         for (Map.Entry<String, PropertyConfig> property : formData.getProperties().entrySet()) {
 
             if(StringUtils.equals("object", property.getValue().getType())) {
-                objectNode.set(property.getKey(), parseSchema(property.getValue(), fields));
+                if (!property.getValue().getBusinessObject().equalsIgnoreCase("details")) {
+                    objectNode.set(property.getKey(), parseSchema(property.getValue(), fields));
+                } else {
+                    objectNode.set(property.getKey(), parseDetailsSchema(property.getValue(), fields));
+                }
             }
 
             if(StringUtils.equals("string", property.getValue().getType())) {
-                objectNode.put(property.getKey(), extractStringValue(property.getValue(), fields));
+                if (!property.getValue().getBusinessObject().equalsIgnoreCase("details")) {
+                    objectNode.put(property.getKey(), extractStringValue(property.getValue(), fields));
+                } else {
+                    objectNode.put(property.getKey(), extractDetailsStringValue(property.getValue(), fields));
+                }
             }
+
+            if(StringUtils.equals("array", property.getValue().getType())) {
+                if (!property.getValue().getBusinessObject().equalsIgnoreCase("details")) {
+                    ArrayNode array = objectMapper.valueToTree(extractArrayValue(property.getValue(), fields));
+                    objectNode.putArray(property.getKey()).addAll(array);
+                } else {
+                    ArrayNode array = objectMapper.valueToTree(extractDetailsArrayValue(property.getValue(), fields));
+                    objectNode.putArray(property.getKey()).addAll(array);
+                }
+
+            }
+
         }
 
         return objectNode;
@@ -42,6 +62,59 @@ public class FieldProcessorImpl implements FieldProcessor {
     }
 
     private ObjectNode parseSchema(PropertyConfig formData, List<Field> fields) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        final ObjectNode objectNode = objectMapper.createObjectNode();
+
+        for (Map.Entry<String, PropertyConfig> property : formData.getProperties().entrySet()) {
+            if(StringUtils.equals("object", property.getValue().getType())) {
+                if (!property.getValue().getBusinessObject().equalsIgnoreCase("details")) {
+                    objectNode.set(property.getKey(), parseSchema(property.getValue(), fields));
+                } else {
+                    objectNode.set(property.getKey(), parseDetailsSchema(property.getValue(), fields));
+                }
+            }
+
+            if(StringUtils.equals("string", property.getValue().getType())) {
+                if (!property.getValue().getBusinessObject().equalsIgnoreCase("details")) {
+                    String value = extractStringValue(property.getValue(), fields);
+                    objectNode.put(property.getKey(), value);
+
+                    //This logic is a requirement to report on error codes
+                    if (property.getKey().equals("errorCodes")) {
+
+                        logger.info("Reviewer extracted: {} errors", value.split(",").length);
+
+                        for(String errorCode : value.split(",")) {
+                            logger.info("Error code: {} detected", errorCode);
+                        }
+
+                    }
+                } else {
+                    objectNode.put(property.getKey(), extractDetailsStringValue(property.getValue(), fields));
+                }
+
+            }
+
+            if(StringUtils.equals("array", property.getValue().getType())) {
+
+                if (!property.getValue().getBusinessObject().equalsIgnoreCase("details")) {
+                    ArrayNode array = objectMapper.valueToTree(extractArrayValue(property.getValue(), fields));
+                    objectNode.putArray(property.getKey()).addAll(array);
+                } else {
+                    ArrayNode array = objectMapper.valueToTree(extractDetailsArrayValue(property.getValue(), fields));
+                    objectNode.putArray(property.getKey()).addAll(array);
+                }
+            }
+
+        }
+
+        return objectNode;
+
+    }
+
+    private ObjectNode parseDetailsSchema(PropertyConfig formData, List<Field> fields) {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -91,6 +164,24 @@ public class FieldProcessorImpl implements FieldProcessor {
     }
     
     private List<String> extractArrayValue(PropertyConfig formDataProperty, List<Field> fields) {
+
+        Optional<List<String>> values = fields.stream().filter(x -> x.getProjectFieldKey().equals(formDataProperty.getFieldKey())).findFirst().map(x -> x.getValues());
+
+        return values.orElseGet(ArrayList::new);
+
+    }
+
+
+    private String extractDetailsStringValue(PropertyConfig formDataProperty, List<Field> fields) {
+
+        Optional<List<String>> values = fields.stream().filter(x -> x.getProjectFieldKey().equals(formDataProperty.getFieldKey())).findFirst().map(x -> x.getValues());
+
+        return values.map(strings -> strings.stream().map(Object::toString)
+                .collect(Collectors.joining(","))).orElse("");
+
+    }
+
+    private List<String> extractDetailsArrayValue(PropertyConfig formDataProperty, List<Field> fields) {
 
         Optional<List<String>> values = fields.stream().filter(x -> x.getProjectFieldKey().equals(formDataProperty.getFieldKey())).findFirst().map(x -> x.getValues());
 

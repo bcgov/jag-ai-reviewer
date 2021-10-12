@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface FieldProcessor {
 
-    ObjectNode getJson(DocumentConfig formData, List<Field> fields);
+    ObjectNode getJson(DocumentConfig formData, List<Field> fields, Object details);
 
 }

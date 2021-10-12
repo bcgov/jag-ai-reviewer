@@ -79,7 +79,7 @@ public class DocumentWebhookEventTest {
         ObjectNode result = objectMapper.createObjectNode();
         result.put("test", "test");
 
-        Mockito.when(fieldProcessorMock.getJson(Mockito.any(), Mockito.any())).thenReturn(result);
+        Mockito.when(fieldProcessorMock.getJson(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(result);
 
         Mockito.when(diligenServiceMock.getDocumentDetails(Mockito.any())).thenReturn(DiligenDocumentDetails.builder().create());
 

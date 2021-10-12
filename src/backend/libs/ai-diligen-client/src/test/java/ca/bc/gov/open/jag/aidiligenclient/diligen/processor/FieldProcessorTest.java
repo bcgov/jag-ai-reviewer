@@ -39,7 +39,7 @@ public class FieldProcessorTest {
         List<Field> response = mapper.readValue(new String(
                 Files.readAllBytes(path2)), new TypeReference<List<Field>>(){});
 
-        ObjectNode actual = sut.getJson(formData, response);
+        ObjectNode actual = sut.getJson(formData, response, new Object());
 
         String test = "1";
 

@@ -179,13 +179,15 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
     }
 
-    private ObjectNode buildFormData(ProjectFieldsResponse response, DocumentTypeConfiguration config) {
+    private ObjectNode buildFormData(ProjectFieldsResponse response, Object details,  DocumentTypeConfiguration config) {
 
         if (config == null)
             throw new AiReviewerDocumentConfigException("Document Configuration not found");
 
         return fieldProcessor.getJson(config.getDocumentConfig(),
-                response.getData().getFields());
+                response.getData().getFields(),
+                details
+        );
 
     }
 
@@ -211,7 +213,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
                 if(config == null)
                     throw new AiReviewerDocumentConfigException("document configuration not found");
 
-                ObjectNode formData = buildFormData(response.getProjectFieldsResponse(), config);
+                ObjectNode formData = buildFormData(response.getProjectFieldsResponse(), response.getMlJson(), config);
 
                 ExtractResponse extractedResponse = ExtractResponse
                         .builder()
