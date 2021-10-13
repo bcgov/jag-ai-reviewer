@@ -10,7 +10,6 @@ import javax.annotation.security.RolesAllowed;
 
 import ca.bc.gov.open.jag.aireviewerapi.core.FeatureProperties;
 import ca.bc.gov.open.jag.aireviewerapi.utils.MD5;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 import org.slf4j.Logger;

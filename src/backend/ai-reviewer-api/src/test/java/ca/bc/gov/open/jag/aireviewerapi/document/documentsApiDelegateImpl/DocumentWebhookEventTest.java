@@ -12,7 +12,6 @@ import ca.bc.gov.open.jag.aireviewerapi.document.DocumentsApiDelegateImpl;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.Document;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentValidation;
-import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentValidationResult;
 import ca.bc.gov.open.jag.aireviewerapi.document.store.DocumentTypeConfigurationRepository;
 import ca.bc.gov.open.jag.aireviewerapi.document.validators.DocumentValidator;
 import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentException;
