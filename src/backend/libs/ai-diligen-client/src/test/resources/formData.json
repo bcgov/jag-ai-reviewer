@@ -17,6 +17,34 @@
           "businessObject": "projectFields"
         }
       }
+    },
+    "test3": {
+      "type": "object",
+      "businessObject": "details",
+      "properties": {
+        "test": {
+          "type": "array",
+          "fieldId": null,
+          "fieldKey": "test1",
+          "businessObject": "details",
+          "properties": {
+            "test": {
+              "type": "object",
+              "fieldId": null,
+              "fieldKey": null,
+              "businessObject": "details",
+              "properties": {
+                "test": {
+                  "type": "string",
+                  "fieldId": 229,
+                  "fieldKey": "test1",
+                  "businessObject": "details"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

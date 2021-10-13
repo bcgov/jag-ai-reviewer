@@ -5,6 +5,7 @@ import ca.bc.gov.open.jag.aidiligenclient.api.model.Field;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -32,6 +33,8 @@ public class FieldProcessorTest {
 
         Path path2 = Paths.get("src/test/resources/diligen.answer.1.json");
 
+        Path path3 = Paths.get("src/test/resources/details.json");
+
         ObjectMapper mapper = new ObjectMapper();
 
         DocumentConfig formData = mapper.readValue(new String(Files.readAllBytes(path)), DocumentConfig.class);
@@ -39,7 +42,7 @@ public class FieldProcessorTest {
         List<Field> response = mapper.readValue(new String(
                 Files.readAllBytes(path2)), new TypeReference<List<Field>>(){});
 
-        ObjectNode actual = sut.getJson(formData, response, new Object());
+        ObjectNode actual = sut.getJson(formData, response, new JSONObject());
 
         String test = "1";
 

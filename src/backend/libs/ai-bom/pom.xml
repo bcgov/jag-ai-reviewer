@@ -36,6 +36,7 @@
         <org.springdoc.version>1.5.8</org.springdoc.version>
         <org.threeten.version>1.5.1</org.threeten.version>
         <org.springdoc.version>1.5.8</org.springdoc.version>
+        <org.json.version>20210307</org.json.version>
     </properties>
 
     <repositories>
@@ -251,6 +252,12 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-ui</artifactId>
                 <version>${org.springdoc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${org.json.version}</version>
             </dependency>
 
         </dependencies>

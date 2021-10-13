@@ -10,6 +10,8 @@ import javax.annotation.security.RolesAllowed;
 
 import ca.bc.gov.open.jag.aireviewerapi.core.FeatureProperties;
 import ca.bc.gov.open.jag.aireviewerapi.utils.MD5;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -184,9 +186,10 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         if (config == null)
             throw new AiReviewerDocumentConfigException("Document Configuration not found");
 
+
         return fieldProcessor.getJson(config.getDocumentConfig(),
                 response.getData().getFields(),
-                details
+                (JSONObject) details
         );
 
     }
