@@ -1,5 +1,11 @@
 {
   "properties": {
+    "errorCodes": {
+      "type": "string",
+      "fieldId": 229,
+      "fieldKey": "error_codes",
+      "businessObject": "projectFields"
+    },
     "test": {
       "type": "string",
       "fieldId": 229,
@@ -25,7 +31,7 @@
         "test": {
           "type": "array",
           "fieldId": null,
-          "fieldKey": "test1",
+          "fieldKey": "testarray",
           "businessObject": "details",
           "properties": {
             "test": {
@@ -37,10 +43,50 @@
                 "test": {
                   "type": "string",
                   "fieldId": 229,
-                  "fieldKey": "test1",
+                  "fieldKey": "testvalue",
                   "businessObject": "details"
                 }
               }
+            }
+          }
+        }
+      }
+    },
+    "test4": {
+    "type": "object",
+    "businessObject": "projectfields",
+    "properties": {
+      "test": {
+        "type": "array",
+        "fieldId": null,
+        "fieldKey": "projecttestarray",
+        "businessObject": "projectfields",
+        "properties": {
+          "test": {
+            "type": "string",
+            "fieldId": 229,
+            "fieldKey": "projecttestarray",
+            "businessObject": "projectfields"
+            }
+          }
+        }
+      }
+    },
+    "test5": {
+      "type": "object",
+      "businessObject": "details",
+      "properties": {
+        "test": {
+          "type": "array",
+          "fieldId": null,
+          "fieldKey": "teststringarray",
+          "businessObject": "details",
+          "properties": {
+            "test": {
+              "type": "string",
+              "fieldId": 229,
+              "fieldKey": "teststringarray",
+              "businessObject": "projectfields"
             }
           }
         }

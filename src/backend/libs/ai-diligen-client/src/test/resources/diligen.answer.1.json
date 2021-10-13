@@ -251,7 +251,7 @@
   },
   {
     "id": 247,
-    "project_field_key": "test1",
+    "project_field_key": "projecttestarray",
     "name": "002QA: Is the court level correct?",
     "created_by": 3,
     "field_type": {
@@ -264,7 +264,12 @@
         "Blank"
       ]
     },
-    "values": []
+    "values": [
+      "something",
+      "somethingother",
+      "somethingotherother)",
+      "somethingotherotherother"
+    ]
   },
   {
     "id": 248,
@@ -719,5 +724,30 @@
       ]
     },
     "values": []
+  },
+  {
+    "id": 423,
+    "project_field_key": "error_codes",
+    "name": "Error Codes",
+    "created_by": 3,
+    "field_type": {
+      "type": "PICK_LIST",
+      "multi": true,
+      "options": [
+        "Location",
+        "Level",
+        "Class",
+        "Court File Number",
+        "Doc Type",
+        "Filed By",
+        "Date Filed",
+        "Party Role; Party Name"
+      ]
+    },
+    "values": [
+      "ERRORCODES",
+      "ERRORCODESCODES",
+      "ERRORCODESCODESCODES"
+    ]
   }
 ]

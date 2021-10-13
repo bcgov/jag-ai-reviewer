@@ -187,10 +187,23 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         if (config == null)
             throw new AiReviewerDocumentConfigException("Document Configuration not found");
 
+        String mlJsonString = new Gson().toJson(details);
+
+        //In some cases when converting to and from json object " is being added to the begining and end of the json string
+        if (mlJsonString.startsWith("\"")) {
+            mlJsonString = mlJsonString.substring(1, mlJsonString.length() - 1);
+        }
+
+        JSONObject mlJson = new JSONObject(mlJsonString);
+        if (mlJson.has("map")) {
+            mlJson = mlJson.getJSONObject("map").getJSONObject("data");
+        } else {
+            mlJson = mlJson.getJSONObject("data");
+        }
 
         return fieldProcessor.getJson(config.getDocumentConfig(),
                 response.getData().getFields(),
-                new JSONObject(new Gson().toJson(details)).getJSONObject("data")
+                mlJson
         );
 
     }

@@ -195,7 +195,6 @@ public class FieldProcessorImpl implements FieldProcessor {
 
             if(StringUtils.equals("string", property.getValue().getType())) {
 
-
                 arrayNode.addAll(extractDetailsArrayValue(formData, details.getJSONArray(key), property.getKey()));
 
             }
@@ -262,7 +261,7 @@ public class FieldProcessorImpl implements FieldProcessor {
 
             ObjectNode objectNode = objectMapper.createObjectNode();
 
-            objectNode.put(key,  objects.getJSONObject(i).getString(formDataProperty.getFieldKey()));
+            objectNode.put(key,  objects.getString(i));
 
             objectNodes.add(objectNode);
 
