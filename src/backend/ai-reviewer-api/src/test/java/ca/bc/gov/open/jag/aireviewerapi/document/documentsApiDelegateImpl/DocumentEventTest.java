@@ -23,6 +23,7 @@ import ca.bc.gov.open.jag.aireviewerapi.extract.store.ExtractStore;
 import ca.bc.gov.open.jag.aireviewerapi.cso.CSOORDSService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
@@ -77,7 +78,7 @@ public class DocumentEventTest {
         ObjectNode result = objectMapper.createObjectNode();
         result.put("test", "test");
 
-        Mockito.when(fieldProcessorMock.getJson(Mockito.any(), Mockito.any())).thenReturn(result);
+        Mockito.when(fieldProcessorMock.getJson(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(result);
 
         Mockito.when(diligenServiceMock.getDocumentDetails(Mockito.any())).thenReturn(DiligenDocumentDetails.builder().create());
 
@@ -94,8 +95,14 @@ public class DocumentEventTest {
         fields.add(field);
         data.setFields(fields);
         projectFieldResponse.setData(data);
+        JSONObject mlJson = new JSONObject();
+        mlJson.put("data", new JSONObject());
+
         Mockito.when(diligenServiceMock.getDocumentDetails(ArgumentMatchers.eq(BigDecimal.ONE))).thenReturn(DiligenDocumentDetails.builder()
-                .projectFieldsResponse(projectFieldResponse).create());
+                .projectFieldsResponse(projectFieldResponse)
+                .mlJson(mlJson)
+                .create());
+
         Mockito.when(extractStoreMock.get(Mockito.eq(BigDecimal.ONE))).thenReturn(Optional.of(ExtractRequest.builder()
                 .document(Document.builder()
                         .type("TYPE")

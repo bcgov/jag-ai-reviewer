@@ -8,6 +8,7 @@ public class PropertyConfig {
     private String type;
     private Integer fieldId;
     private String fieldKey;
+    private String businessObject;
     Map<String, PropertyConfig> properties = new LinkedHashMap<>();
 
     public String getType() {
@@ -25,6 +26,10 @@ public class PropertyConfig {
     public void setFieldId(Integer fieldId) {
         this.fieldId = fieldId;
     }
+
+    public String getBusinessObject() { return businessObject; }
+
+    public void setBusinessObject(String businessObject) { this.businessObject = businessObject; }
 
     public Map<String, PropertyConfig> getProperties() {
         return properties;

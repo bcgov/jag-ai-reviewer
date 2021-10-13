@@ -1,0 +1,14 @@
+{
+  "testarray": [
+    {
+      "testvalue": "somedata"
+    },
+    {
+      "testvalue": "someotherdata"
+    }
+  ],
+    "teststringarray" : [
+      "something",
+      "someotherthing"
+    ]
+}

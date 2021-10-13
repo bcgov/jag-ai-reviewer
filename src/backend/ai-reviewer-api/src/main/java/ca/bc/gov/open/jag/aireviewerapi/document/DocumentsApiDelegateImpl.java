@@ -10,6 +10,8 @@ import javax.annotation.security.RolesAllowed;
 
 import ca.bc.gov.open.jag.aireviewerapi.core.FeatureProperties;
 import ca.bc.gov.open.jag.aireviewerapi.utils.MD5;
+import com.google.gson.Gson;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -179,13 +181,24 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
     }
 
-    private ObjectNode buildFormData(ProjectFieldsResponse response, DocumentTypeConfiguration config) {
+    private ObjectNode buildFormData(ProjectFieldsResponse response, Object details,  DocumentTypeConfiguration config) {
 
         if (config == null)
             throw new AiReviewerDocumentConfigException("Document Configuration not found");
 
+        String mlJsonString = new Gson().toJson(details);
+
+        JSONObject mlJson = new JSONObject(mlJsonString);
+        if (mlJson.has("map")) {
+            mlJson = mlJson.getJSONObject("map").getJSONObject("data");
+        } else {
+            mlJson = mlJson.getJSONObject("data");
+        }
+
         return fieldProcessor.getJson(config.getDocumentConfig(),
-                response.getData().getFields());
+                response.getData().getFields(),
+                mlJson
+        );
 
     }
 
@@ -211,7 +224,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
                 if(config == null)
                     throw new AiReviewerDocumentConfigException("document configuration not found");
 
-                ObjectNode formData = buildFormData(response.getProjectFieldsResponse(), config);
+                ObjectNode formData = buildFormData(response.getProjectFieldsResponse(), response.getMlJson(), config);
 
                 ExtractResponse extractedResponse = ExtractResponse
                         .builder()

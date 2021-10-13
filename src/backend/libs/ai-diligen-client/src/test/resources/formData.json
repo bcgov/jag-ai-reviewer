@@ -1,17 +1,94 @@
 {
   "properties": {
+    "errorCodes": {
+      "type": "string",
+      "fieldId": 229,
+      "fieldKey": "error_codes",
+      "businessObject": "projectFields"
+    },
     "test": {
       "type": "string",
       "fieldId": 229,
-      "fieldKey": "test1"
+      "fieldKey": "test1",
+      "businessObject": "projectFields"
     },
     "test2": {
       "type": "object",
+      "businessObject": "projectFields",
       "properties": {
         "test": {
           "type": "string",
           "fieldId": 229,
-          "fieldKey": "test1"
+          "fieldKey": "test1",
+          "businessObject": "projectFields"
+        }
+      }
+    },
+    "test3": {
+      "type": "object",
+      "businessObject": "details",
+      "properties": {
+        "test": {
+          "type": "array",
+          "fieldId": null,
+          "fieldKey": "testarray",
+          "businessObject": "details",
+          "properties": {
+            "test": {
+              "type": "object",
+              "fieldId": null,
+              "fieldKey": null,
+              "businessObject": "details",
+              "properties": {
+                "test": {
+                  "type": "string",
+                  "fieldId": 229,
+                  "fieldKey": "testvalue",
+                  "businessObject": "details"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "test4": {
+    "type": "object",
+    "businessObject": "projectfields",
+    "properties": {
+      "test": {
+        "type": "array",
+        "fieldId": null,
+        "fieldKey": "projecttestarray",
+        "businessObject": "projectfields",
+        "properties": {
+          "test": {
+            "type": "string",
+            "fieldId": 229,
+            "fieldKey": "projecttestarray",
+            "businessObject": "projectfields"
+            }
+          }
+        }
+      }
+    },
+    "test5": {
+      "type": "object",
+      "businessObject": "details",
+      "properties": {
+        "test": {
+          "type": "array",
+          "fieldId": null,
+          "fieldKey": "teststringarray",
+          "businessObject": "details",
+          "properties": {
+            "test": {
+              "type": "string",
+              "fieldId": 229,
+              "fieldKey": "teststringarray",
+              "businessObject": "projectfields"
+            }
+          }
         }
       }
     }

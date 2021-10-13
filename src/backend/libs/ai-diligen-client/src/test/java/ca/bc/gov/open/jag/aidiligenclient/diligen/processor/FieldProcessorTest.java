@@ -5,6 +5,9 @@ import ca.bc.gov.open.jag.aidiligenclient.api.model.Field;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -26,11 +29,13 @@ public class FieldProcessorTest {
     }
 
     @Test
-    public void testProduct() throws IOException {
+    public void testProduct() throws IOException, JSONException {
 
         Path path = Paths.get("src/test/resources/formData.json");
 
         Path path2 = Paths.get("src/test/resources/diligen.answer.1.json");
+
+        Path path3 = Paths.get("src/test/resources/details.json");
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -39,9 +44,22 @@ public class FieldProcessorTest {
         List<Field> response = mapper.readValue(new String(
                 Files.readAllBytes(path2)), new TypeReference<List<Field>>(){});
 
-        ObjectNode actual = sut.getJson(formData, response);
 
-        String test = "1";
+        ObjectNode actual = sut.getJson(formData, response, new JSONObject(new String(Files.readAllBytes(path3))));
+
+        Assertions.assertEquals(6, actual.size());
+
+        Assertions.assertEquals("\"ERRORCODES,ERRORCODESCODES,ERRORCODESCODESCODES\"", actual.get("errorCodes").toString());
+
+        Assertions.assertEquals("\"2057551\"", actual.get("test").toString());
+
+        Assertions.assertEquals("\"2057551\"", actual.get("test2").get("test").toString());
+
+        Assertions.assertTrue(actual.get("test3").get("test").isArray());
+
+        Assertions.assertTrue(actual.get("test4").get("test").isArray());
+
+        Assertions.assertTrue(actual.get("test5").get("test").isArray());
 
     }
 

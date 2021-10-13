@@ -12,7 +12,6 @@ import ca.bc.gov.open.jag.aireviewerapi.document.DocumentsApiDelegateImpl;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.Document;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentValidation;
-import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentValidationResult;
 import ca.bc.gov.open.jag.aireviewerapi.document.store.DocumentTypeConfigurationRepository;
 import ca.bc.gov.open.jag.aireviewerapi.document.validators.DocumentValidator;
 import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentException;
@@ -25,6 +24,7 @@ import ca.bc.gov.open.jag.aireviewerapi.extract.store.ExtractStore;
 import ca.bc.gov.open.jag.aireviewerapi.cso.CSOORDSService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
@@ -79,7 +79,7 @@ public class DocumentWebhookEventTest {
         ObjectNode result = objectMapper.createObjectNode();
         result.put("test", "test");
 
-        Mockito.when(fieldProcessorMock.getJson(Mockito.any(), Mockito.any())).thenReturn(result);
+        Mockito.when(fieldProcessorMock.getJson(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(result);
 
         Mockito.when(diligenServiceMock.getDocumentDetails(Mockito.any())).thenReturn(DiligenDocumentDetails.builder().create());
 
@@ -96,8 +96,15 @@ public class DocumentWebhookEventTest {
         fields.add(field);
         data.setFields(fields);
         projectFieldResponse.setData(data);
+
+        JSONObject mlJson = new JSONObject();
+        mlJson.put("data", new JSONObject());
+
         Mockito.when(diligenServiceMock.getDocumentDetails(ArgumentMatchers.eq(BigDecimal.ONE))).thenReturn(DiligenDocumentDetails.builder()
-                .projectFieldsResponse(projectFieldResponse).create());
+                .projectFieldsResponse(projectFieldResponse)
+                .mlJson(mlJson)
+                .create());
+
         Mockito.when(extractStoreMock.get(Mockito.eq(BigDecimal.ONE))).thenReturn(Optional.of(ExtractRequest.builder()
                 .document(Document.builder()
                         .type("TYPE")
