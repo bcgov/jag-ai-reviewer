@@ -28,9 +28,9 @@
           "properties": {}
         },
         "filedBy": {
-          "type": "string",
-          "fieldId": 236,
-          "fieldKey": "007_answer_submitted_by_defendant_or_counsel",
+          "type": "object",
+          "fieldId": null,
+          "fieldKey": null,
           "businessObject": "details",
           "properties": {
             "parties": {

@@ -50,7 +50,7 @@ public class FieldProcessorImpl implements FieldProcessor {
                 if (!property.getValue().getBusinessObject().equalsIgnoreCase("details")) {
                     objectNode.set(property.getKey(), parseArraySchema(property.getValue(), fields, details));
                 } else {
-                    objectNode.set(property.getKey(), parseDetailsArraySchema(property.getValue(), fields, details, property.getKey()));
+                    objectNode.set(property.getKey(), parseDetailsArraySchema(property.getValue(), fields, details, property.getValue().getFieldKey()));
                 }
 
             }
@@ -102,7 +102,7 @@ public class FieldProcessorImpl implements FieldProcessor {
                 if (!property.getValue().getBusinessObject().equalsIgnoreCase("details")) {
                     objectNode.set(property.getKey(), parseArraySchema(property.getValue(), fields, details));
                 } else {
-                    objectNode.set(property.getKey(), parseDetailsArraySchema(property.getValue(), fields, details, property.getKey()));
+                    objectNode.set(property.getKey(), parseDetailsArraySchema(property.getValue(), fields, details, property.getValue().getFieldKey()));
                 }
             }
 
@@ -131,7 +131,7 @@ public class FieldProcessorImpl implements FieldProcessor {
 
             if(StringUtils.equals("array", property.getValue().getType())) {
 
-                objectNode.set(property.getKey(), parseDetailsArraySchema(property.getValue(), fields, details, property.getKey()));
+                objectNode.set(property.getKey(), parseDetailsArraySchema(property.getValue(), fields, details, property.getValue().getFieldKey()));
 
             }
 
