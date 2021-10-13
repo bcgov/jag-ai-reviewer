@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+//TODO: Currently this work one directional. fieldProcessor types can had children that are details but details cannot handle child fieldProcessor
+
 public class FieldProcessorImpl implements FieldProcessor {
 
     Logger logger = LoggerFactory.getLogger(FieldProcessorImpl.class);
