@@ -27,6 +27,13 @@
           "businessObject": "projectFields",
           "properties": {}
         },
+        "submittedBy": {
+          "type": "string",
+          "fieldId": null,
+          "fieldKey": "007_answer_submitted_by_defendant_or_counsel",
+          "businessObject": "projectFields",
+          "properties": {}
+        },
         "filedBy": {
           "type": "object",
           "fieldId": null,
