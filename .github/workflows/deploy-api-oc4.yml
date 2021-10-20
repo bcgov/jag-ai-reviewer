@@ -14,13 +14,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cluster Login
-        uses: redhat-developer/openshift-actions@v1.1
-        with:
-          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
-          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
-          cmd: |
-            'version'
+      #- name: Cluster Login
+        #uses: redhat-developer/openshift-actions@v1.1
+        #with:
+          #openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
+          #parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
+          #cmd: |
+            #'version'
+      - name: Login to the Openshift Cluster
+        run: | 
+          oc login --token=${{ secrets.OPENSHIFT4_SA_PASSWORD }} --server=${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}
+          
       - name: Login to Openshift Docker
         run : |
           docker login ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }} -u ${{ secrets.OPENSHIFT4_SA_USERNAME }} -p ${{ secrets.OPENSHIFT4_SA_PASSWORD }}
