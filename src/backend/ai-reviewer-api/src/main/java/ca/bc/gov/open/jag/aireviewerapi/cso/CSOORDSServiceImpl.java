@@ -95,7 +95,7 @@ public class CSOORDSServiceImpl implements CSOORDSService {
 
                     logger.info("Package ID: {}",  csoResult.getPackageId());
 
-                    ResponseEntity<Object> result = restTemplate.exchange(MessageFormat.format(Keys.AUTO_EFILE_PATH, csoProperties.getEfileBasePath(), csoResult.getPackageId()),
+                    ResponseEntity<Object> result = restTemplate.exchange(MessageFormat.format(Keys.AUTO_EFILE_PATH, csoProperties.getEfileBasePath(), csoResult.getPackageId().toPlainString()),
                             HttpMethod.GET,
                             entity,
                             Object.class);
