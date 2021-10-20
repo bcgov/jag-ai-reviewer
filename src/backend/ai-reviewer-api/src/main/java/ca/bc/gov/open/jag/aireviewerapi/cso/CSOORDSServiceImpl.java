@@ -93,6 +93,8 @@ public class CSOORDSServiceImpl implements CSOORDSService {
 
                     HttpEntity<?> entity = new HttpEntity<>(setupBasicAuth(csoProperties.getEfileUsername(), csoProperties.getEfilePassword()));
 
+                    logger.info("Package ID: {}",  csoResult.getPackageId());
+
                     ResponseEntity<Object> result = restTemplate.exchange(MessageFormat.format(Keys.AUTO_EFILE_PATH, csoProperties.getEfileBasePath(), csoResult.getPackageId()),
                             HttpMethod.GET,
                             entity,
