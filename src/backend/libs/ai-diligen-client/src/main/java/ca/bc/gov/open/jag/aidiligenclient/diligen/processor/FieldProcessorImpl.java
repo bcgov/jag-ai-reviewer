@@ -249,7 +249,11 @@ public class FieldProcessorImpl implements FieldProcessor {
 
     private String extractDetailsStringValue(PropertyConfig formDataProperty, JSONObject details) {
 
-        return details.getString(formDataProperty.getFieldKey());
+        if (details.has(formDataProperty.getFieldKey())) {
+            return details.getString(formDataProperty.getFieldKey());
+        } else {
+            return null;
+        }
 
     }
 
