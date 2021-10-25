@@ -138,7 +138,7 @@
                 "type": {
                   "type": "string",
                   "fieldId": 232,
-                  "fieldKey": "text",
+                  "fieldKey": "entity_type",
                   "businessObject": "details",
                   "properties": {}
                 },
