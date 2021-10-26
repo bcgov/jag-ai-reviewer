@@ -123,10 +123,10 @@
       "fieldKey": null,
       "businessObject": "details",
       "properties": {
-        "entities": {
+        "plaintiffs": {
           "type": "array",
           "fieldId": null,
-          "fieldKey": "contract_parties",
+          "fieldKey": "plaintiffs",
           "businessObject": "details",
           "properties": {
             "party": {
@@ -135,13 +135,52 @@
               "fieldKey": null,
               "businessObject": "details",
               "properties": {
-                "type": {
+                "name": {
                   "type": "string",
-                  "fieldId": 232,
-                  "fieldKey": "entity_type",
+                  "fieldId": 230,
+                  "fieldKey": "text",
                   "businessObject": "details",
                   "properties": {}
-                },
+                }
+              }
+            }
+          }
+        },
+        "defendants": {
+          "type": "array",
+          "fieldId": null,
+          "fieldKey": "defendants",
+          "businessObject": "details",
+          "properties": {
+            "party": {
+              "type": "object",
+              "fieldId": null,
+              "fieldKey": null,
+              "businessObject": "details",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "fieldId": 230,
+                  "fieldKey": "text",
+                  "businessObject": "details",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "third_parties": {
+          "type": "array",
+          "fieldId": null,
+          "fieldKey": "court_third_parties",
+          "businessObject": "details",
+          "properties": {
+            "party": {
+              "type": "object",
+              "fieldId": null,
+              "fieldKey": null,
+              "businessObject": "details",
+              "properties": {
                 "name": {
                   "type": "string",
                   "fieldId": 230,
