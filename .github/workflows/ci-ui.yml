@@ -31,6 +31,10 @@ jobs:
       - name: Before build
         run: ./cc-test-reporter before-build
 
+      # Set required env vars for yarn coverage
+      - name: Set required env vars for yarn coverage
+        run:  cp src/frontend/ai-reviewer-admin/.env.template src/frontend/ai-reviewer-admin/.env
+
       # Set required Git env vars for either pull request
       - name: Set ENV for codeclimate (pull_request)
         run: |
