@@ -6,7 +6,7 @@
 
     <groupId>ca.bc.gov.open.jag</groupId>
     <artifactId>ai-diligen-client</artifactId>
-    <version>0.7.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <properties>
         <default-package>ca.bc.gov.open.jag.aidiligenclient</default-package>
@@ -138,7 +138,7 @@
             <dependency>
                 <groupId>ca.bc.gov.open.jag</groupId>
                 <artifactId>ai-bom</artifactId>
-                <version>0.7.0-SNAPSHOT</version>
+                <version>1.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
