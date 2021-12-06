@@ -11,7 +11,6 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "keycloak-js": "^13.0.0",
-    "node-sass": "4.14",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -48,7 +47,8 @@
   "devDependencies": {
     "axios-mock-adapter": "^1.19.0",
     "mq-polyfill": "^1.1.8",
-    "prettier": "2.3.0"
+    "prettier": "2.3.0",
+    "sass": "^1.44.0"
   },
   "jest": {
     "watchPathIgnorePatterns": [
