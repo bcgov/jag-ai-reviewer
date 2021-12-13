@@ -165,17 +165,17 @@ objects:
               - name: KEYCLOAK_AUTH_SERVER_URL
                 valueFrom:
                   secretKeyRef:
-                    name: keycloak-efiling-reiewer
+                    name: keycloak-efiling-reviewer
                     key: KEYCLOAK_AUTH_SERVER_URL
               - name: KEYCLOAK_REALM
                 valueFrom:
                   secretKeyRef:
-                    name: keycloak-efiling-reiewer
+                    name: keycloak-efiling-reviewer
                     key: KEYCLOAK_REALM
               - name: KEYCLOAK_CREDENTIALS_SECRET
                 valueFrom:
                   secretKeyRef:
-                    name: keycloak-efiling-reiewer
+                    name: keycloak-efiling-reviewer
                     key: KEYCLOAK_CREDENTIALS_SECRET
               - name: FEATURE_USE_REDIS_QUEUE
                 value: 'false'
