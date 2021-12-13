@@ -1,0 +1,249 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: ${COMPONENT_NAME}
+  description: Deployment template for the efiling-reviewer-api
+  
+labels:
+  app: ${COMPONENT_NAME}
+  app.kubernetes.io/part-of: ${APP_NAME}
+  
+parameters:
+
+- name: APP_NAME
+  description: The application name that each component is part of
+  required: false
+  value: ai-reviewer
+
+- name: COMPONENT_NAME
+  description: The application name
+  required: false
+  value: efiling-reviewer-api
+
+- name: IMAGE_NAME
+  description: Image name
+  required: false
+  value: ai-reviewer-api
+  
+- name: OC_NAMESPACE
+  description: The OpenShift namespace prefix
+  required: false
+  value: fc726a
+  
+- name: OC_ENV
+  description: The OpenShift environment, ie dev, test or prod
+  required: true
+
+- name: DNS
+  description: Openshift route default DNS
+  required: false
+  value: apps.silver.devops.gov.bc.ca
+  
+objects:
+
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    name: ${COMPONENT_NAME}
+    namespace: ${OC_NAMESPACE}-${OC_ENV}
+  spec:
+    strategy:
+      type: Rolling
+      rollingParams:
+        updatePeriodSeconds: 1
+        intervalSeconds: 1
+        timeoutSeconds: 600
+        maxUnavailable: 25%
+        maxSurge: 25%
+      resources: {}
+      activeDeadlineSeconds: 21600
+    triggers:
+      - type: ConfigChange
+      - type: ImageChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - ${COMPONENT_NAME}
+          from:
+            kind: ImageStreamTag
+            namespace: ${OC_NAMESPACE}-tools
+            name: ${IMAGE_NAME}:${OC_ENV}
+    replicas: 1
+    revisionHistoryLimit: 10
+    test: false
+    selector:
+      io.kompose.service: ${COMPONENT_NAME}
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          io.kompose.service: ${COMPONENT_NAME}
+      spec:
+        containers:
+          - resources:
+              limits:
+                cpu: '3'
+                memory: 4Gi
+              requests:
+                cpu: '1'
+                memory: 512Mi
+            readinessProbe:
+              httpGet:
+                path: /actuator/health
+                port: 8080
+                scheme: HTTP
+              initialDelaySeconds: 120
+              timeoutSeconds: 10
+              periodSeconds: 10
+              successThreshold: 1
+              failureThreshold: 3
+            terminationMessagePath: /dev/termination-log
+            name: ${COMPONENT_NAME}
+            livenessProbe:
+              httpGet:
+                path: /actuator/health
+                port: 8080
+                scheme: HTTP
+              initialDelaySeconds: 110
+              timeoutSeconds: 10
+              periodSeconds: 10
+              successThreshold: 1
+              failureThreshold: 3
+            env:
+              - name: CLAMAV_HOST
+                value: clamav
+              - name: CLAMAV_PORT
+                value: '3310'
+              - name: CLAMAV_TIMEOUT
+                value: '150000'
+              - name: REDIS_HOST
+                value: redis
+              - name: REDIS_PORT
+                value: '6379'
+              - name: REDIS_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: redis
+                    key: database-password
+              - name: DILIGEN_BASE_PATH
+                valueFrom:
+                  secretKeyRef:
+                    name: diligen-api
+                    key: DILIGEN_BASE_PATH
+              - name: DILIGEN_PROJECT_IDENTIFIER
+                value: '2'
+              - name: SPLUNK_SOURCE
+                value: efiling-reviewer-api
+              - name: spring_profiles_active
+                value: splunk
+              - name: AIR_SPRING_DATA_MONGODB_HOST
+                value: mongodb
+              - name: AIR_SPRING_DATA_MONGODB_DATABASE
+                valueFrom:
+                  secretKeyRef:
+                    name: mongodb
+                    key: database-name
+              - name: AIR_SPRING_DATA_MONGODB_USERNAME
+                valueFrom:
+                  secretKeyRef:
+                    name: mongodb
+                    key: database-user
+              - name: AIR_SPRING_DATA_MONGODB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: mongodb
+                    key: database-password
+              - name: AIR_SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE
+                valueFrom:
+                  secretKeyRef:
+                    name: mongodb
+                    key: database-name
+              - name: KEYCLOAK_SSL_REQUIRED
+                value: none
+              - name: KEYCLOAK_RESOURCE
+                value: ai-reviewer-api
+              - name: KEYCLOAK_AUTH_SERVER_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: keycloak-efiling-reiewer
+                    key: KEYCLOAK_AUTH_SERVER_URL
+              - name: KEYCLOAK_REALM
+                valueFrom:
+                  secretKeyRef:
+                    name: keycloak-efiling-reiewer
+                    key: KEYCLOAK_REALM
+              - name: KEYCLOAK_CREDENTIALS_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: keycloak-efiling-reiewer
+                    key: KEYCLOAK_CREDENTIALS_SECRET
+              - name: FEATURE_USE_REDIS_QUEUE
+                value: 'false'
+            ports:
+              - containerPort: 8080
+                protocol: TCP
+            imagePullPolicy: IfNotPresent
+            terminationMessagePolicy: File
+            envFrom:
+              - secretRef:
+                  name: diligen-api
+              - secretRef:
+                  name: splunk
+              - secretRef:
+                  name: auto-efile-config
+              - secretRef:
+                  name: cso-ords
+              - configMapRef:
+                  name: spring-profiles-active
+            image: >-
+              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/${IMAGE_NAME}:${OC_ENV}
+        restartPolicy: Always
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst
+        securityContext: {}
+        schedulerName: default-scheduler
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      description: Exposes and load balances the application pods
+    name: ${COMPONENT_NAME}
+    namespace: ${OC_NAMESPACE}-${OC_ENV}
+    labels:
+      app: ${COMPONENT_NAME}
+      template: meta-service
+  spec:
+    ports:
+      - name: web
+        protocol: TCP
+        port: 80
+        targetPort: 8080
+    selector:
+      deploymentconfig: ${COMPONENT_NAME}
+    type: ClusterIP
+    sessionAffinity: None
+
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    name: ${COMPONENT_NAME}
+    namespace: ${OC_NAMESPACE}-${OC_ENV}
+    labels:
+      app: ${COMPONENT_NAME}
+      template: meta-service
+    annotations:
+      haproxy.router.openshift.io/disable_cookies: 'true'
+      haproxy.router.openshift.io/ip_whitelist: 142.34.45.132 142.34.44.68 142.34.44.69 142.34.133.71 99.79.165.63
+  spec:
+    host: ${COMPONENT_NAME}-${OC_NAMESPACE}-${OC_ENV}.${DNS}
+    to:
+      kind: Service
+      name: ${COMPONENT_NAME}
+      weight: 100
+    port:
+      targetPort: web
+    tls:
+      termination: edge
+      insecureEdgeTerminationPolicy: Redirect
+    wildcardPolicy: None
