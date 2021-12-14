@@ -89,19 +89,19 @@ objects:
             env:
               - name: ME_CONFIG_MONGODB_SERVER
                 valueFrom:
-                secretKeyRef:
-                  name: ${COMPONENT_NAME}
-                  key: ME_CONFIG_MONGODB_SERVER
+                  secretKeyRef:
+                    name: ${COMPONENT_NAME}
+                    key: ME_CONFIG_MONGODB_SERVER
               - name: ME_CONFIG_MONGODB_ADMINUSERNAME
                 valueFrom:
-                secretKeyRef:
-                  name: ${COMPONENT_NAME}
-                  key: ME_CONFIG_MONGODB_ADMINUSERNAME
+                  secretKeyRef:
+                    name: ${COMPONENT_NAME}
+                    key: ME_CONFIG_MONGODB_ADMINUSERNAME
               - name: ME_CONFIG_MONGODB_ADMINPASSWORD
                 valueFrom:
-                secretKeyRef:
-                  name: ${COMPONENT_NAME}
-                  key: ME_CONFIG_MONGODB_ADMINPASSWORD
+                  secretKeyRef:
+                    name: ${COMPONENT_NAME}
+                    key: ME_CONFIG_MONGODB_ADMINPASSWORD
             resources: {}
             terminationMessagePath: /dev/termination-log
             terminationMessagePolicy: File
@@ -135,7 +135,7 @@ objects:
   kind: Route
   metadata:
     name: ${COMPONENT_NAME}
-    namespace: ${COMPONENT_NAME}-${OC_NAMESPACE}
+    namespace: ${OC_NAMESPACE}-${OC_ENV}
     labels:
       app: ${COMPONENT_NAME}
   spec:
