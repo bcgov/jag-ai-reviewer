@@ -69,7 +69,7 @@ objects:
         volumes:
           - name: ${COMPONENT_NAME}-data
             persistentVolumeClaim:
-              claimName: ${COMPONENT_NAME}
+              claimName: ${COMPONENT_NAME}-pvc
         containers:
           - resources:
               limits:
