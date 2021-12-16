@@ -1,0 +1,157 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: ${APP_NAME}
+  description: Deployment template for the MongoDB
+  
+labels:
+  app: ${APP_NAME}
+  app.kubernetes.io/part-of: ${COMPONENT_NAME}
+  
+parameters:
+
+- name: APP_NAME
+  description: The application name
+  required: false
+  value: mongodb
+
+- name: COMPONENT_NAME
+  description: The application name that each component is part of
+  required: false
+  value: mongodb
+  
+- name: OC_NAMESPACE
+  description: The OpenShift namespace prefix
+  required: false
+  value: fc726a
+  
+- name: OC_ENV
+  description: The OpenShift environment, ie dev, test or prod
+  required: true
+  
+objects:
+
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    name: ${COMPONENT_NAME}
+    namespace: ${OC_NAMESPACE}-${OC_ENV}
+    labels:
+      app.kubernetes.io/part-of: ${COMPONENT_NAME}
+  spec:
+    strategy:
+      type: Recreate
+      recreateParams:
+        timeoutSeconds: 600
+      resources: {}
+      activeDeadlineSeconds: 21600
+    triggers:
+        - type: ConfigChange
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - ${COMPONENT_NAME}
+            from:
+              kind: ImageStreamTag
+              namespace: ${OC_NAMESPACE}-${OC_ENV}
+              name: ${COMPONENT_NAME}:3.6
+    replicas: 1
+    revisionHistoryLimit: 10
+    test: false
+    selector:
+      name: ${COMPONENT_NAME}
+    template:
+      metadata:
+        labels:
+          name: ${COMPONENT_NAME}
+      spec:
+        volumes:
+          - name: ${COMPONENT_NAME}-data
+            persistentVolumeClaim:
+              claimName: ${COMPONENT_NAME}-pvc
+        containers:
+          - resources:
+              limits:
+                memory: 512Mi
+            readinessProbe:
+              exec:
+                command:
+                  - /bin/sh
+                  - '-i'
+                  - '-c'
+                  - >-
+                    mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p
+                    $MONGODB_PASSWORD --eval="quit()"
+              initialDelaySeconds: 3
+              timeoutSeconds: 1
+              periodSeconds: 10
+              successThreshold: 1
+              failureThreshold: 3
+            terminationMessagePath: /dev/termination-log
+            name: ${COMPONENT_NAME}
+            livenessProbe:
+              tcpSocket:
+                port: 27017
+              initialDelaySeconds: 30
+              timeoutSeconds: 1
+              periodSeconds: 10
+              successThreshold: 1
+              failureThreshold: 3
+            env:
+              - name: MONGODB_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: ${COMPONENT_NAME}
+                    key: database-user
+              - name: MONGODB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: ${COMPONENT_NAME}
+                    key: database-password
+              - name: MONGODB_ADMIN_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: ${COMPONENT_NAME}
+                    key: database-admin-password
+              - name: MONGODB_DATABASE
+                valueFrom:
+                  secretKeyRef:
+                    name: ${COMPONENT_NAME}
+                    key: database-name
+            securityContext:
+              capabilities: {}
+              privileged: false
+            ports:
+              - containerPort: 27017
+                protocol: TCP
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+              - name: ${COMPONENT_NAME}-data
+                mountPath: /var/lib/mongodb/data
+            terminationMessagePolicy: File
+            image: >-
+              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-${OC_ENV}/${COMPONENT_NAME}:3.6
+        restartPolicy: Always
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst
+        securityContext: {}
+        schedulerName: default-scheduler
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${COMPONENT_NAME}
+    namespace: ${OC_NAMESPACE}-${OC_ENV}
+    labels:
+      name: ${COMPONENT_NAME}
+  spec:
+    ports:
+      - name: ${COMPONENT_NAME}
+        protocol: TCP
+        port: 27017
+        targetPort: 27017
+    selector:
+      name: ${COMPONENT_NAME}
+    type: ClusterIP
+    sessionAffinity: None
