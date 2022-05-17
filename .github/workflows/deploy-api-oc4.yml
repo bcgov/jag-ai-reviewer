@@ -11,6 +11,8 @@ on:
 jobs:
   git_sha:
     uses: SierraSystems/reusable-workflows/.github/workflows/get-github-commitversion.yml@main
+    with:
+      working_directory: "."
 
   build:
     needs:
