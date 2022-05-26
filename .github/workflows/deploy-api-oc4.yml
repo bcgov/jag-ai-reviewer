@@ -11,6 +11,8 @@ on:
 jobs:
   git_sha:
     uses: SierraSystems/reusable-workflows/.github/workflows/get-github-commitversion.yml@main
+    with:
+      working_directory: "."
 
   build:
     needs:
@@ -39,5 +41,5 @@ jobs:
           docker tag jag-ai-reviewer_ai-reviewer-api ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/ai-reviewer-api:latest
           docker push ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/ai-reviewer-api:latest
           
-          docker tag jag-ai-reviewer_ai-reviewer-api ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/ai-reviewer-api:latest
+          docker tag jag-ai-reviewer_ai-reviewer-api ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/ai-reviewer-api:${{ needs.git_sha.outputs.github-release-version }}
           docker push ${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT4_TOOLS_NAMESPACE }}/ai-reviewer-api:${{ needs.git_sha.outputs.github-release-version }}
