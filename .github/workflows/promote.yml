@@ -3,13 +3,6 @@ name: Promote
 on:
   workflow_dispatch:
     inputs:
-      application:
-        required: true
-        description: What application you want to promote?
-        type: choice
-        options:
-          - ai-reviewer-api
-          - ai-reviewer-admin
       source_image_tag:
         required: true
         description: What is the tag that is going to be promoted?
@@ -23,6 +16,16 @@ on:
           - dev
           - test
           - prod
+<<<<<<< HEAD
+=======
+      application:
+        required: true
+        description: What application you want to promote?
+        type: choice
+        options:
+          - ai-reviewer-api
+          - ai-reviewer-admin
+>>>>>>> origin/main
 
 jobs:
   promote_image:
@@ -33,6 +36,6 @@ jobs:
       image_tags: "${{ github.event.inputs.environment }}"
     secrets:
       openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
-      openshift_server_url: "${{ secrets.OPENSHIFT4_SERVER_URL }}"
+      openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
       openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
-      openshift_external_repository: "${{ secrets.OPENSHIFT4_EXTERNAL_REPOSITORY }}"
+      openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
