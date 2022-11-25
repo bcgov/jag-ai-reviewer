@@ -3,6 +3,13 @@ name: Promote
 on:
   workflow_dispatch:
     inputs:
+      application:
+        required: true
+        description: What application you want to promote?
+        type: choice
+        options:
+          - ai-reviewer-api
+          - ai-reviewer-admin
       source_image_tag:
         required: true
         description: What is the tag that is going to be promoted?
@@ -16,13 +23,6 @@ on:
           - dev
           - test
           - prod
-      application:
-        required: true
-        description: What application you want to promote?
-        type: choice
-        options:
-          - ai-reviewer-api
-          - ai-reviewer-admin
 
 jobs:
   promote_image:
