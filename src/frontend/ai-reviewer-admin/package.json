@@ -61,5 +61,8 @@
       "!src/**/test-data.js",
       "!src/domain/authentication/*.js"
     ]
-  }
+  },
+  "resolutions": {
+     "minimatch":"^3.0.5" 
+  }  
 }
