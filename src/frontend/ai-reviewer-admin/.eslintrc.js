@@ -27,6 +27,7 @@ module.exports = {
     "react/jsx-curly-brace-presence": "off",
     "react/jsx-filename-extension": "off",
     "react/jsx-wrap-multilines": "off",
+    "react/prop-types": "off"
   },
   settings: {
     react: {

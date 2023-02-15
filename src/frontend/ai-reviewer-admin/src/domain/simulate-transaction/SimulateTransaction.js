@@ -45,24 +45,24 @@ function SimulateTransaction() {
 
   const submitDocument = () => {
     submitFileForExtraction(files[0], transactionId)
-      .then((res) => {
-        setShowLoader(true);
-        setTimeout(() => {
-          getProcessedDocument(
-            res.document.documentId,
-            res.extract.transactionId
-          )
-            .then((res) => {
-              setShowProcessedToast(true);
-              setShowLoader(false);
-            })
-            .catch((err) => {
-              showError(err.message);
-              setShowLoader(false);
-            });
-        }, 5000);
-      })
-      .catch((err) => showError(err.message));
+     .then((res) => {
+      setShowLoader(true);
+      setTimeout(() => {
+        getProcessedDocument(
+          res.document.documentId,
+          res.extract.transactionId
+        )
+          .then((res) => {
+            setShowProcessedToast(true);
+            setShowLoader(false);
+          })
+          .catch((err) => {
+            showError(err.message);
+            setShowLoader(false);
+          });
+      }, 100);
+    })
+    .catch((err) => showError(err.message));
   };
 
   const generateDisplayBoxElement = (file) => {
