@@ -102,26 +102,25 @@ describe("Simulate Transaction Test Suite", () => {
     expect(getByText("fakeFile.pdf")).toBeInTheDocument();
   });
 
-  test("Get Document Types - failure", async () => {
-    mockApi.onGet("/documentTypeConfigurations").reply(400);
-    const { container, getByText } = render(<SimulateTransaction />);
-    const dropzone = container.querySelector('[data-testid="dropdownzone"]');
+    test("Get Document Types - failure", async () => {
+      mockApi.onGet("/documentTypeConfigurations").reply(400);
+      const { container, getByText } = render(<SimulateTransaction />);
+      const dropzone = container.querySelector('[data-testid="dropdownzone"]');
+  
+      dispatchEvt(dropzone, "drop", data);
+      await waitFor(() => {
+        getByText("Error: Could not load configurations.");
+      });
+  
+      expect(
+        getByText("Error: Could not load configurations.")
+      ).toBeInTheDocument();
+    }); 
 
-    dispatchEvt(dropzone, "drop", data);
-    await waitFor(() => {
-      getByText("Error: Could not load configurations.");
-    });
-
-    expect(
-      getByText("Error: Could not load configurations.")
-    ).toBeInTheDocument();
-  });
-
-  test("Submit file for extraction - success", async () => {
-    mockApi.onGet("/documentTypeConfigurations").reply(200, configurations);
-    mockApi.onPost("/documents/extract").reply(200, resolveExtract);
-    mockApi.onGet("/documents/processed/1234").reply(200, resolveProcessed);
-    setTimeout = jest.fn();
+    test("Submit file for extraction - success", async () => {
+      mockApi.onGet("/documentTypeConfigurations").reply(200, configurations);
+      mockApi.onPost("/documents/extract").reply(200, resolveExtract);
+      mockApi.onGet("/documents/processed/1234").reply(200, resolveProcessed);
 
     const { container, getByText, getByTestId } = render(
       <SimulateTransaction />
@@ -144,11 +143,10 @@ describe("Simulate Transaction Test Suite", () => {
     expect(getByText("Document Processed Successfuly")).toBeInTheDocument();
   });
 
-  test("Submit file for extraction - failure", async () => {
+    test("Submit file for extraction - failure", async () => {
     mockApi.onGet("/documentTypeConfigurations").reply(200, configurations);
     mockApi.onPost("/documents/extract").reply(400);
     mockApi.onGet("/documents/processed/1234").reply(200, resolveProcessed);
-    setTimeout = jest.fn();
 
     const { container, getByText, getByTestId, queryByText } = render(
       <SimulateTransaction />
@@ -176,7 +174,7 @@ describe("Simulate Transaction Test Suite", () => {
   test("Get Processed Document - failure", async () => {
     mockApi.onGet("/documentTypeConfigurations").reply(200, configurations);
     mockApi.onPost("/documents/extract").reply(200, resolveExtract);
-    mockApi.onGet("/documents/processed/1234").reply(400, {error: {message: "error"}});
+    mockApi.onGet("/documents/processed/1234").reply(404, {error: {message: "error"}});
 
     const { container, getByText, getByTestId, queryByText } = render(
       <SimulateTransaction />
@@ -194,7 +192,7 @@ describe("Simulate Transaction Test Suite", () => {
 
     const button = getByText("Submit");
     fireEvent.click(button);
-    await waitFor(() => {getByText("Request failed with status code 400")})
+    await waitFor(() => {getByText("Request failed with status code 404")})
 
     expect(
       queryByText("Document Processed Successfuly")
