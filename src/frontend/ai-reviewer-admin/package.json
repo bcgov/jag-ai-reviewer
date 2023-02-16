@@ -64,6 +64,7 @@
   },
   "resolutions": {
      "minimatch":"^3.0.5",
-     "json5": "^2.2.2" 
+     "json5": "^2.2.2",
+     "minimist": "^1.2.6" 
   }  
 }
