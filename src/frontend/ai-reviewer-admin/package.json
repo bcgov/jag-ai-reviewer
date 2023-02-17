@@ -61,5 +61,8 @@
       "!src/**/test-data.js",
       "!src/domain/authentication/*.js"
     ]
-  }
+  },
+  "resolutions": {
+    "nth-check": "^2.0.1" 
+ }    
 }
