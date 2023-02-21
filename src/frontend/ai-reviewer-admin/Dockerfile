@@ -16,7 +16,7 @@ RUN yarn build --production=true
 #############################################################################################
 ###                                 PRODUCTION IMAGE                                      ###
 #############################################################################################
-FROM nginx:1.19-alpine
+FROM nginx:1.23.3-alpine
 
 RUN rm -rf /usr/share/nginx/html/
 COPY --from=build /app/build /usr/share/nginx/html
