@@ -56,6 +56,7 @@ public class CacheConfig {
         redisStandaloneConfiguration.setPort(properties.getPort());
         redisStandaloneConfiguration.setPassword(properties.getPassword());
         return new JedisConnectionFactory(redisStandaloneConfiguration);
+        
     }
 
     private List<RedisNode> createSentinels(RedisProperties.Sentinel sentinel) {
