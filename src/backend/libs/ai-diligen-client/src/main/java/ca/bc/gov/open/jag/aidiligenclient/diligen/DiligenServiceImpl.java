@@ -1,31 +1,37 @@
 package ca.bc.gov.open.jag.aidiligenclient.diligen;
 
-import ca.bc.gov.open.jag.aidiligenclient.Keys;
-import ca.bc.gov.open.jag.aidiligenclient.diligen.mapper.DiligenDocumentDetailsMapper;
-import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
-import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenResponse;
-import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenDocumentException;
-import ca.bc.gov.open.jag.aidiligenclient.api.DocumentsApi;
-import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineObject5;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse2003;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.Optional;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ca.bc.gov.open.jag.aidiligenclient.Keys;
+import ca.bc.gov.open.jag.aidiligenclient.api.DocumentsApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ApiDocumentsDeleteRequest;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ApiDocumentsFileIdDetailsGet200Response;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponse;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.mapper.DiligenDocumentDetailsMapper;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenResponse;
+import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenDocumentException;
 
 @Service
 public class DiligenServiceImpl implements DiligenService {
@@ -95,7 +101,7 @@ public class DiligenServiceImpl implements DiligenService {
         documentsApi.getApiClient().setBearerToken(diligenAuthService.getDiligenJWT(diligenProperties.getUsername(), diligenProperties.getPassword()));
 
         try {
-            InlineResponse2003 result = documentsApi.apiDocumentsFileIdDetailsGet(documentId.intValue());
+        	ApiDocumentsFileIdDetailsGet200Response result = documentsApi.apiDocumentsFileIdDetailsGet(documentId.intValue());
 
             logger.info("detail retrieved");
 
@@ -118,7 +124,7 @@ public class DiligenServiceImpl implements DiligenService {
 
         try {
 
-            InlineObject5 inlineObject5 = new InlineObject5();
+        	ApiDocumentsDeleteRequest inlineObject5 = new ApiDocumentsDeleteRequest();
             inlineObject5.addFileIdsItem(documentId);
 
             documentsApi.apiDocumentsDelete(inlineObject5);

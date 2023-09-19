@@ -1,12 +1,13 @@
 package ca.bc.gov.open.jag.aidiligenclientstarter;
 
-import ca.bc.gov.open.jag.aidiligenclient.api.HealthCheckApi;
-import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse200;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.http.HttpStatus;
+
+import ca.bc.gov.open.jag.aidiligenclient.api.HealthCheckApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ApiIsServerUpGet200Response;
 
 public class DiligenHealthIndicator implements HealthIndicator {
 
@@ -28,7 +29,7 @@ public class DiligenHealthIndicator implements HealthIndicator {
 
         try {
 
-            InlineResponse200 inlineResponse200 = healthCheckApi.apiIsServerUpGet();
+        	ApiIsServerUpGet200Response inlineResponse200 = healthCheckApi.apiIsServerUpGet();
 
 
             if(!StringUtils.equalsIgnoreCase("yes", inlineResponse200.getAnswer())) {

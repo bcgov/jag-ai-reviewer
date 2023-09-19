@@ -7,7 +7,7 @@ import ca.bc.gov.open.jag.aidiligenclient.api.model.Field;
 import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponse;
 import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponseData;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEvent;
-import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEventData;
+import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEventDataInner;
 import ca.bc.gov.open.jag.aireviewerapi.document.DocumentsApiDelegateImpl;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.Document;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
@@ -149,9 +149,9 @@ public class DocumentWebhookEventTest {
     @Test
     @DisplayName("200: succeeds with correctly formatted request body")
     public void testSuccessEvent() {
-        ArrayList<DocumentWebhookEventData> documentWebhookEventDataList = new ArrayList<DocumentWebhookEventData>();
+        ArrayList<DocumentWebhookEventDataInner> documentWebhookEventDataList = new ArrayList<DocumentWebhookEventDataInner>();
         DocumentWebhookEvent documentWebhookEvent = new DocumentWebhookEvent();
-        DocumentWebhookEventData documentWebhookEventData = new DocumentWebhookEventData();
+        DocumentWebhookEventDataInner documentWebhookEventData = new DocumentWebhookEventDataInner();
         documentWebhookEventData.setId(BigDecimal.ONE);
         documentWebhookEventData.setStatus("Processed");
         documentWebhookEventDataList.add(documentWebhookEventData);

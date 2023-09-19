@@ -1,15 +1,23 @@
 package ca.bc.gov.open.jag.aidiligenclientstarter;
 
-import ca.bc.gov.open.jag.aidiligenclient.api.HealthCheckApi;
-import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse200;
-import org.junit.jupiter.api.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.actuate.health.Health;
 
-import java.util.*;
+import ca.bc.gov.open.jag.aidiligenclient.api.HealthCheckApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ApiIsServerUpGet200Response;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DiligenHealthIndicatorTest {
@@ -33,7 +41,7 @@ public class DiligenHealthIndicatorTest {
     @DisplayName("ok: with diligen up should return up")
     public void withDiligenUpShouldReturnUp() throws ApiException {
 
-        InlineResponse200 inlineResponse200 = new InlineResponse200();
+    	ApiIsServerUpGet200Response inlineResponse200 = new ApiIsServerUpGet200Response();
         inlineResponse200.setAnswer("yes");
 
         Mockito.when(healthCheckApiMock.apiIsServerUpGet()).thenReturn(inlineResponse200);
@@ -49,7 +57,7 @@ public class DiligenHealthIndicatorTest {
     @DisplayName("error: when diligen return 200 but answer is not yes")
     public void withAnserNoYesShouldReturnDown() throws ApiException {
 
-        InlineResponse200 inlineResponse200 = new InlineResponse200();
+        ApiIsServerUpGet200Response inlineResponse200 = new ApiIsServerUpGet200Response();
         inlineResponse200.setAnswer("it’s not wise to upset a Wookiee.");
 
         Mockito.when(healthCheckApiMock.apiIsServerUpGet()).thenReturn(inlineResponse200);
@@ -68,7 +76,7 @@ public class DiligenHealthIndicatorTest {
     @DisplayName("error: when diligen return 4xx, 5xx")
     public void withDiligenReturningErrorHttpStatus() throws ApiException {
 
-        InlineResponse200 inlineResponse200 = new InlineResponse200();
+        ApiIsServerUpGet200Response inlineResponse200 = new ApiIsServerUpGet200Response();
         inlineResponse200.setAnswer("it’s not wise to upset a Wookiee.");
 
         Map<String, List<String>> headers = new HashMap<>();

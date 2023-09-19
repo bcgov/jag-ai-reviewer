@@ -33,7 +33,7 @@ import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApiDelegate;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentEvent;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentExtractResponse;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEvent;
-import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEventData;
+import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEventDataInner;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.ProcessedDocument;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.aireviewerapi.document.store.DocumentTypeConfigurationRepository;
@@ -141,13 +141,13 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         logger.info("Received webhook event");
 
         ArrayList<DocumentEvent> documentEvents = new ArrayList<>();
-        List<DocumentWebhookEventData> eventList = documentWebhookEvent.getData();
+        List<DocumentWebhookEventDataInner> eventList = documentWebhookEvent.getData();
 
         if(eventList == null || eventList.size() < 1) {
             throw new AiReviewerDocumentException("Invalid data array in request body.");
         }
 
-        for(DocumentWebhookEventData event : eventList) {
+        for(DocumentWebhookEventDataInner event : eventList) {
             DocumentEvent documentEvent = new DocumentEvent();
             documentEvent.setDocumentId(event.getId());
             documentEvent.setStatus(event.getStatus());
