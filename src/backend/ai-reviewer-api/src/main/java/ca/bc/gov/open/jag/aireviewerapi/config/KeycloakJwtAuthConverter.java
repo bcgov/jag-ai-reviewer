@@ -24,12 +24,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class KeycloakJwtAuthConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
-	private static final String KEYCLOAK_PRINCIPLE_ATTRIBUTE = "preferred_username";
-	private static final String KEYCLOAK_RESOURCE_ATTRIBUTE = "resource_access";
-	private static final String KEYCLOAK_ROLE_ATTRIBUTE = "roles";
+	public static final String KEYCLOAK_PRINCIPLE_ATTRIBUTE = "preferred_username";
+	public static final String KEYCLOAK_RESOURCE_ATTRIBUTE = "resource_access";
+	public static final String KEYCLOAK_ROLE_ATTRIBUTE = "roles";
 
-	@Value("${jwt.auth.converter.resource-id}")
 	private String resourceId;
+	
+	public KeycloakJwtAuthConverter(@Value("${jwt.auth.converter.resource-id}") String resourceId) {
+		this.resourceId = resourceId;		
+	}
 
 	@Override
 	public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
@@ -65,6 +68,10 @@ public class KeycloakJwtAuthConverter implements Converter<Jwt, AbstractAuthenti
 		}
 
 		Collection<String> resourceRoles = (Collection<String>) resource.get(KEYCLOAK_ROLE_ATTRIBUTE);
+		if (resourceRoles == null) {
+			return Set.of();
+		}
+		
 		return resourceRoles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role))
 				.collect(Collectors.toSet());
 	}

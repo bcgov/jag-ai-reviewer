@@ -31,24 +31,18 @@ class SecurityConfig {
 
 		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
-		http.csrf(httpSecurityCsrfConfigurer -> {
-			httpSecurityCsrfConfigurer.disable();
-		});
+		http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
 
-		http.authorizeHttpRequests(requests -> {
-			requests.anyRequest().authenticated();
-		});
+		http.authorizeHttpRequests(requests -> requests.anyRequest().authenticated());
 
 		http.oauth2ResourceServer((oauth2) -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(keycloakJwtAuthConverter)));
 
-		http.sessionManagement(session -> {
-			session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		});
+		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		return http.build();
 	}
 
-	private CorsConfigurationSource corsConfigurationSource() {
+	protected CorsConfigurationSource corsConfigurationSource() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.applyPermitDefaultValues();

@@ -42,6 +42,7 @@ services:
       - CLAMAV_HOST=clamav
       - CLAMAV_PORT=3310
       - CLAMAV_TIMEOUT=50000
+      - KEYCLOAK_REALM_SERVER_URL=${KEYCLOAK_REALM_SERVER_URL:-http://keycloak:8080/auth/realms/ai-reviewer}
       - KEYCLOAK_AUTH_SERVER_URL=${KEYCLOAK_AUTH_SERVER_URL:-http://keycloak:8080/auth}
       - KEYCLOAK_REALM=${KEYCLOAK_REALM:-ai-reviewer}
       - KEYCLOAK_RESOURCE=${KEYCLOAK_RESOURCE:-ai-reviewer-api}
