@@ -84,7 +84,8 @@ services:
   redis:
     container_name: redis
     image: redis
-    command: redis-server --requirepass admin
+    #command: redis-server --requirepass admin
+    command: redis-server
     ports:
       - "6379:6379"
     volumes:
@@ -110,7 +111,7 @@ services:
   ####                                        KEYCLOAK                                       ###
   ##############################################################################################
   keycloak:
-    image: quay.io/keycloak/keycloak
+    image: quay.io/keycloak/keycloak:legacy
     environment:
       DB_VENDOR: H2
       KEYCLOAK_USER: admin
