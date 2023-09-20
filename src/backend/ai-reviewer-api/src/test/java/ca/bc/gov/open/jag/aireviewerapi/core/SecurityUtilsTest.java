@@ -1,22 +1,25 @@
 package ca.bc.gov.open.jag.aireviewerapi.core;
 
-import ca.bc.gov.open.jag.aireviewerapi.Keys;
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Optional;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.representations.AccessToken;
+//import org.keycloak.KeycloakPrincipal;
+//import org.keycloak.KeycloakSecurityContext;
+//import org.keycloak.representations.AccessToken;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Security Utils Test Suite")
@@ -27,43 +30,27 @@ public class SecurityUtilsTest {
     private SecurityContext securityContextMock;
 
     @Mock
+    private Jwt jwtMock;
+    
+    @Mock
     private Authentication authenticationMock;
-
-    @Mock
-    private KeycloakPrincipal<KeycloakSecurityContext> keycloakPrincipalMock;
-
-    @Mock
-    private KeycloakSecurityContext keycloakSecurityContextMock;
-
-    @Mock
-    private AccessToken tokenMock;
-
-    @BeforeEach
-    public void setup() {
-
-        Mockito.when(securityContextMock.getAuthentication()).thenReturn(authenticationMock);
-        Mockito.when(authenticationMock.getPrincipal()).thenReturn(keycloakPrincipalMock);
-        Mockito.when(keycloakPrincipalMock.getKeycloakSecurityContext()).thenReturn(keycloakSecurityContextMock);
-        Mockito.when(keycloakSecurityContextMock.getToken()).thenReturn(tokenMock);
-        SecurityContextHolder.setContext(securityContextMock);
-    }
-
+    
     @Test
-    @DisplayName("Assert client id returned")
-    public void shouldConvertToUUID() {
+    public void testLoggedInUsername() {
 
-        String expectedUUID = UUID.randomUUID().toString();
+        String expectedUsername = RandomStringUtils.randomAlphanumeric(10);
 
         // arrange
-        Map<String, Object> otherClaims = new HashMap<>();
-        otherClaims.put(Keys.CLIENT_ID, expectedUUID);
-        Mockito.when(tokenMock.getOtherClaims()).thenReturn(otherClaims);
+        Mockito.when(securityContextMock.getAuthentication()).thenReturn(authenticationMock);
+        Mockito.when(authenticationMock.getPrincipal()).thenReturn(jwtMock);
+        Mockito.when(jwtMock.getClaim("preferred_username")).thenReturn(expectedUsername);
+        SecurityContextHolder.setContext(securityContextMock);
 
         // act
-        Optional<String> actual = SecurityUtils.getClientId();
+        Optional<String> actualUsername = SecurityUtils.getLoggedInUsername();
 
         // assert
-        Assertions.assertTrue(actual.isPresent());
-        Assertions.assertEquals(expectedUUID, actual.get());
+        assertTrue(actualUsername.isPresent());
+        assertEquals(expectedUsername, actualUsername.get());
     }
 }

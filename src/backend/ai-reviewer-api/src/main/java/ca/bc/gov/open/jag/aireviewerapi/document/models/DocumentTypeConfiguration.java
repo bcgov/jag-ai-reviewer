@@ -142,7 +142,14 @@ public class DocumentTypeConfiguration extends Auditable {
                 if(StringUtils.equals("object", propertyConfig.getType())) {
                     propertyConfig.setProperties(convertProperty((LinkedHashMap<String, Object>)propertyConfigMapInternal.get("properties")));
                 } else if (StringUtils.equals("string", propertyConfig.getType())) {
-                    propertyConfig.setFieldId(Integer.parseInt(propertyConfigMapInternal.get("fieldId").toString()));
+                	// NPE fix
+                	Object fieldId = propertyConfigMapInternal.get("fieldId");
+                	if (fieldId != null) {                		
+                		propertyConfig.setFieldId(Integer.parseInt(fieldId.toString()));
+                	}
+                	else {
+                		propertyConfig.setFieldId(null);
+                	}
                 }
 
                 propertyConfigMap.put(entry.getKey(), propertyConfig);

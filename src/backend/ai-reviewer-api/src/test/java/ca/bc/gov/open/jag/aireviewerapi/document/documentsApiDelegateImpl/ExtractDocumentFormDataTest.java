@@ -93,7 +93,7 @@ public class ExtractDocumentFormDataTest {
 
         Mockito.when(documentTypeConfigurationRepositoryMock.findByDocumentType(ArgumentMatchers.eq(INVALID_DOCUMENT_TYPE))).thenReturn(documentTypeConfiguration);
         
-        Mockito.doNothing().when(stringRedisTemplateMock).convertAndSend(any(), any());
+        Mockito.when(stringRedisTemplateMock.convertAndSend(any(), any())).thenReturn(1L);
 
         FeatureProperties featureProperties = new FeatureProperties();
         featureProperties.setRedisQueue(true);

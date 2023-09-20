@@ -1,9 +1,11 @@
 server:
   port: ${SERVER_PORT:8080}
+
 management:
   endpoint:
     health:
       show-details: always
+
 spring:
   application:
     name: ai-reviewer-api
@@ -19,10 +21,17 @@ spring:
       database: ${AIR_SPRING_DATA_MONGODB_DATABASE:ai-reviewer}
       username: ${AIR_SPRING_DATA_MONGODB_USERNAME:admin}
       password: ${AIR_SPRING_DATA_MONGODB_PASSWORD:admin}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_REALM_SERVER_URL:http://localhost:8081/auth/realms/ai-reviewer}
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
   servlet:
     multipart:
       max-file-size: ${MAX_FILE_SIZE:10MB}
       max-request-size: ${MAX_REQUEST_SIZE:100MB}
+
 jag:
   ai:
     feature:
@@ -54,12 +63,14 @@ erroremail:
   toEmail: ${ERROR_TO_ADDRESS:test@somewhere.co}
   fromEmail: ${ERROR_FROM_ADDRESS:test@somewhere.co}
 
-keycloak:
-  auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL}
-  realm: ${KEYCLOAK_REALM}
-  resource: ${KEYCLOAK_RESOURCE:ai-reviewer-api}
-  credentials:
-    secret: ${KEYCLOAK_CREDENTIALS_SECRET}
-  use-resource-role-mappings: true
-  bearer-only: true
-  ssl-required: ${KEYCLOAK_SSL_REQUIRED:external}
+jwt:
+  auth:
+    converter:
+      resource-id: ${KEYCLOAK_RESOURCE:ai-reviewer-api}
+
+logging:
+  level:
+    root: INFO
+    ca.bc.gov.open.jag.aireviewerapi: ${LOGGING_LEVEL:INFO}
+    # useful for authentication debugging
+    #org.springframework.security: DEBUG
