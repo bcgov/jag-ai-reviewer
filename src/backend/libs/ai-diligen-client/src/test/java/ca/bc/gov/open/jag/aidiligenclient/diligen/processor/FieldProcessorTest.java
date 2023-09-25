@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DocumentConfig;
 import ca.bc.gov.open.jag.aidiligenclient.api.model.Field;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,8 +40,10 @@ public class FieldProcessorTest {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        DocumentConfig formData = mapper.readValue(new String(Files.readAllBytes(path)), DocumentConfig.class);
 
+        DocumentConfig formData = mapper.readValue(new String(Files.readAllBytes(path)), DocumentConfig.class);
+        //Different structure require a different naming strategy
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         List<Field> response = mapper.readValue(new String(
                 Files.readAllBytes(path2)), new TypeReference<List<Field>>(){});
 
