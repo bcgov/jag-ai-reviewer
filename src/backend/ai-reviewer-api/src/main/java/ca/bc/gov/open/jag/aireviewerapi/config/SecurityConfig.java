@@ -33,7 +33,9 @@ class SecurityConfig {
 
 		http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
 
-		http.authorizeHttpRequests(requests -> requests.anyRequest().authenticated());
+		http.authorizeHttpRequests(requests -> requests
+						.requestMatchers("/actuator/**").permitAll()
+						.anyRequest().authenticated());
 
 		http.oauth2ResourceServer((oauth2) -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(keycloakJwtAuthConverter)));
 
