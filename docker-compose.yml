@@ -85,8 +85,8 @@ services:
   redis:
     container_name: redis
     image: redis
-    #command: redis-server --requirepass admin
-    command: redis-server
+    command: redis-server --requirepass admin
+    #command: redis-server
     ports:
       - "6379:6379"
     volumes:
