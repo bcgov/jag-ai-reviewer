@@ -9,10 +9,6 @@ management:
 spring:
   application:
     name: ai-reviewer-api
-  redis:
-    host: ${REDIS_HOST:localhost}
-    port: ${REDIS_PORT:6379}
-    password: ${REDIS_PASSWORD:admin}
   data:
     mongodb:
       authentication-database: ${AIR_SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE:admin}
@@ -21,6 +17,10 @@ spring:
       database: ${AIR_SPRING_DATA_MONGODB_DATABASE:ai-reviewer}
       username: ${AIR_SPRING_DATA_MONGODB_USERNAME:admin}
       password: ${AIR_SPRING_DATA_MONGODB_PASSWORD:admin}
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:admin}
   security:
     oauth2:
       resourceserver:
