@@ -28,7 +28,7 @@ services:
       args:
         - SKIP_TESTS=true
         - MVN_PROFILE=${MVN_PROFILE:-ai-reviewer}
-        - STARTERS_V=v0.1.8
+        - STARTERS_V=v1.0.0
     ports:
       - "8090:8080"
     environment:
@@ -65,7 +65,7 @@ services:
       args:
         - SKIP_TESTS=true
         - MVN_PROFILE=${MVN_PROFILE:-ai-reviewer-mock}
-        - STARTERS_V=v0.1.8
+        - STARTERS_V=v1.0.0
     ports:
       - "1337:1337"
 
