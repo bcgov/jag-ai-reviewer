@@ -18,22 +18,22 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import ca.bc.gov.open.jag.aidiligenclient.api.DocumentsApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiClient;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ApiDocumentsFileIdDetailsGet200Response;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ApiDocumentsFileIdDetailsGet200ResponseData;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ApiDocumentsFileIdDetailsGet200ResponseDataFileDetails;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.Field;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.FieldType;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponse;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponseData;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenAuthService;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenProperties;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenServiceImpl;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.mapper.DiligenDocumentDetailsMapperImpl;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
 import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenDocumentException;
-import ca.bc.gov.open.jag.aidiligenclient.api.DocumentsApi;
-import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiClient;
-import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.Field;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.FieldType;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse2003;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse2003Data;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse2003DataFileDetails;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponse;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponseData;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("DiligenServiceImpl test suite")
@@ -128,11 +128,11 @@ public class GetDocumentDetailsTest {
 
     }
 
-    private InlineResponse2003 getMockData(String status) {
+    private ApiDocumentsFileIdDetailsGet200Response getMockData(String status) {
 
-        InlineResponse2003 inlineResponse2003 = new InlineResponse2003();
-        InlineResponse2003Data data = new InlineResponse2003Data();
-        InlineResponse2003DataFileDetails fileDetails = new InlineResponse2003DataFileDetails();
+    	ApiDocumentsFileIdDetailsGet200Response inlineResponse2003 = new ApiDocumentsFileIdDetailsGet200Response();
+    	ApiDocumentsFileIdDetailsGet200ResponseData data = new ApiDocumentsFileIdDetailsGet200ResponseData();
+    	ApiDocumentsFileIdDetailsGet200ResponseDataFileDetails fileDetails = new ApiDocumentsFileIdDetailsGet200ResponseDataFileDetails();
         fileDetails.setExtractedDocument(JSON_OBJECT);
         fileDetails.setMlJson(JSON_OBJECT);
         fileDetails.setFileStatus(status);

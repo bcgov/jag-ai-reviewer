@@ -7,8 +7,9 @@ import java.util.Optional;
 
 public class AuditorAwareImpl implements AuditorAware<String> {
 
-    @Override
-    public Optional<String> getCurrentAuditor() {
-        return SecurityUtils.getClientId();
-    }
+	@Override
+	public Optional<String> getCurrentAuditor() {
+		return SecurityUtils.getLoggedInUsername();
+	}
+
 }

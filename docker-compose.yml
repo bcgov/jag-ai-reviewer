@@ -42,6 +42,7 @@ services:
       - CLAMAV_HOST=clamav
       - CLAMAV_PORT=3310
       - CLAMAV_TIMEOUT=50000
+      - KEYCLOAK_REALM_SERVER_URL=${KEYCLOAK_REALM_SERVER_URL:-http://keycloak:8080/auth/realms/ai-reviewer}
       - KEYCLOAK_AUTH_SERVER_URL=${KEYCLOAK_AUTH_SERVER_URL:-http://keycloak:8080/auth}
       - KEYCLOAK_REALM=${KEYCLOAK_REALM:-ai-reviewer}
       - KEYCLOAK_RESOURCE=${KEYCLOAK_RESOURCE:-ai-reviewer-api}
@@ -84,7 +85,8 @@ services:
   redis:
     container_name: redis
     image: redis
-    command: redis-server --requirepass admin
+    #command: redis-server --requirepass admin
+    command: redis-server
     ports:
       - "6379:6379"
     volumes:
@@ -110,7 +112,7 @@ services:
   ####                                        KEYCLOAK                                       ###
   ##############################################################################################
   keycloak:
-    image: quay.io/keycloak/keycloak
+    image: quay.io/keycloak/keycloak:legacy
     environment:
       DB_VENDOR: H2
       KEYCLOAK_USER: admin

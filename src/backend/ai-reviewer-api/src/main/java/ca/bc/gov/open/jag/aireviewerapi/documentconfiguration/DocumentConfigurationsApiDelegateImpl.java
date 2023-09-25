@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import ca.bc.gov.open.jag.aireviewerapi.api.DocumentTypeConfigurationsApiDelegate;
@@ -16,8 +17,6 @@ import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguratio
 import ca.bc.gov.open.jag.aireviewerapi.document.store.DocumentTypeConfigurationRepository;
 import ca.bc.gov.open.jag.aireviewerapi.documentconfiguration.mappers.DocumentTypeConfigurationMapper;
 import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentTypeConfigurationException;
-
-import javax.annotation.security.RolesAllowed;
 
 @Service
 public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfigurationsApiDelegate {
@@ -32,7 +31,7 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
     }
 
     @Override
-    @RolesAllowed("ai-reviewer-api-client")
+    @PreAuthorize("hasRole('ai-reviewer-api-client')")
     public ResponseEntity<List<ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentTypeConfiguration>> getDocumentConfigurations(String documentType) {
 
         List<DocumentTypeConfiguration> documentTypeConfigurations;
@@ -49,7 +48,7 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
     }
 
     @Override
-    @RolesAllowed("ai-reviewer-api-admin")
+    @PreAuthorize("hasRole('ai-reviewer-api-admin')")
     public ResponseEntity<ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentTypeConfiguration> createDocumentTypeConfiguration(DocumentTypeConfigurationRequest documentTypeConfigurationRequest) {
 
         if(documentTypeConfigurationRepository.findByDocumentType(documentTypeConfigurationRequest.getDocumentType().getType()) != null) {
@@ -71,7 +70,7 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
     }
 
     @Override
-    @RolesAllowed("ai-reviewer-api-admin")
+    @PreAuthorize("hasRole('ai-reviewer-api-admin')")
 	public ResponseEntity<ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentTypeConfiguration> updateDocumentTypeConfiguration(
 			ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentTypeConfiguration documentTypeConfiguration) {
 
@@ -101,7 +100,7 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
 	}
 
     @Override
-    @RolesAllowed("ai-reviewer-api-admin")
+    @PreAuthorize("hasRole('ai-reviewer-api-admin')")
     public ResponseEntity<Void> deleteDocumentTypeConfiguration(UUID id) {
 
         if (!documentTypeConfigurationRepository.existsById(id)) return ResponseEntity.notFound().build();

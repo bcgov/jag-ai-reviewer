@@ -46,6 +46,7 @@ You should use environment variables to configure the jag ai-reviewer-api
 | CSO_WEBHOOK_ENDPOINT               			  | String  | CSO extract                                  | defaulted to  mock service     |
 | CSO_WEBHOOK_USERNAME               			  | String  | CSO username                                 | defaulted to  mock service     |
 | CSO_WEBHOOK_PASSWORD               			  | String  | CSO password                                 | defaulted to  mock service     |
+| KEYCLOAK_REALM_SERVER_URL                       | String  | The keycloak JWT issuer uri                  | not set by default             |
 | KEYCLOAK_AUTH_SERVER_URL                        | String  | The keycloak auth server URL                 | not set by default             |
 | KEYCLOAK_REALM                                  | String  | The keycloak realm name                      | not set by default             |
 | KEYCLOAK_RESOURCE                               | String  | The keycloak resource name                   | not set by default             |

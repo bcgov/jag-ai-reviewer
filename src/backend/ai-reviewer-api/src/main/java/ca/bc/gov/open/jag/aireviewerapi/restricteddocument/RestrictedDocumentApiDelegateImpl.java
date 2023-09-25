@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import ca.bc.gov.open.jag.aireviewerapi.api.RestrictedDocumentTypesApiDelegate;
@@ -15,8 +16,6 @@ import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentType;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.RestrictedDocumentType;
 import ca.bc.gov.open.jag.aireviewerapi.document.store.RestrictedDocumentRepository;
 import ca.bc.gov.open.jag.aireviewerapi.restricteddocument.mappers.RestrictedDocumentTypeMapper;
-
-import javax.annotation.security.RolesAllowed;
 
 @Service
 public class RestrictedDocumentApiDelegateImpl implements RestrictedDocumentTypesApiDelegate {
@@ -31,7 +30,7 @@ public class RestrictedDocumentApiDelegateImpl implements RestrictedDocumentType
     }
 
     @Override
-    @RolesAllowed("ai-reviewer-api-admin")
+    @PreAuthorize("hasRole('ai-reviewer-api-admin')")
     public ResponseEntity<RestrictedDocumentType> createRestrictedDocumentType(DocumentType documentType) {
 
         if(restrictedDocumentRepository.existsByDocumentType(documentType.getType())) {
@@ -51,7 +50,7 @@ public class RestrictedDocumentApiDelegateImpl implements RestrictedDocumentType
     }
 
     @Override
-    @RolesAllowed("ai-reviewer-api-admin")
+    @PreAuthorize("hasRole('ai-reviewer-api-admin')")
     public ResponseEntity<Void> deleteRestrictedDocumentType(UUID id) {
 
         if(!restrictedDocumentRepository.existsById(id)) {
@@ -65,7 +64,7 @@ public class RestrictedDocumentApiDelegateImpl implements RestrictedDocumentType
     }
 
     @Override
-    @RolesAllowed("ai-reviewer-api-client")
+    @PreAuthorize("hasRole('ai-reviewer-api-client')")
     public ResponseEntity<RestrictedDocumentType> getRestrictedDocumentType(UUID id) {
 
         Optional<ca.bc.gov.open.jag.aireviewerapi.document.models.RestrictedDocumentType> documentType = restrictedDocumentRepository.findById(id);
@@ -75,7 +74,7 @@ public class RestrictedDocumentApiDelegateImpl implements RestrictedDocumentType
     }
 
     @Override
-    @RolesAllowed("ai-reviewer-api-client")
+    @PreAuthorize("hasRole('ai-reviewer-api-client')")
     public ResponseEntity<List<RestrictedDocumentType>> getRestrictedDocumentTypes() {
 
         List<ca.bc.gov.open.jag.aireviewerapi.document.models.RestrictedDocumentType> documentTypes = restrictedDocumentRepository.findAll();
@@ -87,7 +86,7 @@ public class RestrictedDocumentApiDelegateImpl implements RestrictedDocumentType
     }
 
     @Override
-    @RolesAllowed("ai-reviewer-api-admin")
+    @PreAuthorize("hasRole('ai-reviewer-api-admin')")
     public ResponseEntity<RestrictedDocumentType> updateRestrictedDocumentType(RestrictedDocumentType restrictedDocumentType) {
 
         if (restrictedDocumentType.getId() == null || StringUtils.isBlank(restrictedDocumentType.getId().toString())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

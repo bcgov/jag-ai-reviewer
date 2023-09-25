@@ -6,11 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.annotation.security.RolesAllowed;
-
-import ca.bc.gov.open.jag.aireviewerapi.core.FeatureProperties;
-import ca.bc.gov.open.jag.aireviewerapi.utils.MD5;
-import com.google.gson.Gson;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +14,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.gson.Gson;
 
 import ca.bc.gov.open.jag.aidiligenclient.api.model.ProjectFieldsResponse;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
@@ -33,8 +30,10 @@ import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApiDelegate;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentEvent;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentExtractResponse;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEvent;
-import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEventData;
+import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEventDataInner;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.ProcessedDocument;
+import ca.bc.gov.open.jag.aireviewerapi.core.FeatureProperties;
+import ca.bc.gov.open.jag.aireviewerapi.cso.CSOORDSService;
 import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguration;
 import ca.bc.gov.open.jag.aireviewerapi.document.store.DocumentTypeConfigurationRepository;
 import ca.bc.gov.open.jag.aireviewerapi.document.validators.DocumentValidator;
@@ -47,7 +46,7 @@ import ca.bc.gov.open.jag.aireviewerapi.extract.mappers.ProcessedDocumentMapper;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractRequest;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractResponse;
 import ca.bc.gov.open.jag.aireviewerapi.extract.store.ExtractStore;
-import ca.bc.gov.open.jag.aireviewerapi.cso.CSOORDSService;
+import ca.bc.gov.open.jag.aireviewerapi.utils.MD5;
 
 @Service
 @EnableConfigurationProperties(FeatureProperties.class)
@@ -91,7 +90,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
     }
 
     @Override
-    @RolesAllowed("ai-reviewer-api-client")
+    @PreAuthorize("hasRole('ai-reviewer-api-client')")
     public ResponseEntity<DocumentExtractResponse> extractDocumentFormData(UUID xTransactionId, String xDocumentType, Boolean xUseWebhook, MultipartFile file) {
 
         MDC.put(Keys.DOCUMENT_TYPE, xDocumentType);
@@ -141,13 +140,13 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
         logger.info("Received webhook event");
 
         ArrayList<DocumentEvent> documentEvents = new ArrayList<>();
-        List<DocumentWebhookEventData> eventList = documentWebhookEvent.getData();
+        List<DocumentWebhookEventDataInner> eventList = documentWebhookEvent.getData();
 
         if(eventList == null || eventList.size() < 1) {
             throw new AiReviewerDocumentException("Invalid data array in request body.");
         }
 
-        for(DocumentWebhookEventData event : eventList) {
+        for(DocumentWebhookEventDataInner event : eventList) {
             DocumentEvent documentEvent = new DocumentEvent();
             documentEvent.setDocumentId(event.getId());
             documentEvent.setStatus(event.getStatus());
@@ -163,7 +162,7 @@ public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
     }
 
     @Override
-    @RolesAllowed("ai-reviewer-api-client")
+    @PreAuthorize("hasRole('ai-reviewer-api-client')")
     public ResponseEntity<ProcessedDocument> documentProcessed(UUID xTransactionId, BigDecimal documentId) {
 
         logger.info("document {} requested ", documentId);

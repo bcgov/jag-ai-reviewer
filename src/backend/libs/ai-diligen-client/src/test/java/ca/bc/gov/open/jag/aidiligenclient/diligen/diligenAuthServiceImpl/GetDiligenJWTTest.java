@@ -1,18 +1,23 @@
 package ca.bc.gov.open.jag.aidiligenclient.diligen.diligenAuthServiceImpl;
 
-import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenAuthServiceImpl;
-import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenAuthenticationException;
-import ca.bc.gov.open.jag.aidiligenclient.api.AuthenticationApi;
-import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse2001;
-import ca.bc.gov.open.jag.aidiligenclient.api.model.InlineResponse2001Data;
-import org.junit.jupiter.api.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import ca.bc.gov.open.jag.aidiligenclient.api.AuthenticationApi;
+import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ApiLoginPost200Response;
+import ca.bc.gov.open.jag.aidiligenclient.api.model.ApiLoginPost200ResponseData;
+import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenAuthServiceImpl;
+import ca.bc.gov.open.jag.aidiligenclient.exception.DiligenAuthenticationException;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("DiligenAuthServiceImpl test suite")
@@ -46,8 +51,8 @@ public class GetDiligenJWTTest {
     @DisplayName("200: jwt returned ")
     public void withValidCredentialsJWTReturned() throws ApiException {
 
-        InlineResponse2001 response2001 = new InlineResponse2001();
-        InlineResponse2001Data response2001Data = new InlineResponse2001Data();
+    	ApiLoginPost200Response response2001 = new ApiLoginPost200Response();
+        ApiLoginPost200ResponseData response2001Data = new ApiLoginPost200ResponseData();
         response2001Data.setJwt(JWT);
         response2001.setData(response2001Data);
         Mockito.when(authenticationApiMock.apiLoginPost(any())).thenReturn(response2001);
@@ -72,7 +77,7 @@ public class GetDiligenJWTTest {
     @DisplayName("Error: valid credentials but diligen returns null ")
     public void withValidCredentailsDiligenReturnsNull() throws ApiException {
 
-        InlineResponse2001 noDataResponse2001 = new InlineResponse2001();
+        ApiLoginPost200Response noDataResponse2001 = new ApiLoginPost200Response();
         Mockito.when(authenticationApiMock.apiLoginPost(any())).thenReturn(noDataResponse2001);
 
         Assertions.assertThrows(DiligenAuthenticationException.class, () -> sut.getDiligenJWT(NO_DATA_USERNAME, NO_DATA_PASSWORD));

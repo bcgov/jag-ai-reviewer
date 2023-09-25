@@ -1,27 +1,26 @@
 package ca.bc.gov.open.jag.aireviewerapi.core;
 
-import ca.bc.gov.open.jag.aireviewerapi.Keys;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import java.util.Optional;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+
+import ca.bc.gov.open.jag.aireviewerapi.config.KeycloakJwtAuthConverter;
 
 public class SecurityUtils {
 
-    private SecurityUtils() {
-    }
+	private SecurityUtils() {
+	}
 
-    public static Optional<String> getClientId() {
-        return getOtherClaim(Keys.CLIENT_ID);
-    }
-
-    private static Optional<String> getOtherClaim(String claim) {
-        try {
-            return Optional.of(((KeycloakPrincipal<KeycloakSecurityContext>) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-                    .getKeycloakSecurityContext().getToken().getOtherClaims().get(claim).toString());
-        } catch (Exception e) {
-            return Optional.empty();
-        }
-    }
+	/**
+	 * Returns the principle claim name of the currently logged in user from the JWT.
+	 */
+	public static Optional<String> getLoggedInUsername() {
+		try {
+			Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			return Optional.of(KeycloakJwtAuthConverter.getPrincipleClaimName(jwt));
+		} catch (Exception e) {
+			return Optional.empty();
+		}
+	}
 }

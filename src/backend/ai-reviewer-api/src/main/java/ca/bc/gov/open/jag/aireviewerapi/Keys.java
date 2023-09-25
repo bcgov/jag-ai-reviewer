@@ -6,8 +6,7 @@ import java.util.List;
 public class Keys {
 
     private Keys() {}
-    
-    public static final String CLIENT_ID = "clientId";
+
     public static final String PROCESSED_STATUS = "PROCESSED";
     public static final String DOCUMENT_TYPE = "document-type";
     public static final String TRANSACTION_ID = "transaction-id";

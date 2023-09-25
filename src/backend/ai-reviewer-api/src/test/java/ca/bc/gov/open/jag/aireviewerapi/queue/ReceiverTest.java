@@ -39,7 +39,7 @@ public class ReceiverTest {
 
         Mockito.when(documentsApiDelegateMock.documentEvent(any(), any())).thenReturn(new ResponseEntity<>(HttpStatus.NO_CONTENT));
 
-        Mockito.doNothing().when(stringRedisTemplateMock).convertAndSend(any(), any());
+        Mockito.when(stringRedisTemplateMock.convertAndSend(any(), any())).thenReturn(1L);
 
         Mockito.when(diligenServiceMock.getDocumentDetails(ArgumentMatchers.eq(BigDecimal.ONE))).thenReturn(diligenDocumentDetails("PROCESSED"));
 
