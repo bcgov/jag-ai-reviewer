@@ -35,6 +35,7 @@ class SecurityConfig {
 
 		http.authorizeHttpRequests(requests -> requests
 						.requestMatchers("/actuator/**").permitAll()
+						.requestMatchers("/documents/webhookEvent").permitAll()
 						.anyRequest().authenticated());
 
 		http.oauth2ResourceServer((oauth2) -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(keycloakJwtAuthConverter)));
