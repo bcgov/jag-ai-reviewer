@@ -121,7 +121,7 @@ jobs:
 
       # Upload JSON for debugging purposes
       - name: Upload JSON for debugging purposes
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: summed-java-coverage-report
           path: coverage/codeclimate-api.json
