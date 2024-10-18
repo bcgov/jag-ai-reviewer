@@ -14,8 +14,8 @@
         <com.github.joschi.jackson.version>2.12.2</com.github.joschi.jackson.version>
         <com.google.code.findbugs.version>3.0.2</com.google.code.findbugs.version>
         <com.splunk.logging.version>1.11.1</com.splunk.logging.version>
-        <commons-io.version>2.13.0</commons-io.version>
-        <io.springfox.version>2.9.2</io.springfox.version>
+        <commons-io.version>2.16.1</commons-io.version>
+        <io.springfox.version>2.10.0</io.springfox.version>
         <io.swagger.version>2.2.9</io.swagger.version>
         <java.version>17</java.version>
         <javax.validation.version>2.0.1.Final</javax.validation.version>
