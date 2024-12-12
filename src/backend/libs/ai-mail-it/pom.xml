@@ -5,7 +5,7 @@
 	
 	<groupId>ca.bc.gov.open.jag</groupId>
 	<artifactId>ai-mail-it</artifactId>
-	<version>2.0.3</version>
+	<version>2.0.4-SNAPSHOT</version>
 
 	<name>ai-mail-it</name>
 	<description>Client for Mailing service</description>
@@ -121,7 +121,7 @@
 			<dependency>
 				<groupId>ca.bc.gov.open.jag</groupId>
 				<artifactId>ai-bom</artifactId>
-				<version>2.0.3</version>
+				<version>2.0.4-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
