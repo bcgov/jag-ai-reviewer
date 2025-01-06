@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<groupId>org.springframework.boot</groupId>
-		<version>3.3.4</version>
+		<version>3.3.7</version>
 		<relativePath/>
 	</parent>
 	<groupId>ca.bc.gov.open.jag</groupId>
@@ -18,7 +18,6 @@
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 		<default-package>ca.bc.gov.open.jag.aireviewerapi</default-package>
 		<log4j2.version>2.17.1</log4j2.version>
-		<tomcat-embed-core.version>10.1.34</tomcat-embed-core.version>
         <!-- automatically run annotation processors within the incremental compilation (Eclipse) -->
   		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
 	</properties>
@@ -28,6 +27,12 @@
 			<groupId>ca.bc.gov.open</groupId>
 			<artifactId>spring-clamav-starter</artifactId>
 		</dependency>
+
+		<!--<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>6.3.6</version>
+		</dependency>-->
 
 		<dependency>
 			<groupId>ca.bc.gov.open.jag</groupId>
@@ -54,6 +59,12 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>10.1.34</version>
 		</dependency>
 
 		<dependency>
