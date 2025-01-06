@@ -33,7 +33,7 @@ jobs:
           -t ai-reviewer-api:builder
           --build-arg SERVICE_NAME=ai-reviewer-api
           --build-arg MVN_PROFILE=ai-reviewer
-          --build-arg STARTERS_V=v1.0.0
+          --build-arg STARTERS_V=v1.0.2
           --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-api:builder
 
       - name: tag & push ai-reviewer-api to git container registry
