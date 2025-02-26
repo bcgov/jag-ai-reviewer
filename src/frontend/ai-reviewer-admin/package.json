@@ -69,7 +69,8 @@
     "http-proxy-middleware": "^2.0.7",
     "rollup": "^2.79.2",
     "body-parser": "^1.20.3",
-    "path-to-regexp":  "^0.1.10",
-    "semver": "6.3.1"
+    "path-to-regexp":  "^0.1.12",
+    "semver": "6.3.1",
+    "cross-spawn": "^7.0.5"
  }    
 }
