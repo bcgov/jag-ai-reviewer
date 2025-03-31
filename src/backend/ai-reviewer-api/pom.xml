@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<groupId>org.springframework.boot</groupId>
-		<version>3.3.7</version>
+		<version>3.4.4</version>
 		<relativePath/>
 	</parent>
 	<groupId>ca.bc.gov.open.jag</groupId>
@@ -64,7 +64,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
-			<version>10.1.34</version>
+			<version>10.1.39</version>
 		</dependency>
 
 		<dependency>
@@ -191,7 +191,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>6.1.14</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -206,7 +205,13 @@
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-handler</artifactId>
-			<version>4.1.118.Final</version>
+			<version>4.1.119.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+			<version>6.4.4</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
