@@ -24,6 +24,8 @@ RUN mvn -B clean install \
 #############################################################################################
 FROM eclipse-temurin:17-jre-alpine
 
+RUN apk update && apk add --upgrade --no-cache libexpat # fix CVE-2024-8176
+
 ARG SERVICE_NAME=ai-reviewer-mock-api
 
 COPY --from=build ./${SERVICE_NAME}/target/${SERVICE_NAME}-*.jar /app/service.jar
