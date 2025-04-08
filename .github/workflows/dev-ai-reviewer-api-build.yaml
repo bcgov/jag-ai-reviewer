@@ -29,15 +29,15 @@ jobs:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
         run: |
-          docker compose build ai-reviewer-api --tag ai-reviewer-api
-          docker tag ai-reviewer-api artifacts.developer.gov.bc.ca/efc7-ai-reviewer-api/ai-reviewer-api:dev
+          docker compose build ai-reviewer-api
+          docker tag jag-ai-reviewer-ai-reviewer-api artifacts.developer.gov.bc.ca/efc7-ai-reviewer-api/ai-reviewer-api:dev
 
       #Run Vulnerability Scan usinig Trivy scanner
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
-          image-ref: ai-reviewer-api
+          image-ref: jag-ai-reviewer-ai-reviewer-api
           format: sarif
           output: trivy-results.sarif
           exit-code: 1
