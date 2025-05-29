@@ -291,7 +291,6 @@
 			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<!-- Anything >= 6.3.0 is broken. Spring seems to scan for components twice which breaks at runtime when trying to create the application context. -->
 				<version>7.0.0</version>
 				<executions>
 					<execution>
@@ -309,6 +308,7 @@
 								<!-- javax.* to jakarta.* -->
 								<useSpringBoot3>true</useSpringBoot3>
 								<useJakartaEe>true</useJakartaEe>
+								<interfaceOnly>true</interfaceOnly>
 							</configOptions>
 							<library>spring-boot</library>
 							<generateApiTests>false</generateApiTests>

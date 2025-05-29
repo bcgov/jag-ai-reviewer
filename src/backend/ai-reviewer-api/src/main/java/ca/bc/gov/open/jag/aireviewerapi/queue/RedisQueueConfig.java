@@ -1,7 +1,7 @@
 package ca.bc.gov.open.jag.aireviewerapi.queue;
 
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
-import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApiDelegate;
+import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApi;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +37,7 @@ public class RedisQueueConfig {
     }
 
     @Bean
-    public Receiver receiver(DocumentsApiDelegate documentsApiDelegate, DiligenService diligenService, StringRedisTemplate stringRedisTemplate) {
+    public Receiver receiver(DocumentsApi documentsApiDelegate, DiligenService diligenService, StringRedisTemplate stringRedisTemplate) {
         return new Receiver(2, documentsApiDelegate, diligenService, stringRedisTemplate);
     }
 }

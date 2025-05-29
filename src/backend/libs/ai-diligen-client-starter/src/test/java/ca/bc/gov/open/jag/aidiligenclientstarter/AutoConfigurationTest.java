@@ -30,18 +30,18 @@ public class AutoConfigurationTest {
                         "jag.ai.diligen.basePath=http://test.com " +
                         "jag.ai.diligen.usename=test " +
                         "jag.ai.diligen.password=test " +
-                        "jag.ai.diligen.projectIdentifier=2")
-                .withUserConfiguration(DiligenProperties.class);
+                        "jag.ai.diligen.projectIdentifier=2");
 
-//        context.run(it -> {
-//            assertThat(it).hasSingleBean(ApiClient.class);
-//            assertThat(it).hasSingleBean(HealthCheckApi.class);
-//            assertThat(it).doesNotHaveBean(DiligenHealthIndicator.class);
-//            assertThat(it).hasSingleBean(RestTemplate.class);
-//            assertThat(it).hasSingleBean(DiligenAuthService.class);
-//            assertThat(it).hasSingleBean(DiligenService.class);
-//            assertThat(it).hasSingleBean(DocumentsApi.class);
-//        });
+
+        context.run(it -> {
+            assertThat(it).hasSingleBean(ApiClient.class);
+            assertThat(it).hasSingleBean(HealthCheckApi.class);
+            assertThat(it).doesNotHaveBean(DiligenHealthIndicator.class);
+            assertThat(it).hasSingleBean(RestTemplate.class);
+            assertThat(it).hasSingleBean(DiligenAuthService.class);
+            assertThat(it).hasSingleBean(DiligenService.class);
+            assertThat(it).hasSingleBean(DocumentsApi.class);
+        });
 
     }
 
@@ -53,14 +53,13 @@ public class AutoConfigurationTest {
                 .withUserConfiguration(AutoConfiguration.class)
                 .withPropertyValues(
                         "jag.ai.diligen.basePath=http://test.com",
-                        "jag.ai.diligen.health.enabled=true")
-                .withUserConfiguration(DiligenProperties.class);
+                        "jag.ai.diligen.health.enabled=true");
 
-//        context.run(it -> {
-//            assertThat(it).hasSingleBean(ApiClient.class);
-//            assertThat(it).hasSingleBean(HealthCheckApi.class);
-//            assertThat(it).hasSingleBean(DiligenHealthIndicator.class);
-//        });
+        context.run(it -> {
+            assertThat(it).hasSingleBean(ApiClient.class);
+            assertThat(it).hasSingleBean(HealthCheckApi.class);
+            assertThat(it).hasSingleBean(DiligenHealthIndicator.class);
+        });
 
     }
 

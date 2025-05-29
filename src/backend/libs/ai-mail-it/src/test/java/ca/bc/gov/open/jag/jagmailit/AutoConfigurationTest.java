@@ -18,12 +18,11 @@ class AutoConfigurationTest {
 
 		context = new ApplicationContextRunner()
 				.withUserConfiguration(AutoConfiguration.class)
-				.withPropertyValues("mailsend.baseUrl=http://test.com")
-				.withUserConfiguration(MailSendProperties.class);
+				.withPropertyValues("mailsend.baseUrl=http://test.com");
 
-//		context.run(it -> {
-//			assertThat(it).hasSingleBean(ApiClient.class);
-//		});
+		context.run(it -> {
+			assertThat(it).hasSingleBean(ApiClient.class);
+		});
 
 	}
 
