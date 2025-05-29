@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApi;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,6 @@ import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.processor.FieldProcessor;
 import ca.bc.gov.open.jag.aireviewerapi.Keys;
-import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApiDelegate;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentEvent;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentExtractResponse;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentWebhookEvent;
@@ -50,7 +50,7 @@ import ca.bc.gov.open.jag.aireviewerapi.utils.MD5;
 
 @Service
 @EnableConfigurationProperties(FeatureProperties.class)
-public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
+public class DocumentsApiDelegateImpl implements DocumentsApi {
 
     Logger logger = LoggerFactory.getLogger(DocumentsApiDelegateImpl.class);
 

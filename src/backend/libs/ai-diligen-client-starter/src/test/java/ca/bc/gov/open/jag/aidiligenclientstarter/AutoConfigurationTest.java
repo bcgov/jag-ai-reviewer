@@ -30,8 +30,8 @@ public class AutoConfigurationTest {
                         "jag.ai.diligen.basePath=http://test.com " +
                         "jag.ai.diligen.usename=test " +
                         "jag.ai.diligen.password=test " +
-                        "jag.ai.diligen.projectIdentifier=2")
-                .withUserConfiguration(DiligenProperties.class);
+                        "jag.ai.diligen.projectIdentifier=2");
+
 
         context.run(it -> {
             assertThat(it).hasSingleBean(ApiClient.class);
@@ -53,8 +53,7 @@ public class AutoConfigurationTest {
                 .withUserConfiguration(AutoConfiguration.class)
                 .withPropertyValues(
                         "jag.ai.diligen.basePath=http://test.com",
-                        "jag.ai.diligen.health.enabled=true")
-                .withUserConfiguration(DiligenProperties.class);
+                        "jag.ai.diligen.health.enabled=true");
 
         context.run(it -> {
             assertThat(it).hasSingleBean(ApiClient.class);

@@ -3,7 +3,7 @@ package ca.bc.gov.open.jag.aireviewerapi.queue;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
 import ca.bc.gov.open.jag.aireviewerapi.Keys;
-import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApiDelegate;
+import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApi;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +18,13 @@ public class Receiver {
 
     private final Integer waitTime;
 
-    private final DocumentsApiDelegate documentsApiDelegate;
+    private final DocumentsApi documentsApiDelegate;
 
     private final DiligenService diligenService;
 
     private final StringRedisTemplate stringRedisTemplate;
 
-    public Receiver(Integer waitTime, DocumentsApiDelegate documentsApiDelegate, DiligenService diligenService, StringRedisTemplate stringRedisTemplate) {
+    public Receiver(Integer waitTime, DocumentsApi documentsApiDelegate, DiligenService diligenService, StringRedisTemplate stringRedisTemplate) {
         this.waitTime = waitTime;
         this.documentsApiDelegate = documentsApiDelegate;
         this.diligenService = diligenService;
