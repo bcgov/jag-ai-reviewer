@@ -2,7 +2,7 @@ package ca.bc.gov.open.jag.aireviewerapi.queue;
 
 import ca.bc.gov.open.jag.aidiligenclient.diligen.DiligenService;
 import ca.bc.gov.open.jag.aidiligenclient.diligen.model.DiligenDocumentDetails;
-import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApi;
+import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApiDelegate;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
@@ -24,7 +24,7 @@ public class ReceiverTest {
     Receiver sut;
 
     @Mock
-    private DocumentsApi documentsApiDelegateMock;
+    private DocumentsApiDelegate documentsApiDelegateMock;
 
     @Mock
     private DiligenService diligenServiceMock;

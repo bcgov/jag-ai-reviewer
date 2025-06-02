@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApi;
+import ca.bc.gov.open.jag.aireviewerapi.api.DocumentsApiDelegate;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +50,7 @@ import ca.bc.gov.open.jag.aireviewerapi.utils.MD5;
 
 @Service
 @EnableConfigurationProperties(FeatureProperties.class)
-public class DocumentsApiDelegateImpl implements DocumentsApi {
+public class DocumentsApiDelegateImpl implements DocumentsApiDelegate {
 
     Logger logger = LoggerFactory.getLogger(DocumentsApiDelegateImpl.class);
 

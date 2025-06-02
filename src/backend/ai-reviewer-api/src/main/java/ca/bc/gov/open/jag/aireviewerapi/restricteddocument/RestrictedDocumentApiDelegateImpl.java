@@ -5,20 +5,20 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import ca.bc.gov.open.jag.aireviewerapi.api.RestrictedDocumentTypesApiDelegate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import ca.bc.gov.open.jag.aireviewerapi.api.RestrictedDocumentTypesApi;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentType;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.RestrictedDocumentType;
 import ca.bc.gov.open.jag.aireviewerapi.document.store.RestrictedDocumentRepository;
 import ca.bc.gov.open.jag.aireviewerapi.restricteddocument.mappers.RestrictedDocumentTypeMapper;
 
 @Service
-public class RestrictedDocumentApiDelegateImpl implements RestrictedDocumentTypesApi {
+public class RestrictedDocumentApiDelegateImpl implements RestrictedDocumentTypesApiDelegate {
 
     private final RestrictedDocumentRepository restrictedDocumentRepository;
     private final RestrictedDocumentTypeMapper restrictedDocumentTypeMapper;
