@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import ca.bc.gov.open.jag.aireviewerapi.api.DocumentTypeConfigurationsApi;
+import ca.bc.gov.open.jag.aireviewerapi.api.DocumentTypeConfigurationsApiDelegate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +19,7 @@ import ca.bc.gov.open.jag.aireviewerapi.documentconfiguration.mappers.DocumentTy
 import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentTypeConfigurationException;
 
 @Service
-public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfigurationsApi {
+public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfigurationsApiDelegate {
 
     private final DocumentTypeConfigurationRepository documentTypeConfigurationRepository;
     private final DocumentTypeConfigurationMapper documentTypeConfigurationMapper;
