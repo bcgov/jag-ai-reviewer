@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -48,7 +49,7 @@ import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractResponse;
 import ca.bc.gov.open.jag.aireviewerapi.extract.store.ExtractStore;
 import ca.bc.gov.open.jag.aireviewerapi.utils.MD5;
 
-@Service
+@RestController
 @EnableConfigurationProperties(FeatureProperties.class)
 public class DocumentsApiDelegateImpl implements DocumentsApi {
 
