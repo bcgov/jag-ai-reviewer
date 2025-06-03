@@ -166,6 +166,7 @@
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
+			<version>6.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -291,7 +292,7 @@
 			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>7.0.0</version>
+				<version>7.9.0</version>
 				<executions>
 					<execution>
 						<id>spring-boot-api</id>
@@ -303,7 +304,6 @@
 							<generatorName>spring</generatorName>
 							<configOptions>
 								<dateLibrary>joda</dateLibrary>
-								<delegatePattern>true</delegatePattern>
 
 								<!-- javax.* to jakarta.* -->
 								<useSpringBoot3>true</useSpringBoot3>

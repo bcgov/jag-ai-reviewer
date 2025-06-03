@@ -4,10 +4,12 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
+
 import java.util.stream.Collectors;
 
 import ca.bc.gov.open.jag.aireviewerapi.api.DocumentTypeConfigurationsApi;
 import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,17 @@ import ca.bc.gov.open.jag.aireviewerapi.document.models.DocumentTypeConfiguratio
 import ca.bc.gov.open.jag.aireviewerapi.document.store.DocumentTypeConfigurationRepository;
 import ca.bc.gov.open.jag.aireviewerapi.documentconfiguration.mappers.DocumentTypeConfigurationMapper;
 import ca.bc.gov.open.jag.aireviewerapi.error.AiReviewerDocumentTypeConfigurationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RestController;
 
-@Service
+@RestController
 public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfigurationsApi {
 
     private final DocumentTypeConfigurationRepository documentTypeConfigurationRepository;
     private final DocumentTypeConfigurationMapper documentTypeConfigurationMapper;
+
+    Logger logger = LoggerFactory.getLogger(DocumentConfigurationsApiDelegateImpl.class);
 
 
     public DocumentConfigurationsApiDelegateImpl(DocumentTypeConfigurationRepository documentTypeConfigurationRepository, DocumentTypeConfigurationMapper documentTypeConfigurationMapper) {
@@ -33,6 +40,8 @@ public class DocumentConfigurationsApiDelegateImpl implements DocumentTypeConfig
     @Override
     @PreAuthorize("hasRole('ai-reviewer-api-client')")
     public ResponseEntity<List<ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentTypeConfiguration>> getDocumentConfigurations(String documentType) {
+
+        logger.info("getDocumentConfigurations");
 
         List<DocumentTypeConfiguration> documentTypeConfigurations;
         if (StringUtils.isBlank(documentType)) {

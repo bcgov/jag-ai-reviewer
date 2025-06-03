@@ -16,8 +16,9 @@ import ca.bc.gov.open.jag.aireviewerapi.api.model.DocumentType;
 import ca.bc.gov.open.jag.aireviewerapi.api.model.RestrictedDocumentType;
 import ca.bc.gov.open.jag.aireviewerapi.document.store.RestrictedDocumentRepository;
 import ca.bc.gov.open.jag.aireviewerapi.restricteddocument.mappers.RestrictedDocumentTypeMapper;
+import org.springframework.web.bind.annotation.RestController;
 
-@Service
+@RestController
 public class RestrictedDocumentApiDelegateImpl implements RestrictedDocumentTypesApi {
 
     private final RestrictedDocumentRepository restrictedDocumentRepository;
