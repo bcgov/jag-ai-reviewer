@@ -1,6 +1,6 @@
 {
   "name": "ai-reviewer-admin",
-  "version": "0.1.2",
+  "version": "2.0.7",
   "private": true,
   "dependencies": {
     "@bcgov/bootstrap-theme": "github:bcgov/bootstrap-theme",
