@@ -60,7 +60,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            
             <dependency>
                 <groupId>ca.bc.gov.open.jag</groupId>
                 <artifactId>ai-bom</artifactId>
