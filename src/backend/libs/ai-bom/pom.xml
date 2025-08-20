@@ -34,7 +34,7 @@
         <org.mockito.mockito-core.version>5.17.0</org.mockito.mockito-core.version>
         <org.openapitools.version>0.2.6</org.openapitools.version>
         <org.springdoc.version>1.7.0</org.springdoc.version>
-        <org.threeten.version>1.7.2</org.threeten.version>
+        <org.threeten.version>1.7.2</org.threeten.version> 
         <org.json.version>[20250517,)</org.json.version>
         <org.apache.tomcat.embed.version>11.0.8</org.apache.tomcat.embed.version>
         <com.google.code.gson.version>2.13.1</com.google.code.gson.version>
