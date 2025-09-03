@@ -1,4 +1,4 @@
-name: CI/CD for UI - Checkout, Build, Test, and generate Coverage Report for ai-reviewer-admin
+name: CI/CD for UI - Checkout, Build and Test for ai-reviewer-admin
 
 on:
   pull_request:
@@ -11,54 +11,16 @@ jobs:
   yarn:
     env:
       FILE_COUNTER: 0
-      CC_TEST_REPORTER_ID: 7a64e3e316d790b81411add57c07e4f8d5988ad69e1ef510b1bfb314e5459b6b
       ACTION_DEBUG: true
 
     name: CI/CD for UI
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      # Get Code Climate binary
-      - name: Download Code Climate Binary
-        run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-
-      # Permissions applied to the Code Climate Executable
-      - name: Apply executable perms to Code Climate Binary
-        run: chmod +x ./cc-test-reporter
-
-      # Before build
-      - name: Before build
-        run: ./cc-test-reporter before-build
+      - uses: actions/checkout@v4
 
       # Set required env vars for yarn coverage
       - name: Set required env vars for yarn coverage
         run:  cp src/frontend/ai-reviewer-admin/.env.template src/frontend/ai-reviewer-admin/.env
-
-      # Set required Git env vars for either pull request
-      - name: Set ENV for codeclimate (pull_request)
-        run: |
-          echo "GIT_BRANCH=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
-          echo "GIT_COMMIT_SHA=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
-          #echo "::set-env name=GIT_BRANCH::${{ github.event.pull_request.head.ref }}"
-          #echo "::set-env name=GIT_COMMIT_SHA::${{ github.event.pull_request.head.sha }}"
-        if: github.event_name == 'pull_request'
-
-      # Set required Git env vars for a push to main
-      - name: Set ENV for codeclimate (push)
-        run: |
-          echo "GIT_BRANCH=$GITHUB_REF" >> GITHUB_ENV
-          echo "GIT_COMMIT_SHA=$GITHUB_SHA" >> GITHUB_ENV
-          #echo "::set-env name=GIT_BRANCH::$GITHUB_REF"
-          #echo "::set-env name=GIT_COMMIT_SHA::$GITHUB_SHA"
-        if: github.event_name == 'push'
-
-      # Trimming the ref to main in order to publish correct report (paambaati)
-      - name: Set ref/head/main to main
-        run: |
-          echo "GIT_BRANCH=main" >> $GITHUB_ENV
-          #echo "::set-env name=GIT_BRANCH::main"
-        if: env.GIT_BRANCH == 'refs/heads/main'
 
       # Figure out where yarn is caching things
       - name: Yarn Cache
@@ -93,21 +55,3 @@ jobs:
       # Yarn Coverage - AI Reviewer Admin Client
       - name: Run Yarn Coverage - AI Reviewer Admin
         run: yarn --cwd src/frontend/ai-reviewer-admin coverage
-
-      # Formatting the AI REVIEWER ADMIN coverage report
-      - name: Format the AI REVIEWER ADMIN coverage report
-        run: |          
-          pushd .
-          cd ${{github.workspace}}/src/frontend/ai-reviewer-admin/
-          ${{github.workspace}}/cc-test-reporter format-coverage -t lcov -o coverage/codeclimate-ui.json coverage/lcov.info
-          popd
-         
-      # List all formatted files in coverage directory
-      - name: WHERE AM I - FORMATTED?
-        run: |
-          ls ${{github.workspace}}/src/frontend/ai-reviewer-admin/coverage
-        if: ${{ env.ACTION_DEBUG }}
-
-      # Upload total coverage report to Code Climate
-      - name: Upload coverage report to Code Climate
-        run: ./cc-test-reporter upload-coverage -d -i ${{github.workspace}}/src/frontend/ai-reviewer-admin/coverage/codeclimate-ui.json
