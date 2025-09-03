@@ -8,7 +8,7 @@
     <version>2.0.8-SNAPSHOT</version>
 
     <properties>
-        <ca.bc.gov.open.version>1.0.4</ca.bc.gov.open.version>
+        <ca.bc.gov.open.version>1.0.5</ca.bc.gov.open.version>
         <com.brsanthu.version>2.2</com.brsanthu.version>
         <com.fasterxml.jackson.core.version>2.19.0</com.fasterxml.jackson.core.version>
         <com.github.joschi.jackson.version>2.18.2</com.github.joschi.jackson.version>
@@ -22,7 +22,7 @@
         <javax.xml.bind.version>2.3.1</javax.xml.bind.version>
         <joda-time.version>2.13.0</joda-time.version>
         <net.rakugakibox.spring.boot.version>2.7.1</net.rakugakibox.spring.boot.version>
-        <org.apache.commons.version>3.17.0</org.apache.commons.version>
+        <org.apache.commons.version>3.18.0</org.apache.commons.version>
         <org.apache.commons.collections.collections.version>4.4</org.apache.commons.collections.collections.version>
         <org.apache.cxf.version>4.1.0</org.apache.cxf.version>
         <org.apache.tika.version>1.24.1</org.apache.tika.version>
