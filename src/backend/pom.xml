@@ -55,6 +55,7 @@
 		<profile>
 			<id>ai-reviewer-mock</id>
 			<modules>
+				<module>libs/ai-bom</module>
 				<module>ai-reviewer-mock-api</module>
 			</modules>
 		</profile>
