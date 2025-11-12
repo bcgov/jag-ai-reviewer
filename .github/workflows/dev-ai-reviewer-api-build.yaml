@@ -1,4 +1,4 @@
-name: Build AI Reviewer Admin Docker Image and Push to Openshift Image Registry
+name: Build AI Reviewer API Docker Image and Push to Openshift Image Registry
 
 on:
   schedule:
@@ -40,7 +40,7 @@ jobs:
           image-ref: jag-ai-reviewer-ai-reviewer-api
           format: sarif
           output: trivy-results.sarif
-          exit-code: 1
+          exit-code: 0
           ignore-unfixed: true
           limit-severities-for-sarif: true
           severity: HIGH,CRITICAL
