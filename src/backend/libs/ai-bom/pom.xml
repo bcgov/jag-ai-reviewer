@@ -16,7 +16,7 @@
         <com.splunk.logging.version>1.11.8</com.splunk.logging.version>
         <commons-io.version>2.18.0</commons-io.version>
         <io.springfox.version>3.0.0</io.springfox.version>
-        <io.swagger.version>2.2.29</io.swagger.version>
+        <io.swagger.version>2.2.41</io.swagger.version>
         <java.version>17</java.version>
         <javax.validation.version>2.0.1.Final</javax.validation.version>
         <javax.xml.bind.version>2.3.1</javax.xml.bind.version>
