@@ -54,16 +54,16 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.5.7</version>
+                <groupId>ca.bc.gov.open.jag</groupId>
+                <artifactId>ai-bom</artifactId>
+                <version>2.0.11-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>ca.bc.gov.open.jag</groupId>
-                <artifactId>ai-bom</artifactId>
-                <version>2.0.11-SNAPSHOT</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>3.5.11</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
