@@ -64,7 +64,7 @@ jobs:
           -t ai-reviewer-mock-api:builder
           --build-arg SERVICE_NAME=ai-reviewer-mock-api
           --build-arg MVN_PROFILE=ai-reviewer-mock
-          --build-arg STARTERS_V=v1.0.5
+          --build-arg STARTERS_V=v1.0.5          
           --build-arg SKIP_TESTS=true
           --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-mock-api:builder
 
