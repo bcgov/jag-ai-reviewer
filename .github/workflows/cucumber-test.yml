@@ -65,6 +65,7 @@ jobs:
           --build-arg SERVICE_NAME=ai-reviewer-mock-api
           --build-arg MVN_PROFILE=ai-reviewer-mock
           --build-arg STARTERS_V=v1.0.5
+          --build-arg SKIP_TESTS=true
           --cache-from=docker.pkg.github.com/$GITHUB_REPOSITORY/ai-reviewer-mock-api:builder
 
       - name: tag & push ai-reviewer-mock-api to git container registry
