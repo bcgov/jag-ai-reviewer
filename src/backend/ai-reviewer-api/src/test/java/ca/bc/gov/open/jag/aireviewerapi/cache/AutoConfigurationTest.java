@@ -4,8 +4,8 @@ import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.cache.autoconfigure.CacheProperties;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
 import java.time.Duration;
@@ -19,7 +19,7 @@ public class AutoConfigurationTest {
     private static final String HOST = "notip";
 
     @Mock
-    private RedisProperties redisProperties;
+    private DataRedisProperties redisProperties;
 
     private CacheConfig sut;
 
@@ -37,7 +37,7 @@ public class AutoConfigurationTest {
         Mockito.when(cachePropertiesMock.getRedis()).thenReturn(redisPropertiesMock);
 
         sut = new CacheConfig();
-        redisProperties = Mockito.mock(RedisProperties.class);
+        redisProperties = Mockito.mock(DataRedisProperties.class);
 
     }
 
@@ -56,7 +56,7 @@ public class AutoConfigurationTest {
     @DisplayName("cluster input should generate jedisConnectionFactory")
     @Test
     public void clusterInputshouldGenerateJedisConnectionFactory() {
-        RedisProperties.Cluster cluster = Mockito.mock(RedisProperties.Cluster.class);
+        DataRedisProperties.Cluster cluster = Mockito.mock(DataRedisProperties.Cluster.class);
         Mockito.when(redisProperties.getCluster()).thenReturn(cluster);
         Mockito.when(redisProperties.getPassword()).thenReturn(TEST_CRED);
         JedisConnectionFactory jedisConnectionFactory = sut.jedisConnectionFactory(redisProperties);
@@ -66,7 +66,7 @@ public class AutoConfigurationTest {
     @DisplayName("sentinel input should generate jedisConnectionFactory")
     @Test
     public void sentinelInputShouldGenerateJedisConnectionFactory() {
-        RedisProperties.Sentinel sentinel = Mockito.mock(RedisProperties.Sentinel.class);
+        DataRedisProperties.Sentinel sentinel = Mockito.mock(DataRedisProperties.Sentinel.class);
         Mockito.when(sentinel.getMaster()).thenReturn("master");
         Mockito.when(redisProperties.getSentinel()).thenReturn(sentinel);
         Mockito.when(redisProperties.getCluster()).thenReturn(null);
@@ -78,7 +78,7 @@ public class AutoConfigurationTest {
     @DisplayName(" sentinel input should generate exception")
     @Test
     public void sentinelInputShouldThrowIllegalState() {
-        RedisProperties.Sentinel sentinel = Mockito.mock(RedisProperties.Sentinel.class);
+        DataRedisProperties.Sentinel sentinel = Mockito.mock(DataRedisProperties.Sentinel.class);
         Mockito.when(sentinel.getMaster()).thenReturn("master");
         Mockito.when(sentinel.getNodes()).thenReturn(Arrays.asList("TEST:TEST","TEST:TEST"));
         Mockito.when(redisProperties.getSentinel()).thenReturn(sentinel);

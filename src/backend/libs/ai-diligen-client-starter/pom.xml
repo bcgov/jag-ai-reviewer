@@ -22,7 +22,7 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-actuator</artifactId>
+            <artifactId>spring-boot-health</artifactId>
         </dependency>
 
         <dependency>
@@ -54,16 +54,16 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>ca.bc.gov.open.jag</groupId>
-                <artifactId>ai-bom</artifactId>
-                <version>2.0.11</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>4.0.9</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.5.11</version>
+                <groupId>ca.bc.gov.open.jag</groupId>
+                <artifactId>ai-bom</artifactId>
+                <version>2.0.11</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -84,13 +84,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.3</version>
+                <version>3.5.6</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.5.3</version>
+                <version>3.5.6</version>
             </plugin>
         </plugins>
     </build>

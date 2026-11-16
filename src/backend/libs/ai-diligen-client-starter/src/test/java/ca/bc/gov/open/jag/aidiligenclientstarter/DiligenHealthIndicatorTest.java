@@ -13,7 +13,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.health.contributor.Health;
 
 import ca.bc.gov.open.jag.aidiligenclient.api.HealthCheckApi;
 import ca.bc.gov.open.jag.aidiligenclient.api.handler.ApiException;
