@@ -3,7 +3,7 @@ package ca.bc.gov.open.jag.aireviewerapi.cache;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractRequest;
 import ca.bc.gov.open.jag.aireviewerapi.extract.models.ExtractResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +31,7 @@ public class CacheConfig {
      * @return a JedisConnectionFactory
      */
     @Bean
-    public JedisConnectionFactory jedisConnectionFactory(RedisProperties properties) {
+    public JedisConnectionFactory jedisConnectionFactory(DataRedisProperties properties) {
 
         if (properties.getCluster() != null) {
             RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(properties.getCluster().getNodes());
@@ -59,7 +59,7 @@ public class CacheConfig {
         
     }
 
-    private List<RedisNode> createSentinels(RedisProperties.Sentinel sentinel) {
+    private List<RedisNode> createSentinels(DataRedisProperties.Sentinel sentinel) {
 
         List<RedisNode> nodes = new ArrayList<>();
         for (String node : sentinel.getNodes()) {

@@ -19,8 +19,8 @@ describe("Document Service test suite", () => {
   });
   
   test("getDocumentTypeConfigurations 200 params", async () => {
-    const subset = configurations.splice(0,1);
-    mockApi.onGet("/documentTypeConfigurations", { params: { "documentType": "SG1" }}).reply(200, subset);
+    const subset = configurations.slice(0,1);
+    mockApi.onGet("/documentTypeConfigurations", { params: expect.objectContaining({ "documentType": "SG1" })}).reply(200, subset);
 
     const response = await getDocumentTypeConfigurations("SG1");
     expect(response).toMatchObject(subset);
@@ -65,7 +65,7 @@ describe("Document Service test suite", () => {
   test("submitDocumentTypeConfigurations 200", async () => {
     const config = [{...configurations[0], documentType: "TEST3", documentTypeDescription: "Description"}];
     mockApi.onPost("/documentTypeConfigurations", config).reply(200, config);
-    mockApi.onGet("/documentTypeConfigurations", {params: {"documentType": "TEST3"}}).reply(200, config);
+    mockApi.onGet("/documentTypeConfigurations", { params: expect.objectContaining({ "documentType": "TEST3" }) }).reply(200, config);
     
     await submitNewDocumentTypeConfigurations(JSON.stringify(config));
 

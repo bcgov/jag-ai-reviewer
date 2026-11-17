@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.11</version>
+		<version>4.0.9</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ca.bc.gov.open.jag</groupId>
 	<artifactId>ai-reviewer-mock-api</artifactId>
-	<version>2.0.11</version>
+	<version>2.0.12-SNAPSHOT</version>
 	<name>ai-reviewer-mock-api</name>
 	<description>Mock endpoints for test suite</description>
 	<properties>
@@ -20,7 +20,7 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 
 		<dependency>
@@ -50,7 +50,7 @@
 			<dependency>
 				<groupId>ca.bc.gov.open.jag</groupId>
 				<artifactId>ai-bom</artifactId>
-				<version>2.0.11</version>
+				<version>2.0.12-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

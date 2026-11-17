@@ -9,14 +9,22 @@ management:
 spring:
   application:
     name: ai-reviewer-api
+  mongodb:
+    authentication-database: ${AIR_SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE:admin}
+    host: ${AIR_SPRING_DATA_MONGODB_HOST:localhost}
+    port: ${AIR_SPRING_DATA_MONGODB_PORT:27017}
+    database: ${AIR_SPRING_DATA_MONGODB_DATABASE:ai-reviewer}
+    username: ${AIR_SPRING_DATA_MONGODB_USERNAME:admin}
+    password: ${AIR_SPRING_DATA_MONGODB_PASSWORD:admin}
+    representation:
+      uuid: java-legacy
+  http:
+    converters:
+      preferred-json-mapper: jackson2
   data:
     mongodb:
-      authentication-database: ${AIR_SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE:admin}
-      host: ${AIR_SPRING_DATA_MONGODB_HOST:localhost}
-      port: ${AIR_SPRING_DATA_MONGODB_PORT:27017}
-      database: ${AIR_SPRING_DATA_MONGODB_DATABASE:ai-reviewer}
-      username: ${AIR_SPRING_DATA_MONGODB_USERNAME:admin}
-      password: ${AIR_SPRING_DATA_MONGODB_PASSWORD:admin}
+      representation:
+        big-decimal: string
     redis:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
